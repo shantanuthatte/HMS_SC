@@ -40,7 +40,7 @@ HMS Webmaster";
 	}
 	if($_POST['function'] == "SomethingElse")
 	{
-	
+		//Add your custom ajax functions here
 	}
 	else{
 		echo("Invalid paramenters!");
