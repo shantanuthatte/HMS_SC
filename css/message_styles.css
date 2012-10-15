@@ -1,0 +1,96 @@
+@charset "utf-8";
+/* CSS Document */
+	
+<link href='http://fonts.googleapis.com/css?family=Dosis:500,600,800' rel='stylesheet' type='text/css'>	
+	
+/* MESSAGES --------------------------------------------------------------- */	
+#message-yellow	{
+	margin-bottom: 5px;
+	}
+.yellow-left	{
+	background: url(../images/table/message_yellow.gif) top left no-repeat;
+	color: #e79300;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bold;
+	padding: 0 0 0 20px;
+	}
+.yellow-left a	{
+	color: #e79300;
+	font-family: 'Dosis', sans-serif;
+	font-weight: normal;
+	text-decoration: underline;
+	}
+.yellow-right a	{
+	cursor: pointer;
+	}
+.yellow-right	{
+	width: 55px;
+	}
+#message-blue	{
+	margin-bottom: 5px;
+	}
+.blue-left	{
+	background: url(../images/table/message_blue.gif) top left no-repeat;
+	color: #2e74b2;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bold;
+	padding: 0 0 0 20px;
+	}
+.blue-left a	{
+	color: #2e74b2;
+	font-family: 'Dosis', sans-serif;
+	font-weight: normal;
+	text-decoration: underline;
+	}
+.blue-right a	{
+	cursor: pointer;
+	}
+.blue-right	{
+	width: 55px;
+	}
+#message-red	{
+	margin-bottom: 5px;
+	}
+.red-left	{
+	background: url(../images/table/message_red.gif) top left no-repeat;
+	color: #ce2700;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bold;
+	padding: 0 0 0 20px;
+	}
+.red-left a	{
+	color: #ce2700;
+	font-family: 'Dosis', sans-serif;
+	font-weight: normal;
+	text-decoration: underline;
+	}
+.red-right a	{
+	cursor: pointer;
+	}
+.red-right	{
+	width: 55px;
+	}
+#message-green	{
+	margin-bottom: 5px;
+	}
+.green-left	{
+	background: url(../images/table/message_green.gif) top left no-repeat;
+	color: #6da827;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bold;
+	line-height: 12px;
+	padding: 0 0 0 20px;
+	}
+.green-left a	{
+	color: #6da827;
+	font-family:'Dosis', sans-serif;
+	font-weight: normal;
+	text-decoration: underline;
+	}
+.green-right a	{
+	cursor: pointer;
+	}
+.green-right	{
+	width: 55px;
+	}	
+

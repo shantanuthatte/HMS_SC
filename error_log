@@ -1,0 +1,12 @@
+[11-Oct-2012 15:57:50 UTC] PHP Warning:  mysql_connect() [/phpmanual/function.mysql-connect]: Access denied for user 'root'@'localhost' (using password: NO) in /home/hms/public_html/Connections/HMS.php on line 9
+[11-Oct-2012 15:57:50 UTC] PHP Fatal error:  Access denied for user 'root'@'localhost' (using password: NO) in /home/hms/public_html/Connections/HMS.php on line 9
+[11-Oct-2012 16:12:40 UTC] PHP Warning:  mysql_query() expects parameter 2 to be resource, null given in /home/hms/public_html/scripts.php on line 29
+[11-Oct-2012 16:41:36 UTC] PHP Warning:  mysql_query() expects parameter 2 to be resource, null given in /home/hms/public_html/scripts.php on line 29
+[11-Oct-2012 16:41:57 UTC] PHP Warning:  mysql_query() expects parameter 2 to be resource, null given in /home/hms/public_html/scripts.php on line 29
+[11-Oct-2012 16:53:47 UTC] PHP Warning:  mysql_query() expects parameter 2 to be resource, null given in /home/hms/public_html/scripts.php on line 24
+[11-Oct-2012 17:01:03 UTC] PHP Warning:  mysql_query() expects parameter 2 to be resource, null given in /home/hms/public_html/scripts.php on line 23
+[11-Oct-2012 17:02:59 UTC] PHP Parse error:  syntax error, unexpected $end in /home/hms/public_html/index.php on line 196
+[11-Oct-2012 17:03:03 UTC] PHP Parse error:  syntax error, unexpected $end in /home/hms/public_html/index.php on line 196
+[11-Oct-2012 18:48:28 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ']' in /home/hms/public_html/ajax.php on line 9
+[11-Oct-2012 18:49:01 UTC] PHP Warning:  mysql_select_db() expects parameter 2 to be resource, null given in /home/hms/public_html/ajax.php on line 2
+[11-Oct-2012 18:52:25 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, null given in /home/hms/public_html/ajax.php on line 12

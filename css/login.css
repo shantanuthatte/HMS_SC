@@ -1,0 +1,219 @@
+@charset "utf-8";
+/* CSS Document */
+
+<link href='http://fonts.googleapis.com/css?family=Dosis:500,600,800' rel='stylesheet' type='text/css'>
+
+/*  LOGIN -------------------------------------------------------------------------------- */	
+
+body	{
+	background: url(../images/login/login_bg.jpg) no-repeat top center;
+	}
+#login-holder	{
+	width: 1020px;
+	margin: 5% auto 0;
+	}
+#loginbox-left	{
+	background: url(../images/login/login_bg_left.png) no-repeat;
+	font-size: 14px;
+	height:600px;
+	line-height: 12px;
+	position:relative;
+	width: 50%;
+	float:left;
+	padding-top: 5%;
+	margin-right:0;
+	}
+#loginbox-right	{
+	background: url(../images/login/login_bg_right.png) no-repeat;
+	font-size: 12px;
+	height:600px;
+	line-height: 12px;
+	position:relative;
+	width: 50%;
+	float:left;
+	padding-top: 13%;
+	margin-left:0;
+	}
+#login-text	{
+	font-family:crete-round, serif;
+	font-size:14px;
+	float:right;
+	margin-right:10px;
+	margin-top:2%;
+	color:#FFF;
+	}
+#login-lable
+{
+	font-family: 'Dosis', sans-serif;
+	font-wieght:800;
+	font-size:36px;
+	text-shadow: 1px 0.5px 1px #999;
+	width:auto;
+	margin-top:150px;
+	float:left;
+	color:#FFF;
+	}
+#gallery	{
+	position:relative;
+	margin-left:17%;
+	margin-top:1.5%;
+	border-style:solid;
+	border-width:medium;
+	border-radius:5px;
+	border-color:#FFF;
+}
+#forgotbox	{
+	background: url(../images/login/loginbox_bg2.png) no-repeat;
+	display: none;
+	font-size: 12px;
+	height: 212px;
+	line-height: 12px;
+	padding-top: 60px;
+	position: relative;
+	margin-top:6%;
+	margin-left:48.5%;
+	width: 508px;
+	}
+#login-inner	{
+	color: #161616;
+	font-family: 'Dosis', sans-serif;
+	font-size: 13px;
+	line-height: 12px;
+	margin: 0 auto;
+	width: 310px;
+	}
+#login-inner label	{
+	color: #161616;
+	cursor: pointer;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bold;
+	line-height: 12px;
+	padding-left: 10px;
+	
+	}
+ .checkbox-size	{
+	width:13px;
+	height:13px;
+	margin: 5px 0;
+	 
+	}	
+#login-inner th	{
+	padding: 0 0 6px 0;
+	text-align: left;
+	width: 95px;
+	}
+#login-inner td	{
+	padding: 0 0 6px 0;
+	}
+.login-inp	{
+	background: url(../images/login/inp_login.gif) no-repeat;
+	border: none;
+	color: #fff;
+	font-size: 16px;
+	height: 28px;
+	padding: 6px 6px 0 10px;
+	width: 204px;
+	}
+
+#logo-login-left	{
+	float: left;
+	font-family: 'Dosis', sans-serif;
+	font-size:24px;
+	height: 50px;
+	margin: 120pd 0 auto 15pd;
+	color:#FFF;
+	border-radius:5px;
+	opacity:30;
+		}
+
+#logo-login-right	{
+	float: right;
+	font-family: 'Dosis', sans-serif;
+	font-size:24px;
+	height: 50px;
+	margin-left:auto;
+	margin-right:10%;
+	margin-top:10%;
+	margin-bottom:auto;
+	color:#FFF;
+	border-radius:5px;
+	opacity:50;
+		}
+a.forgot-pwd	{
+	bottom: 470px;
+	color: #161616;
+	font-family: 'Dosis', sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 12px;
+	position: absolute;
+	right: 121px;
+	}
+a:hover.forgot-pwd	{
+	color: #fff;
+	}
+#forgotbox-text	{
+	color: #161616;
+	font-family: 'Dosis', sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 12px;
+	width: 380px;
+	margin-top:5%;
+	margin-left: 15%;
+	position:absolute;
+	}
+#forgot-inner	{
+	color: #161616;
+	font-family: 'Dosis', sans-serif;
+	font-size: 13px;
+	line-height: 12px;
+	position:absolute;
+	margin: 25% auto auto 15%;
+	width: 330px;
+	}
+#forgot-inner label	{
+	color: #161616;
+	cursor: pointer;
+	font-family: 'Dosis', sans-serif;
+	font-weight: bold;
+	line-height: 12px;
+	padding-left: 10px;
+	}
+#forgot-inner th	{
+	padding: 0 0 6px 0;
+	text-align: left;
+	width: 110px;
+	}
+#forgot-inner td	{
+	padding: 0 0 6px 0;
+	}
+a.back-login	{
+	background: url(../images/login/icon_back_login.gif) no-repeat 0 4px;
+	bottom: 30px;
+	color: #161616;
+	font-family: 'Dosis', sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 12px;
+	padding: 0 0 0 10px;
+	position: absolute;
+	right: 40px;
+	}
+a:hover.back-login	{
+	color: #fff;
+	}
+.submit-login	{
+	background: url(../images/login/submit_login.gif) no-repeat;
+	border: none;
+	cursor: pointer;
+	display: block;
+	height: 29px;
+	text-indent: -3000px;
+	width: 73px;
+	}
+.submit-login:hover	{
+	background: url(../images/login/submit_login.gif) no-repeat 0 -29px;
+	}
+ 
+
