@@ -1,5 +1,10 @@
 <?php
-$username = $_SESSION["userName"];
+//$username = $_SESSION['userName'];
+if(!isset($_SESSION['userName']))
+{
+	$username = "GUEST";	
+}
+else $username = $_SESSION['userName'];
 echo <<<'EOT'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -229,10 +234,9 @@ $(document).pngFix( );
 		<!-- start nav-right -->
 		<div id="nav-right">
 EOT;
-echo <<<EOT
-            <div class="acc-text">$username</div>
-            <div class="nav-divider">&nbsp;</div>
-EOT;
+echo '<div class="acc-text">' .$username. '</div>
+            <div class="nav-divider">&nbsp;</div>';
+            
 echo <<<'EOT'
 			<div class="showhide-account"><img src="images/shared/nav/nav_myaccount.gif" width="93" height="14" alt="" /></div>
 			<div class="nav-divider">&nbsp;</div>
