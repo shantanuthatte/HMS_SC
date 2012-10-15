@@ -295,7 +295,7 @@ echo <<<'EOT'
 		<div class="select_sub">
 			<ul class="sub">
 				<li><a href="#nogo">Medical History</a></li>
-				<li><a href="#nogo">Family History</a></li>
+				<li><a href="AddFamilyHistory.php">Family History</a></li>
 				<li><a href="#nogo">Prescription</a></li>
                 <li><a href="#nogo">Test Details</a></li>
                 <li><a href="#nogo">Surgery</a></li>
