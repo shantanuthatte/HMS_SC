@@ -1,6 +1,24 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+echo '<script type="text/javascript">
+       function delete_confirm(personId)
+       {
+           if(confirm("Are you sure you want to delete this person?")==true)
+           {
+				document.getElementById("personId_delete").value=personId;
+				document.forms["delete_form"].submit();
+		   }
+		   else
+		   		window.location.reload();
+       }
+	   function update_submit(personId)
+	   {
+			document.getElementById("personId_update").value=personId;
+			document.forms["update_form"].submit();   
+	   }
+   </script>';  
+    
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -66,18 +84,28 @@ $totalRows_personRS = mysql_num_rows($personRS);
     <!--  start table-content  -->
     <div id="table-content">
 
+<form id="delete_form" action="cntrl_Person.php" method="post">
+<input id="personId_delete" name="personId" value="" type="hidden" />
+<input id="formAction" name="formAction" value="delete" type="hidden" />
+</form>
+
+<form id="update_form" action="AddPerson.php" method="post">
+<input id="personId_update" name="personId" value="" type="hidden" />
+</form>
+
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
     <th class="table-header-repeat line-left"><a href="">Id</a></th>
-    <th class="table-header-repeat line-left"><a href="">fName</a></th>
-    <th class="table-header-repeat line-left"><a href="">mName</a></th>
-    <th class="table-header-repeat line-left"><a href="">lName</a></th>
-    <th class="table-header-repeat line-left"><a href="">address</a></th>
-    <th class="table-header-repeat line-left"><a href="">rPhone</a></th>
-    <th class="table-header-repeat line-left"><a href="">mobile</a></th>
-    <th class="table-header-repeat line-left"><a href="">gender</a></th>
+    <th class="table-header-repeat line-left"><a href="">First</a></th>
+    <th class="table-header-repeat line-left"><a href="">Middle</a></th>
+    <th class="table-header-repeat line-left"><a href="">Last</a></th>
+    <th class="table-header-repeat line-left"><a href="">Address</a></th>
+    <th class="table-header-repeat line-left"><a href="">Phone</a></th>
+    <th class="table-header-repeat line-left"><a href="">Mobile</a></th>
+    <th class="table-header-repeat line-left"><a href="">Gender</a></th>
     <th class="table-header-repeat line-left"><a href="">DOB</a></th>
-    <th class="table-header-repeat line-left"><a href="">email</a></th>
+    <th class="table-header-repeat line-left"><a href="">Email</a></th>
+    <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
   $even=1;
@@ -103,6 +131,10 @@ $totalRows_personRS = mysql_num_rows($personRS);
       <td><?php echo $row_personRS['gender']; ?></td>
       <td><?php echo $row_personRS['DOB']; ?></td>
       <td><?php echo $row_personRS['email']; ?></td>
+      <td class="options-width">
+					<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>
+					<a title="Delete" onclick="delete_confirm(<?php echo $row_personRS['personId'];?>);" class="icon-2 info-tooltip"></a>
+      </td>
     </tr>
     <?php } while ($row_personRS = mysql_fetch_assoc($personRS)); ?>
 </table>

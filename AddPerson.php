@@ -1,58 +1,27 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+if(isset($_POST['personId']))
 {
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
-
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+	$formAction = "update";
 }
+else
+{
+	$formAction = "insert";
+}
+if($formAction == "update")
+{
+	$query = "SELECT * FROM person WHERE personId = ".$_POST['personId'].";";
+	mysql_select_db($database_HMS, $HMS);
+	$personRS = mysql_query($query, $HMS) or die(mysql_error());
+	$row_personRS = mysql_fetch_assoc($personRS);
+	$totalRows_personRS = mysql_num_rows($personRS);
+	if($totalRows_personRS >1)
+	{
+		die(mysql_error());
+	}
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
-}
-
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO person (fName, mName, lName, address, rPhone, mobile, registrationNo, gender, DOB, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['fName'], "text"),
-                       GetSQLValueString($_POST['mName'], "text"),
-                       GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address'], "text"),
-                       GetSQLValueString($_POST['rPhone'], "text"),
-                       GetSQLValueString($_POST['mobile'], "text"),
-                       GetSQLValueString($_POST['registrationNo'], "text"),
-                       GetSQLValueString($_POST['gender'], "text"),
-                       GetSQLValueString($_POST['DOB'], "text"),
-                       GetSQLValueString($_POST['email'], "text"));
-
-  mysql_select_db($database_HMS, $HMS);
-  $Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
-}
 ?>
 <script src="Calendar/popcalendar.js" type="text/javascript"></script>
 <script type="text/javascript" language="javascript">
@@ -84,8 +53,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 <!-- start content -->
 <div id="content">
 
-<form action="<?php echo $editFormAction; ?>" method="post" name="form1" id="form1">
-  <div id="page-heading"><h1>Add Person</h1></div>
+<form action="cntrl_Person.php" method="post" name="form1" id="form1">
+  <div id="page-heading"><h1>Person Details</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -106,43 +75,59 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr>
       <th>First Name:</th>
       <td>
-      <input type="text" name="fName" size="32" class="inp-form-error"/>
+      <input type="text" name="fName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $row_personRS['fName']; ?>"/>
       </td>
    		</tr>
         <tr>
       <th>Middle Name:</th>
-      <td><input type="text" name="mName" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="mName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['mName']; ?>" /></td>
    		</tr>
         <tr>
       <th>Last Name:</th>
-      <td><input type="text" name="lName" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="lName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['lName']; ?>" /></td>
     </tr>
     <tr>
       <th>Address:</th>
-      <td><textarea rows="3" name="address" size="32" class="inp-form"> </textarea></td>
+      <td><textarea rows="3" name="address" size="32" class="inp-form"><?php if($formAction == "update") echo $row_personRS['address']; ?></textarea></td>
     </tr>
     <tr>
-      <th>Residece Phone:</th>
-      <td><input type="text" name="rPhone" value="" size="32" class="inp-form"/></td>
+      <th>Residence Phone:</th>
+      <td><input type="text" name="rPhone" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['rPhone']; ?>" /></td>
     </tr>
     <tr>
       <th>Mobile:</th>
-      <td><input type="text" name="mobile" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="mobile" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['mobile']; ?>"/></td>
     </tr>
     <tr>
       <th valign="top">Registration No:</th>
-      <td><input type="text" name="registrationNo" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="registrationNo" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['registrationNo']; ?>"/></td>
     </tr>
     <tr>
       <th>Gender:</th>
       <td><select name="gender" class="styledselect_form_1">
-        <option value="Male" <?php if (!(strcmp("Male", ""))) {echo "SELECTED";} ?>>Male</option>
-        <option value="Female" <?php if (!(strcmp("Female", ""))) {echo "SELECTED";} ?>>Female</option>
+        <option value="Male" <?php if($formAction == "update")
+									{
+										if($row_personRS['gender'] == "Male") {echo "SELECTED";}
+									}
+									if($formAction == "insert")
+									{
+										if (!(strcmp("Male", ""))) {echo "SELECTED";}
+									}
+							 ?>>Male</option>
+        <option value="Female" <?php if($formAction == "update")
+									{
+										if($row_personRS['gender'] == "Female") {echo "SELECTED";}
+									}
+									if($formAction == "insert")
+									{
+										if (!(strcmp("Female", ""))) {echo "SELECTED";}
+									}
+							 ?>>Female</option>
       </select></td>
     </tr>
     <tr>
       <th>Date Of Birth:</th>
-      <td><input id="txtDate1" type="text" name="DOB" value="" size="32" class="inp-form" />
+      <td><input id="txtDate1" type="text" name="DOB" value="<?php if($formAction == "update") echo $row_personRS['DOB']; ?>" size="32" class="inp-form" />
       </td>
       <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/>
       </td>
@@ -150,7 +135,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
     <tr>
       <th>Email:</th>
       <td>
-      <input type="text" name="email" value="" size="32" class="inp-form"/>
+      <input type="text" name="email" value="<?php if($formAction == "update") echo $row_personRS['email']; ?>" size="32" class="inp-form"/>
       </td>
     </tr> 
     <tr>
@@ -178,8 +163,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	<th class="sized bottomright"></th>
 </tr>
 </table>
-    
-  <input type="hidden" name="MM_insert" value="form1" />
+  <input type="hidden" name="formAction" value="<?php echo $formAction ?>" />
+  <input type="hidden" name="personId" value="<?php if($formAction == "update") echo $row_personRS['personId']; ?>" />
 </form>
 <p>&nbsp;</p>
 <script type="text/javascript">
