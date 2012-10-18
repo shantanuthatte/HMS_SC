@@ -89,8 +89,9 @@ $totalRows_personRS = mysql_num_rows($personRS);
 <input id="formAction" name="formAction" value="delete" type="hidden" />
 </form>
 
-<form id="update_form" action="AddPerson.php" method="post">
+<form id="update_form" action="cntrl_Person.php" method="post">
 <input id="personId_update" name="personId" value="" type="hidden" />
+<input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">

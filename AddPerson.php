@@ -1,25 +1,18 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
-if(isset($_POST['personId']))
+if(empty($_GET))
 {
+	$formAction = "insert";
+}
+elseif($_GET['Mode']=="update")
+{
+	$data = $_SESSION['data'];
 	$formAction = "update";
 }
 else
 {
-	$formAction = "insert";
-}
-if($formAction == "update")
-{
-	$query = "SELECT * FROM person WHERE personId = ".$_POST['personId'].";";
-	mysql_select_db($database_HMS, $HMS);
-	$personRS = mysql_query($query, $HMS) or die(mysql_error());
-	$row_personRS = mysql_fetch_assoc($personRS);
-	$totalRows_personRS = mysql_num_rows($personRS);
-	if($totalRows_personRS >1)
-	{
-		die(mysql_error());
-	}
+	echo "Unexpected Fault!!";
 }
 
 ?>
@@ -75,39 +68,39 @@ if($formAction == "update")
     <tr>
       <th>First Name:</th>
       <td>
-      <input type="text" name="fName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $row_personRS['fName']; ?>"/>
+      <input type="text" name="fName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['fName']; ?>"/>
       </td>
    		</tr>
         <tr>
       <th>Middle Name:</th>
-      <td><input type="text" name="mName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['mName']; ?>" /></td>
+      <td><input type="text" name="mName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['mName']; ?>" /></td>
    		</tr>
         <tr>
       <th>Last Name:</th>
-      <td><input type="text" name="lName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['lName']; ?>" /></td>
+      <td><input type="text" name="lName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['lName']; ?>" /></td>
     </tr>
     <tr>
       <th>Address:</th>
-      <td><textarea rows="3" name="address" size="32" class="inp-form"><?php if($formAction == "update") echo $row_personRS['address']; ?></textarea></td>
+      <td><textarea rows="3" name="address" size="32" class="inp-form"><?php if($formAction == "update") echo $data['address']; ?></textarea></td>
     </tr>
     <tr>
       <th>Residence Phone:</th>
-      <td><input type="text" name="rPhone" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['rPhone']; ?>" /></td>
+      <td><input type="text" name="rPhone" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['rPhone']; ?>" /></td>
     </tr>
     <tr>
       <th>Mobile:</th>
-      <td><input type="text" name="mobile" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['mobile']; ?>"/></td>
+      <td><input type="text" name="mobile" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['mobile']; ?>"/></td>
     </tr>
     <tr>
       <th valign="top">Registration No:</th>
-      <td><input type="text" name="registrationNo" size="32" class="inp-form" value="<?php if($formAction == "update") echo $row_personRS['registrationNo']; ?>"/></td>
+      <td><input type="text" name="registrationNo" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['registrationNo']; ?>"/></td>
     </tr>
     <tr>
       <th>Gender:</th>
       <td><select name="gender" class="styledselect_form_1">
         <option value="Male" <?php if($formAction == "update")
 									{
-										if($row_personRS['gender'] == "Male") {echo "SELECTED";}
+										if($data['gender'] == "Male") {echo "SELECTED";}
 									}
 									if($formAction == "insert")
 									{
@@ -116,7 +109,7 @@ if($formAction == "update")
 							 ?>>Male</option>
         <option value="Female" <?php if($formAction == "update")
 									{
-										if($row_personRS['gender'] == "Female") {echo "SELECTED";}
+										if($data['gender'] == "Female") {echo "SELECTED";}
 									}
 									if($formAction == "insert")
 									{
@@ -127,7 +120,7 @@ if($formAction == "update")
     </tr>
     <tr>
       <th>Date Of Birth:</th>
-      <td><input id="txtDate1" type="text" name="DOB" value="<?php if($formAction == "update") echo $row_personRS['DOB']; ?>" size="32" class="inp-form" />
+      <td><input id="txtDate1" type="text" name="DOB" value="<?php if($formAction == "update") echo $data['DOB']; ?>" size="32" class="inp-form" />
       </td>
       <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/>
       </td>
@@ -135,7 +128,7 @@ if($formAction == "update")
     <tr>
       <th>Email:</th>
       <td>
-      <input type="text" name="email" value="<?php if($formAction == "update") echo $row_personRS['email']; ?>" size="32" class="inp-form"/>
+      <input type="text" name="email" value="<?php if($formAction == "update") echo $data['email']; ?>" size="32" class="inp-form"/>
       </td>
     </tr> 
     <tr>
@@ -163,8 +156,8 @@ if($formAction == "update")
 	<th class="sized bottomright"></th>
 </tr>
 </table>
-  <input type="hidden" name="formAction" value="<?php echo $formAction ?>" />
-  <input type="hidden" name="personId" value="<?php if($formAction == "update") echo $row_personRS['personId']; ?>" />
+  <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
+  <input type="hidden" name="personId" value="<?php if($formAction == "update") echo $data['personId']; ?>" />
 </form>
 <p>&nbsp;</p>
 <script type="text/javascript">

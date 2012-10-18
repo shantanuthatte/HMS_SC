@@ -17,12 +17,12 @@
 			{										
 				session_start();
 				$_SESSION['userId']= $result['userId'];
-				$_SESSION['userName']= $result['userName'];
+				$_SESSION['userName']= $_POST['username'];
 				$_SESSION['type']= $result['type'];
 				$_SESSION['permission']= $result['permission'];
 				mysql_free_result($result);
 				//header("Refresh:1; URL=firstpage.php");
-				header("location: Welcome.php");				
+				header("location: Welcome.php");
 			}
 		}
 	}
