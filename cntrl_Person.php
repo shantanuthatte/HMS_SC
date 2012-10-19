@@ -39,7 +39,7 @@ if($_POST['formAction'] == "insert")
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address1'], "text"),
+                       GetSQLValueString($_POST['address'], "text"),
                        GetSQLValueString($_POST['rPhone'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['registrationNo'], "text"),
@@ -48,6 +48,8 @@ if($_POST['formAction'] == "insert")
                        GetSQLValueString($_POST['email'], "text"));
 	if(!$person->insertPerson())
 		die(mysql_error());
+	else
+		header('Location: ViewPerson.php');
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -63,7 +65,7 @@ elseif($_POST['formAction'] == "commit")
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address1'], "text"),
+                       GetSQLValueString($_POST['address'], "text"),
                        GetSQLValueString($_POST['rPhone'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['registrationNo'], "text"),
@@ -72,12 +74,14 @@ elseif($_POST['formAction'] == "commit")
                        GetSQLValueString($_POST['email'], "text"));
 	if(!$person->updatePerson($_POST['personId']))
 		die(mysql_error());
+	else
+		header('Location: ViewPerson.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
 	if(!$person->deletePerson($_POST['personId']))
 		die(mysql_error());
+	else
+		header('Location: ViewPerson.php');
 }
-
-header('Location: ViewPerson.php');
 ?>

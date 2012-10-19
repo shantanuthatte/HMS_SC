@@ -1,60 +1,27 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+
+if(empty($_GET))
 {
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
-
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+	header('Location:ViewPerson.php');
 }
+elseif($_GET['Mode']=="update")
+{
+	$data = $_SESSION['data'];
+	$formAction = "update";
 }
-
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+elseif($_GET['Mode']=="create")
+{
+	$formAction = "create";
+	$personId = $_SESSION['newUserPersonId'];
+	unset($_SESSION['newUserPersonId']);
 }
+if(isset($_SESSION['data']))
+	unset($_SESSION['data']);
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO users (userName, password, type, recoveryEmail, permission, personId) VALUES (%s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['userName'], "text"),
-                       GetSQLValueString(md5($_POST['password']), "text"),
-                       GetSQLValueString($_POST['type'], "int"),
-                       GetSQLValueString($_POST['recoveryEmail'], "text"),
-                       GetSQLValueString($_POST['permission'], "text"),
-                       GetSQLValueString($_POST['personId'], "int"));
-
-  mysql_select_db($database_HMS, $HMS);
-  $Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
-}
-
-mysql_select_db($database_HMS, $HMS);
-$query_person = "SELECT * FROM person";
-$person = mysql_query($query_person, $HMS) or die(mysql_error());
-$row_person = mysql_fetch_assoc($person);
-$totalRows_person = mysql_num_rows($person);
+if(isset($formAction))
+{
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -71,8 +38,8 @@ $totalRows_person = mysql_num_rows($person);
 <!-- start content -->
 <div id="content">
 
-<form action="<?php echo $editFormAction; ?>" method="post" name="form1" id="form1">
-<div id="page-heading"><h1>Add User</h1></div>
+<form action="cntrl_Users.php" method="post" name="form1" id="form1">
+<div id="page-heading"><h1>User Details</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -92,37 +59,28 @@ $totalRows_person = mysql_num_rows($person);
   <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
     <tr >
       <th >UserName:</th>
-      <td><input type="text" name="userName" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="userName" value="<?php  if($formAction == "update") echo $data['userName'] ?>" size="32" class="inp-form"/></td>
     </tr>
-    <tr >
+    <?php if($formAction != "update")
+    echo '<tr >
       <th>Password:</th>
-      <td><input type="text" name="password" value="" size="32" class="inp-form"/></td>
-    </tr>
+      <td><input type="text" id="password" name="password" value="" size="32" class="inp-form"/></td>
+    </tr>'
+	?>
     <tr >
       <th>Type:</th>
-      <td><input type="text" name="type" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="type" value="<?php  if($formAction == "update") echo $data['type'] ?>" size="32" class="inp-form"/></td>
     </tr>
     <tr >
       <th>RecoveryEmail:</th>
-      <td><input type="text" name="recoveryEmail" value="" size="32" class="inp-form"/></td>
+      <td><input type="text" name="recoveryEmail" value="<?php  if($formAction == "update") echo $data['recoveryEmail'] ?>" size="32" class="inp-form"/></td>
     </tr>
     <tr >
       <th >Permission:</th>
-      <td><input type="text" name="permission" value="" size="32" class="inp-form" /></td>
+      <td><input type="text" name="permission" value="<?php  if($formAction == "update") echo $data['permission'] ?>" size="32" class="inp-form" /></td>
     </tr>
-    <tr >
-      <th >PersonId:</th>
-      <td><select name="personId" class="styledselect_form_1">
-        <?php 
-do {  
-?>
-        <option value="<?php echo $row_person['personId']?>" <?php if (!(strcmp($row_person['personId'], $row_person['personId']))) {echo "SELECTED";} ?>><?php echo $row_person['fName']." ".$row_person['lName'];?></option>
-        <?php
-} while ($row_person = mysql_fetch_assoc($person));
-?>
-      </select></td>
-    </tr>
-    <tr> </tr>    
+    <tr> 
+    </tr>    
     <tr>
 		<th>&nbsp;</th>
 		<td valign="top">
@@ -148,11 +106,13 @@ do {
 	<th class="sized bottomright"></th>
 </tr>
 </table>
-  <input type="hidden" name="MM_insert" value="form1" />
+  <input type="hidden" id="formAction" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
+  <input type="hidden" name="personId" value="<?php if($formAction == "update") echo $data['personId']; else echo $personId; ?>" />
+  <input type="hidden" name="userId" value="<?php if($formAction == "update") echo $data['userId'];?>" />
 </form>
 <p>&nbsp;</p>
 </body>
 </html>
 <?php
-mysql_free_result($person);
+}
 ?>

@@ -9,47 +9,19 @@ echo '<script type="text/javascript">
 				document.getElementById("personId_delete").value=personId;
 				document.forms["delete_form"].submit();
 		   }
-		   else
-		   		window.location.reload();
        }
 	   function update_submit(personId)
 	   {
-			document.getElementById("personId_update").value=personId;
-			document.forms["update_form"].submit();   
+		  	document.getElementById("personId_update").value=personId;
+			document.forms["update_form"].submit();  
 	   }
+	   function display_user(Id)
+	   {
+			document.getElementById("personId_user").value=Id;
+			document.forms["user_form"].submit();
+		}
    </script>';  
     
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
-{
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
-
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
-}
-}
-
 mysql_select_db($database_HMS, $HMS);
 $query_personRS = "SELECT * FROM person";
 $personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
@@ -94,6 +66,10 @@ $totalRows_personRS = mysql_num_rows($personRS);
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
+<form id="user_form" action="ViewUsers.php" method="post">
+<input id="personId_user" name="personId" value="" type="hidden" />
+</form>
+
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
     <th class="table-header-repeat line-left"><a href="">Id</a></th>
@@ -126,15 +102,16 @@ $totalRows_personRS = mysql_num_rows($personRS);
       <td><?php echo $row_personRS['fName']; ?></td>
       <td><?php echo $row_personRS['mName']; ?></td>
       <td><?php echo $row_personRS['lName']; ?></td>
-      <td><?php echo $row_personRS['address1']; ?></td>
+      <td><?php echo $row_personRS['address']; ?></td>
       <td><?php echo $row_personRS['rPhone']; ?></td>
       <td><?php echo $row_personRS['mobile']; ?></td>
       <td><?php echo $row_personRS['gender']; ?></td>
       <td><?php echo $row_personRS['DOB']; ?></td>
       <td><?php echo $row_personRS['email']; ?></td>
       <td class="options-width">
-					<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>
-					<a title="Delete" onclick="delete_confirm(<?php echo $row_personRS['personId'];?>);" class="icon-2 info-tooltip"></a>
+			<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm(<?php echo $row_personRS['personId'];?>);" class="icon-2 info-tooltip"></a>
+            <a title="View Login Details" onclick="display_user(<?php echo $row_personRS['personId'];?>);" class="icon-3 info-tooltip"></a>
       </td>
     </tr>
     <?php } while ($row_personRS = mysql_fetch_assoc($personRS)); ?>

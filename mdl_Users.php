@@ -9,14 +9,13 @@ class Users
 	
 	function setDetails($userName, $password, $personId, $type, $recoveryEmail, $permission)
 	{
-		$this->uName = $userName;
+		$this->userName = $userName;
 		$this->password = $password;
-		$this->personId = $ $personId;
+		$this->personId = $personId;
 		$this->type = $type;
 		$this->recoveryEmail = $recoveryEmail;
 		$this->permission = $permission;
-		
-		}
+	}
 	
 	public function getDetails($id)
 	{
@@ -30,21 +29,21 @@ class Users
 		{
 			die(mysql_error());
 		}
-		$this->uName = $userName;
-		$this->password = $password;
-		$this->personId = $personId;
-		$this->type = $type;
-		$this->recoveryEmail = $recoveryEmail;
-		$this->permission = $permission;
-		$data = array("userId"=>$id,"userName"=>$this->uName,"password"=>$this->password,"type"=>$this->type,"recoveryEmail"=>$this->recoveryEmail,
-		"permission"=>$this->permission);
+		$this->userName = $row_Users['userName'];
+		$this->password = $row_Users['password'];
+		$this->personId = $row_Users['personId'];
+		$this->type = $row_Users['type'];
+		$this->recoveryEmail = $row_Users['recoveryEmail'];
+		$this->permission = $row_Users['permission'];
+		$data = array("userId"=>$id,"userName"=>$this->userName,"password"=>$this->password,"type"=>$this->type,"recoveryEmail"=>$this->recoveryEmail,
+		"permission"=>$this->permission,"personId"=>$this->personId);
 		return $data;
 	}
 	
 	public function insertUser()
 	{
 		include("Connections/HMS.php");
-		$insertSQL = "INSERT INTO users(userName, $password, $personId, $type, $recoveryEmail, $permission) VALUES ($this->uName,$this->password,$this->personId,$this->type,$this->recoveryEmail,$this->permission);";
+		$insertSQL = "INSERT INTO users(userName, password, personId, type, recoveryEmail, permission) VALUES ($this->userName,$this->password,$this->personId,$this->type,$this->recoveryEmail,$this->permission);";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;
@@ -53,8 +52,8 @@ class Users
 	public function updateUser($id)
 	{
 		include("Connections/HMS.php");
-		$updateSQL = "UPDATE users SET userName=$this->uName, password=$this->password, type=$this->type, recoveryEmail=$this->recoveryEmail, permission=$this->permission WHERE userId = $id";
-		echo $updateSQL;
+		$updateSQL = "UPDATE users SET userName=$this->userName, type=$this->type, recoveryEmail=$this->recoveryEmail, permission=$this->permission WHERE userId = $id";
+		//echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
 		return true;

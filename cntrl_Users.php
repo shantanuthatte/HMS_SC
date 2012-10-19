@@ -31,24 +31,21 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
   return $theValue;
 }
-if (!isset($_GET['userid'])) 
-{
-  die("Parameter is missing!");  
-}
-
 
 $users = new Users();
 
 if($_POST['formAction'] == "insert")
 {
 	$users->setDetails(GetSQLValueString($_POST['userName'], "text"),
-                       GetSQLValueString($_POST['password'], "text"),
+                       GetSQLValueString(md5($_POST['password']), "text"),
                        GetSQLValueString($_POST['personId'], "text"),
                        GetSQLValueString($_POST['type'], "text"),
                        GetSQLValueString($_POST['recoveryEmail'], "text"),
                        GetSQLValueString($_POST['permission'], "text"));
-	if(!$users->insertusers())
+	if(!$users->insertUser())
 		die(mysql_error());
+	else
+		header('Location: ViewPerson.php');
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -57,24 +54,28 @@ elseif($_POST['formAction'] == "update")
 	$_SESSION['data'] = $data;
 	//echo "Hello";
 	//var_dump($_SESSION['data']);
-	header('Location: AddUsers.php?Mode=update');
+	header('Location: AddUser.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {
-	$person->setDetails(GetSQLValueString($_POST['userName'], "text"),
-                       GetSQLValueString($_POST['password'], "text"),
+	$users->setDetails(GetSQLValueString($_POST['userName'], "text"),
+                       GetSQLValueString(md5($_POST['password']), "text"),
                        GetSQLValueString($_POST['personId'], "text"),
                        GetSQLValueString($_POST['type'], "text"),
                        GetSQLValueString($_POST['recoveryEmail'], "text"),
                        GetSQLValueString($_POST['permission'], "text"));
-	if(!$users->updateusers($_POST['userId']))
+	if(!$users->updateUser($_POST['userId']))
 		die(mysql_error());
+	else
+		header('Location: ViewPerson.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$users->deleteusers($_POST['userId']))
+	if(!$users->deleteUser($_POST['userId']))
 		die(mysql_error());
+	else
+		header('Location: ViewPerson.php');
 }
 
-header('Location: ViewUsers.php');
+//header('Location: ViewUsers.php');
 ?>
