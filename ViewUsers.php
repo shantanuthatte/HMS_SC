@@ -1,6 +1,23 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+echo '<script type="text/javascript">
+       function delete_confirm(userId)
+       {
+           if(confirm("Are you sure you want to delete this person?")==true)
+           {
+				document.getElementById("userId_delete").value=userId;
+				document.forms["delete_form"].submit();
+		   }
+		   else
+		   		window.location.reload();
+       }
+	   function update_submit(userId)
+	   {
+			document.getElementById("userId_update").value=userId;
+			document.forms["update_form"].submit();   
+	   }
+   </script>';  
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -80,6 +97,16 @@ $totalPages_Users = ceil($totalRows_Users/$maxRows_Users)-1;
 	
     <!--  start table-content  -->
     <div id="table-content">
+    
+<form id="delete_form" action="cntrl_Users.php" method="post">
+<input id="userId_delete" name="userId" value="" type="hidden" />
+<input id="formAction" name="formAction" value="delete" type="hidden" />
+</form>
+
+<form id="update_form" action="cntrl_Users.php" method="post">
+<input id="userId_update" name="userIdId" value="" type="hidden" />
+<input id="formAction" name="formAction" value="update" type="hidden" />
+</form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
@@ -112,6 +139,10 @@ $totalPages_Users = ceil($totalRows_Users/$maxRows_Users)-1;
       <td><?php echo $row_Users['recoveryEmail']; ?></td>
       <td><?php echo $row_Users['permission']; ?></td>
       <td><?php echo $row_Users['personId']; ?></td>
+      <td class="options-width">
+					<a title="Edit" onclick="update_submit(<?php echo $row_Users['userId'];?>)" class="icon-1 info-tooltip"></a>
+					<a title="Delete" onclick="delete_confirm(<?php echo $row_Users['userId'];?>);" class="icon-2 info-tooltip"></a>
+      </td>
     </tr>
     <?php } while ($row_Users = mysql_fetch_assoc($Users)); ?>
 </table>

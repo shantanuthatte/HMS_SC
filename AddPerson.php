@@ -81,7 +81,7 @@ else
     </tr>
     <tr>
       <th>Address:</th>
-      <td><textarea rows="3" name="address" size="32" class="inp-form"><?php if($formAction == "update") echo $data['address']; ?></textarea></td>
+      <td><textarea rows="3" name="address1" size="32" class="inp-form"><?php if($formAction == "update") echo $data['address1']; ?></textarea></td>
     </tr>
     <tr>
       <th>Residence Phone:</th>

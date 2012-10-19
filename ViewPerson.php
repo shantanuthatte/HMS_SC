@@ -126,7 +126,7 @@ $totalRows_personRS = mysql_num_rows($personRS);
       <td><?php echo $row_personRS['fName']; ?></td>
       <td><?php echo $row_personRS['mName']; ?></td>
       <td><?php echo $row_personRS['lName']; ?></td>
-      <td><?php echo $row_personRS['address']; ?></td>
+      <td><?php echo $row_personRS['address1']; ?></td>
       <td><?php echo $row_personRS['rPhone']; ?></td>
       <td><?php echo $row_personRS['mobile']; ?></td>
       <td><?php echo $row_personRS['gender']; ?></td>
