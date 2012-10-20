@@ -1,5 +1,5 @@
 <?php require_once('Connections/HMS.php');
-include('mdl_Person.php');
+include('mdl_Medicine.php');
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -32,37 +32,39 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-$person = new Person();
+$medicine = new Medicine();
 
 if($_POST['formAction'] == "insert")
 {
-	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
-                       GetSQLValueString($_POST['mName'], "text"),
-                       GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address1'], "text"),
-                       GetSQLValueString($_POST['rPhone'], "text"),
-                       GetSQLValueString($_POST['mobile'], "text"),
-                       GetSQLValueString($_POST['registrationNo'], "text"),
-                       GetSQLValueString($_POST['gender'], "text"),
-                       GetSQLValueString($_POST['DOB'], "text"),
-                       GetSQLValueString($_POST['email'], "text"));
-	if(!$person->insertPerson())
+	$medicine->setDetails(GetSQLValueString($_POST['medicineNm'], "text"),
+					   GetSQLValueString($_POST['indications'], "text"),
+					   GetSQLValueString($_POST['contraIndications'], "text"),
+					   GetSQLValueString($_POST['adverseEffects'], "text"),
+					   GetSQLValueString($_POST['drugInteractions'], "text"),
+					   GetSQLValueString($_POST['specialPrecautions'], "text"),
+					   GetSQLValueString($_POST['breastFeeding'], "text"),
+					   GetSQLValueString($_POST['pregnancy'], "text"),
+					   GetSQLValueString($_POST['paediatrics'], "text"),
+					   GetSQLValueString($_POST['over60'], "text"),
+					   GetSQLValueString($_POST['classId'], "text"),
+					   GetSQLValueString($_POST['comments'], "text"));
+	if(!$medicine->insertMedicine())
 		die(mysql_error());
 	else
-		header('Location: ViewPerson.php');
+		header('Location: ViewMedicine.php');
 }
 elseif($_POST['formAction'] == "update")
 {
 	session_start();
-	$data = $person->getDetails($_POST['personId']);
+	$data = $medicine->getDetails($_POST['medicineId']);
 	$_SESSION['data'] = $data;
 	//echo "Hello";
 	//var_dump($_SESSION['data']);
-	header('Location: AddPerson.php?Mode=update');
+	header('Location: AddMedicine.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {
-	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
+	$medicine->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
                        GetSQLValueString($_POST['address1'], "text"),
@@ -72,16 +74,16 @@ elseif($_POST['formAction'] == "commit")
                        GetSQLValueString($_POST['gender'], "text"),
                        GetSQLValueString($_POST['DOB'], "text"),
                        GetSQLValueString($_POST['email'], "text"));
-	if(!$person->updatePerson($_POST['personId']))
+	if(!$medicine->updateMedicine($_POST['medicineId']))
 		die(mysql_error());
 	else
-		header('Location: ViewPerson.php');
+		header('Location: ViewMedicine.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$person->deletePerson($_POST['personId']))
+	if(!$medicine->deleteMedicine($_POST['medicineId']))
 		die(mysql_error());
 	else
-		header('Location: ViewPerson.php');
+		header('Location: ViewMedicine.php');
 }
 ?>

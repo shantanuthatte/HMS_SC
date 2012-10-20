@@ -1,56 +1,24 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+if(empty($_GET))
 {
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
-
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+	$formAction = "insert";
 }
+elseif($_GET['Mode']=="update")
+{
+	$data = $_SESSION['data'];
+	$formAction = "update";
 }
-
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+else
+{
+	header('Location:ViewFrequency.php');
 }
-
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO frequency (frequency ) VALUES (%s)",
-                       GetSQLValueString($_POST['frequency'], "text"));
-
-  mysql_select_db($database_HMS, $HMS);
-  $Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
-}
-
-mysql_select_db($database_HMS, $HMS);
-$query_person = "SELECT * FROM frequency";
-$person = mysql_query($query_person, $HMS) or die(mysql_error());
-$row_person = mysql_fetch_assoc($person);
-$totalRows_person = mysql_num_rows($person);
+unset($_SESSION['data']);
 ?>
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -59,16 +27,16 @@ $totalRows_person = mysql_num_rows($person);
 <script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
 <link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 </head>
-
-<body>
+<body> 
 <div class="clear"></div>
  
 <!-- start content-outer -->
 <div id="content-outer">
 <!-- start content -->
 <div id="content">
-<form action="<?php echo $editFormAction; ?>" method="post" name="form1" id="form1">
-<div id="page-heading"><h1>Add Frequency</h1></div>
+
+<form action="cntrl_Frequency.php" method="post" name="form1" id="form1">
+  <div id="page-heading"><h1>Frequency Details</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -85,14 +53,14 @@ $totalRows_person = mysql_num_rows($person);
 	<div id="content-table-inner">
     <!-- starting table contents -->
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
-  
+ 
     <tr>
       <th>Frequency:</th>
       <td>
-      <input type="text" name="frequency" size="32" class="inp-form-error"/>
+      <input type="text" name="frequency" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['frequency']; ?>"/>
       </td>
    		</tr>
-      <tr>
+        <tr>
 		<th>&nbsp;</th>
 		<td valign="top">
 			<input type="submit" value="" class="form-submit" />
@@ -104,8 +72,6 @@ $totalRows_person = mysql_num_rows($person);
   <!-- ending table contents -->
     
     <div class="clear"></div>
- 
-
 </div>
 <!--  end content-table-inner  -->
 </td>
@@ -117,13 +83,13 @@ $totalRows_person = mysql_num_rows($person);
 	<th class="sized bottomright"></th>
 </tr>
 </table>
-  <input type="hidden" name="MM_insert" value="form1" />
+  <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
+  <input type="hidden" name="frequencyId" value="<?php if($formAction == "update") echo $data['frequencyId']; ?>" />
 </form>
 <p>&nbsp;</p>
 <script type="text/javascript">
-var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1");
-var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2");
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur", "change"], minChars:2});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "email", {validateOn:["blur", "change"]});
 </script>
 </body>
 </html>
-

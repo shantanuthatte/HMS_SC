@@ -269,8 +269,12 @@ echo <<<'EOT'
 			<ul class="sub">
 				<li><a href="AddPerson.php">Add Person</a></li>
 				<li><a href="AddUser.php">Add User</a></li>
+                <li><a href="AddAilment.php">Add Ailment</a></li>
+                <li><a href="AddFrequency.php">Add Frequency</a></li>
 				<li><a href="ViewPerson.php">View Person</a></li>
                 <li><a href="ViewUsers.php">View User</a></li>
+                <li><a href="ViewAilment.php">View Ailment</a></li>
+                <li><a href="ViewFrequency.php">View Frequency</a></li>
 			</ul>
 		</div>
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
