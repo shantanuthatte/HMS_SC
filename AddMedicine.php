@@ -1,81 +1,40 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
-if (!function_exists("GetSQLValueString")) {
-function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+if(empty($_GET))
 {
-  if (PHP_VERSION < 6) {
-    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-  }
-
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-  switch ($theType) {
-    case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;    
-    case "long":
-    case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-      break;
-    case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-      break;
-    case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-      break;
-    case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-      break;
-  }
-  return $theValue;
+	$formAction = "insert";
 }
+elseif($_GET['Mode']=="update")
+{
+	$data = $_SESSION['data'];
+	$formAction = "update";
 }
-
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+else
+{
+	header('Location:ViewMedicine.php');
 }
+unset($_SESSION['data']);
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO medicine (medicineNm,  indications, contraIndications, adverseEffects,drugInteractions,  specialPrecautions, breastFeeding, pregnancy, paediatrics, over60, classId, comments) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
-                       GetSQLValueString($_POST['medicineNm'], "text"),
-					   GetSQLValueString($_POST['indications'], "text"),
-					   GetSQLValueString($_POST['contraIndications'], "text"),
-					   GetSQLValueString($_POST['adverseEffects'], "text"),
-					   GetSQLValueString($_POST['drugInteractions'], "text"),
-					   GetSQLValueString($_POST['specialPrecautions'], "text"),
-					   GetSQLValueString($_POST['breastFeeding'], "text"),
-					   GetSQLValueString($_POST['pregnancy'], "text"),
-					   GetSQLValueString($_POST['paediatrics'], "text"),
-					   GetSQLValueString($_POST['over60'], "text"),
-					   GetSQLValueString($_POST['classId'], "text"),
-					   GetSQLValueString($_POST['comments'], "text"));
-					   
-				
-  
-
-  mysql_select_db($database_HMS, $HMS);
-  $Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
-  
-}
 mysql_select_db($database_HMS, $HMS);
 $query_class = "SELECT * FROM medicineclass";
 $class = mysql_query($query_class, $HMS) or die(mysql_error());
 $row_class = mysql_fetch_assoc($class);
 $totalRows_class = mysql_num_rows($class);
 
-
 ?>
+
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Add Medicine</title>
+<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 </head>
-
-<body>
+<body> 
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -83,8 +42,9 @@ $totalRows_class = mysql_num_rows($class);
 <!-- start content -->
 <div id="content">
 
-<form action="<?php echo $editFormAction; ?>" method="post" name="form1" id="form1">
-<div id="page-heading"><h1>Add Medicine</h1></div>
+<form action="cntrl_Medicine.php" method="post" name="form1" id="form1">
+  <div id="page-heading">
+    <h1>Medicine Details</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -100,33 +60,33 @@ $totalRows_class = mysql_num_rows($class);
 	<!--  start content-table-inner -->
 	<div id="content-table-inner">
     <!-- starting table contents -->
-
-  <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
+    <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
     <tr>
       <th>Medicine Name:</th>
-      <td><input type="text" name="medicineNm" value="" size="32" class="inp-form"/></td>
+      <td>
+      <input type="text" name="medicineNm" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['medicineNm']; ?>"/>
+      </td>
    		</tr>
-         <tr>
+        <tr>
       <th>Indications:</th>
-      
-       <td><input type="text" name="indications" value="" size="32" class="inp-form"/></td>
-      <tr>
+      <td><input type="text" name="indications" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['indications']; ?>" /></td>
+   		</tr>
+        <tr>
       <th>Contra Indications:</th>
-      <td><input type="text" name="contraIndications" value="" size="32" class="inp-form"/></td>
-   		</tr>
-        <tr>
+      <td><input type="text" name="contraIndications" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['contraIndications']; ?>" /></td>
+    </tr>
+    <tr>
       <th>Adverse Effects:</th>
-      <td><input name="adverseEffects" value="" size="32" class="inp-form"/></td>
-   		</tr>
-        <tr>
-      <th>Drug Interactions:</th>
-      <td><input type="text" name="drugInteractions" value="" size="32" class="inp-form"/></td>
-   		</tr>
-        <tr>
-      <th>Special Precautions:</th>
-      <td><input type="text" name="specialPrecautions" value="" size="32" class="inp-form"/></td>
-   		</tr>
-        <tr>
+      <td><textarea rows="3" name="adverseEffects" size="32" class="inp-form"><?php if($formAction == "update") echo $data['adverseEffects']; ?></textarea></td>
+    </tr>
+    
+    <th>Drug Interaction:</th>
+      <td><textarea rows="3" name="drugInteractions" size="32" class="inp-form"><?php if($formAction == "update") echo $data['drugInteractions']; ?></textarea></td>
+    </tr>    
+    <th>Special Precautions:</th>
+      <td><textarea rows="3" name="specialPrecautions" size="32" class="inp-form"><?php if($formAction == "update") echo $data['specialPrecautions']; ?></textarea></td>
+    </tr>       
+    <tr>
         <th>Over60:</th>
       <td>
 		<select name="over60" class="styledselect_form_1">
@@ -167,23 +127,24 @@ $totalRows_class = mysql_num_rows($class);
 			
 			</select>
             </tr>
-            <tr>
+       <tr>
       <th>ClassId:</th>
       <td><select name="classId" class="styledselect_form_1">
-        <?php 
-do {  
-?>
-
-        <option value="<?php echo $row_class['classId']?>" <?php if (!(strcmp($row_class['classId'], $row_class['classId']))) {echo "SELECTED";} ?>><?php echo $row_class['className'];?></option>
-        <?php
-} while ($row_class = mysql_fetch_assoc($class));
-?>
+      <?php 
+		do {  
+		?>    
+      <option value="<?php echo $row_class['classId']?>" 
+	  <?php if (($formAction == "update") && (strcmp($row_class['classId'], $data['classId']))) {echo "SELECTED";} ?>>
+      <?php echo $row_class['className'];?></option>
+      <?php
+		} while ($row_class = mysql_fetch_assoc($class));
+		?>        
       </select>
    		</tr>
         <tr>
       <th>Comments:</th>
-      <td><input type="text" name="comments" value="" size="32" class="inp-form"/></td>
-   		</tr>
+      <td><textarea rows="3" name="comments" size="32" class="inp-form"><?php if($formAction == "update") echo $data['comments']; ?></textarea></td>
+    </tr>
     <tr>
 		<th>&nbsp;</th>
 		<td valign="top">
@@ -193,24 +154,13 @@ do {
 		<td></td>
 	</tr>
   </table>
-  <!-- ending table contents -->
-    
-    <div class="clear"></div>
- 
-
-</div>
-<!--  end content-table-inner  -->
-</td>
-<td id="tbl-border-right"></td>
-</tr>
-<tr>
-	<th class="sized bottomleft"></th>
-	<td id="tbl-border-bottom">&nbsp;</td>
-	<th class="sized bottomright"></th>
-</tr>
-</table>
-  <input type="hidden" name="MM_insert" value="form1" />
+  <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
+  <input type="hidden" name="medicineId" value="<?php if($formAction == "update") echo $data['medicineId']; ?>" />
 </form>
 <p>&nbsp;</p>
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur", "change"], minChars:2});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "email", {validateOn:["blur", "change"]});
+</script>
 </body>
 </html>

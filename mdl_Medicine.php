@@ -56,6 +56,7 @@ class Medicine
 	{
 		include("Connections/HMS.php");
 		$insertSQL = "INSERT INTO medicine(medicineNm, indications, contraIndications, adverseEffects, drugInteractions, specialPrecautions, breastFeeding, pregnancy, paediatrics, over60, classId, comments) VALUES ($this->medicineNm,$this->indications,$this->contraIndications,$this->adverseEffects,$this->drugInteractions,$this->specialPrecautions,$this->breastFeeding,$this->pregnancy,$this->paediatrics,$this->over60,$this->classId,$this->comments);";
+		//echo $insertSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;
@@ -64,7 +65,7 @@ class Medicine
 	public function updateMedicine($id)
 	{
 		include("Connections/HMS.php");
-		$updateSQL = "UPDATE medicine SET medicineNm=$this->medicineNm, indications=$this->indications, contraIndications=$this->contraIndications, adverseEffects=$this->adverseEffects, drugInteractions=$this->drugInteractions, specialPrecautions=$this->specialPrecautions, breastFeeding=$this->breastFeeding, pregnancy=$this->pregnancy, paediatrics=$this->paediatrics, over60=$this->over60, classId=$this->classId,  comments=$this->comments WHERE personId = $id";
+		$updateSQL = "UPDATE medicine SET medicineNm=$this->medicineNm, indications=$this->indications, contraIndications=$this->contraIndications, adverseEffects=$this->adverseEffects, drugInteractions=$this->drugInteractions, specialPrecautions=$this->specialPrecautions, breastFeeding=$this->breastFeeding, pregnancy=$this->pregnancy, paediatrics=$this->paediatrics, over60=$this->over60, classId=$this->classId,  comments=$this->comments WHERE medicineId = $id";
 		//echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());

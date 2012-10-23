@@ -64,16 +64,18 @@ elseif($_POST['formAction'] == "update")
 }
 elseif($_POST['formAction'] == "commit")
 {
-	$medicine->setDetails(GetSQLValueString($_POST['fName'], "text"),
-                       GetSQLValueString($_POST['mName'], "text"),
-                       GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address1'], "text"),
-                       GetSQLValueString($_POST['rPhone'], "text"),
-                       GetSQLValueString($_POST['mobile'], "text"),
-                       GetSQLValueString($_POST['registrationNo'], "text"),
-                       GetSQLValueString($_POST['gender'], "text"),
-                       GetSQLValueString($_POST['DOB'], "text"),
-                       GetSQLValueString($_POST['email'], "text"));
+	$medicine->setDetails(GetSQLValueString($_POST['medicineNm'], "text"),
+					   GetSQLValueString($_POST['indications'], "text"),
+					   GetSQLValueString($_POST['contraIndications'], "text"),
+					   GetSQLValueString($_POST['adverseEffects'], "text"),
+					   GetSQLValueString($_POST['drugInteractions'], "text"),
+					   GetSQLValueString($_POST['specialPrecautions'], "text"),
+					   GetSQLValueString($_POST['breastFeeding'], "text"),
+					   GetSQLValueString($_POST['pregnancy'], "text"),
+					   GetSQLValueString($_POST['paediatrics'], "text"),
+					   GetSQLValueString($_POST['over60'], "text"),
+					   GetSQLValueString($_POST['classId'], "text"),
+					   GetSQLValueString($_POST['comments'], "text"));
 	if(!$medicine->updateMedicine($_POST['medicineId']))
 		die(mysql_error());
 	else
