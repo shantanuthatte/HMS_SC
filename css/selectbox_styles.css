@@ -32,7 +32,6 @@ div.selectbox-wrapper	{
 	}
 div.selectbox-wrapper ul	{
 	list-style-type: none;
-	 
 	margin: 0px;
 	padding: 0px;z-index: 10;
 	}
@@ -110,24 +109,27 @@ div.selectbox-wrapper2 ul li	{
 	padding: 6px 2px 6px 10px;
 	}
 .styledselect_form_1	{
-	background: url(../images/forms/form_select.gif) left no-repeat;
-	border: none;
-	border-left: none;
+	border: solid thin;
+	border-radius:5px;
+	border-color:#BBB;
 	color: #393939;
 	cursor: pointer;
 	display: block;
 	font-family: Arial;
 	font-size: 12px;
-	height: 24px;
+	height: 32px;
 	margin: 0px 0px 0px 0px;
 	padding: 7px 0 0 6px;
 	text-align: left;
 	width: 192px;
 	}
+.styledselect_form_1 option:hover{
+	background-color:#94B52C;
+}
 .styledselect_form_2	{
-	background: url(../images/forms/form_select_small.gif) left no-repeat;
-	border: none;
-	border-left: none;
+	border: solid thin;
+	border-radius:5px;
+	border-color:#BBB;
 	color: #393939;
 	cursor: pointer;
 	display: block;
@@ -179,9 +181,9 @@ div.selectbox-wrapper3 ul li	{
 	padding: 6px 2px 6px 10px;
 	}
 .styledselect_pages	{
-	background: url(../images/table/select_number_rows.gif) left no-repeat;
-	border: none;
-	border-left: none;
+	border:solid thin;
+	border-radius:5px;
+	border-color:#BBB;
 	color: #393939;
 	cursor: pointer;
 	display: block;

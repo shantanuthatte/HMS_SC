@@ -1,32 +1,67 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+
+// Getting current page number,if not assign page number as 1 
+
+
+if(!isset($_GET['page'])){
+    $page = 1;
+} else {
+    $page = $_GET['page'];
+ }
+ 
+// Define the number of rows per page 
+if(!isset($_GET['rows'])){
+	$rows = 10;
+} else {
+	$rows = $_GET['rows'];
+}
+
+$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM person"),0);
+
+// Getting the total number of pages. Always round up using ceil() 
+$total_pages = ceil($total_rows / $rows);
+
+$prev = $page-1; //previous page
+$next = $page+1; //next page
+
+/* Figure out the limit for the query based
+ on the current page number.*/
+$from = (($page * $rows) - $rows);
+    
+mysql_select_db($database_HMS, $HMS);
+$query_personRS = "SELECT * FROM person LIMIT $from,$rows";
+$personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
+$row_personRS = mysql_fetch_assoc($personRS);
+$totalRows_personRS = mysql_num_rows($personRS);
+
 echo '<script type="text/javascript">
-       function delete_confirm(personId)
-       {
+       	function delete_confirm(personId)
+       	{
            if(confirm("Are you sure you want to delete this person?")==true)
            {
 				document.getElementById("personId_delete").value=personId;
 				document.forms["delete_form"].submit();
 		   }
-       }
-	   function update_submit(personId)
-	   {
+       	}
+	   	function update_submit(personId)
+	   	{
 		  	document.getElementById("personId_update").value=personId;
 			document.forms["update_form"].submit();  
-	   }
-	   function display_user(Id)
-	   {
+	   	}
+	   	function display_user(Id)
+	   	{
 			document.getElementById("personId_user").value=Id;
 			document.forms["user_form"].submit();
 		}
+        function populate(event) 
+		{
+			var number = this.options[this.selectedIndex].text;
+			var url = "ViewPerson.php?rows="+number+"&page=1";
+			window.location.href = url;
+    	}
    </script>';  
-    
-mysql_select_db($database_HMS, $HMS);
-$query_personRS = "SELECT * FROM person";
-$personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
-$row_personRS = mysql_fetch_assoc($personRS);
-$totalRows_personRS = mysql_num_rows($personRS);
 ?>
 <div class="clear"></div>
  
@@ -34,7 +69,6 @@ $totalRows_personRS = mysql_num_rows($personRS);
 <div id="content-outer">
 <!-- start content -->
 <div id="content">
-
 
 <div id="page-heading"><h1>View Person</h1></div>
 
@@ -102,7 +136,7 @@ $totalRows_personRS = mysql_num_rows($personRS);
       <td><?php echo $row_personRS['fName']; ?></td>
       <td><?php echo $row_personRS['mName']; ?></td>
       <td><?php echo $row_personRS['lName']; ?></td>
-      <td><?php echo $row_personRS['address1']; ?></td>
+      <td><?php echo $row_personRS['address']; ?></td>
       <td><?php echo $row_personRS['rPhone']; ?></td>
       <td><?php echo $row_personRS['mobile']; ?></td>
       <td><?php echo $row_personRS['gender']; ?></td>
@@ -120,6 +154,32 @@ $totalRows_personRS = mysql_num_rows($personRS);
 
 	</div>
 <!-- end table content -->    
+
+<!--  start paging..................................................... -->
+
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+			<tr>
+            <td>Rows  </td>
+			<td>
+			<select name="rows" id="rows" onchange="populate.call(this, event)">
+				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
+				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
+				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
+			</select>
+            
+			</td>
+			<td>
+				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
+				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
+				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
+				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
+				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
+			</td>
+			</tr>
+			</table>
+<!--  end paging................ -->
+			
+
     </div>
 <!--  end content-table-inner  -->
 </td>

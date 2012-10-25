@@ -5,8 +5,8 @@
 
 /*  LOGIN -------------------------------------------------------------------------------- */	
 
-body	{
-	background: url(../images/login/login_bg.jpg) no-repeat top center;
+#login-bg	{
+	background: url(images/login/login_bg.png no-repeat;
 	}
 #login-holder	{
 	width: 1020px;
