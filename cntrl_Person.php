@@ -39,12 +39,19 @@ if($_POST['formAction'] == "insert")
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address1'], "text"),
+                       GetSQLValueString($_POST['address'], "text"),
+					   GetSQLValueString($_POST['area'], "text"),
+					   GetSQLValueString($_POST['city'], "text"),
+					   GetSQLValueString($_POST['state'], "text"),
+					   GetSQLValueString($_POST['pin'], "text"),
                        GetSQLValueString($_POST['rPhone'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['registrationNo'], "text"),
                        GetSQLValueString($_POST['gender'], "text"),
                        GetSQLValueString($_POST['DOB'], "text"),
+					   GetSQLValueString($_POST['maritalStatus'], "text"),
+					   GetSQLValueString($_POST['bloodGroup'], "text"),
+					   GetSQLValueString($_POST['occupation'], "text"),
                        GetSQLValueString($_POST['email'], "text"));
 	if(!$person->insertPerson())
 		die(mysql_error());
@@ -65,12 +72,19 @@ elseif($_POST['formAction'] == "commit")
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
-                       GetSQLValueString($_POST['address1'], "text"),
+                       GetSQLValueString($_POST['address'], "text"),
+					   GetSQLValueString($_POST['area'], "text"),
+					   GetSQLValueString($_POST['city'], "text"),
+					   GetSQLValueString($_POST['state'], "text"),
+					   GetSQLValueString($_POST['pin'], "text"),
                        GetSQLValueString($_POST['rPhone'], "text"),
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['registrationNo'], "text"),
                        GetSQLValueString($_POST['gender'], "text"),
                        GetSQLValueString($_POST['DOB'], "text"),
+					   GetSQLValueString($_POST['maritalStatus'], "text"),
+					   GetSQLValueString($_POST['bloodGroup'], "text"),
+					   GetSQLValueString($_POST['occupation'], "text"),
                        GetSQLValueString($_POST['email'], "text"));
 	if(!$person->updatePerson($_POST['personId']))
 		die(mysql_error());
