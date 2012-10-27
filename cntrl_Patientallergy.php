@@ -1,5 +1,5 @@
 <?php require_once('Connections/HMS.php');
-include('mdl_Procedure.php');
+include('mdl_Patientallergy.php');
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -32,40 +32,44 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-$procedure = new Procedure();
+$patientallergy = new Patientallergy();
 
 if($_POST['formAction'] == "insert")
 {
-	$procedure->setDetails(GetSQLValueString($_POST['procedureName'], "text"),
+	$patientallergy->setDetails(GetSQLValueString($_POST['patientId'], "text"),
+                       GetSQLValueString($_POST['type'], "text"),
+                       GetSQLValueString($_POST['allergy'], "text"),
                        GetSQLValueString($_POST['comments'], "text"));
-	if(!$procedure->insertProcedure())
+	if(!$patientallergy->insertPatientallergy())
 		die(mysql_error());
 	else
-		header('Location: ViewProcedure.php');
+		header('Location: ViewPatientallergy.php');
 }
 elseif($_POST['formAction'] == "update")
 {
 	session_start();
-	$data = $procedure->getDetails($_POST['procedureId']);
+	$data = $patientallergy->getDetails($_POST['allergyId']);
 	$_SESSION['data'] = $data;
 	//echo "Hello";
 	//var_dump($_SESSION['data']);
-	header('Location: AddProcedure.php?Mode=update');
+	header('Location: AddPatientallergy.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {
-	$procedure->setDetails(GetSQLValueString($_POST['procedureName'], "text"),
+	$patientallergy->setDetails(GetSQLValueString($_POST['patientId'], "text"),
+                       GetSQLValueString($_POST['type'], "text"),
+                       GetSQLValueString($_POST['allergy'], "text"),
                        GetSQLValueString($_POST['comments'], "text"));
-	if(!$procedure->updateProcedure($_POST['procedureId']))
+	if(!$patientallergy->updatePatientallergy($_POST['allergyId']))
 		die(mysql_error());
 	else
-		header('Location: ViewProcedure.php');
+		header('Location: ViewPatientallergy.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$procedure->deleteProcedure($_POST['procedureId']))
+	if(!$patientallergy->deletePatientallergy($_POST['allergyId']))
 		die(mysql_error());
 	else
-		header('Location: ViewProcedure.php');
+		header('Location: ViewPatientallergy.php');
 }
 ?>

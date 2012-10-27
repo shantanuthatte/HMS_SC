@@ -1,15 +1,15 @@
 <?php
 class Procedure
 {	
-	private $procedureNmae, $comments;
+	private $procedureName, $comments;
 	
 	function __construct()
 	{
 	}
 	
-	function setDetails($procedureNmae, $comments)
+	function setDetails($procedureName, $comments)
 	{
-		$this->procedureNmae = $procedureNmae;
+		$this->procedureName = $procedureName;
 		$this->comments = $comments;
 		
 	}
@@ -17,7 +17,7 @@ class Procedure
 	public function getDetails($id)
 	{
 		include("Connections/HMS.php");
-		$query = "SELECT * FROM procedure WHERE procedureId = $id;";
+		$query = "SELECT * FROM `procedure` WHERE procedureId = $id;";
 		mysql_select_db($database_HMS, $HMS);
 		$procedure = mysql_query($query, $HMS) or die(mysql_error());
 		$row_procedure = mysql_fetch_assoc($procedure);
@@ -28,7 +28,7 @@ class Procedure
 		}
 		$this->procedureName = $row_procedure['procedureName'];
 		$this->comments = $row_procedure['comments'];
-		$data = array("procedureId"=>$id,"procedure"=>$this->procedure,
+		$data = array("procedureId"=>$id,"procedureName"=>$this->procedureName,
 		"comments"=>$this->comments);
 		return $data;
 	}
@@ -36,7 +36,7 @@ class Procedure
 	public function insertProcedure()
 	{
 		include("Connections/HMS.php");
-		$insertSQL = "INSERT INTO Procedure(procedureName, comments) VALUES ($this->procedureName,$this->comments);";
+		$insertSQL = "INSERT INTO `procedure`(procedureName, comments) VALUES ($this->procedureName,$this->comments);";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;
@@ -45,7 +45,7 @@ class Procedure
 	public function updateProcedure($id)
 	{
 		include("Connections/HMS.php");
-		$updateSQL = "UPDATE procedure SET procedureName=$this->procedureName, comments=$this->comments WHERE procedureId = $id";
+		$updateSQL = "UPDATE `procedure` SET procedureName=$this->procedureName, comments=$this->comments WHERE procedureId = $id";
 		//echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
@@ -55,7 +55,7 @@ class Procedure
 	public function deleteProcedure($id)
 	{
 		include("Connections/HMS.php");
-		$deleteSQL = "DELETE FROM procedure WHERE procedureId=$id";
+		$deleteSQL = "DELETE FROM `procedure` WHERE procedureId=$id";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($deleteSQL, $HMS) or die(mysql_error());
 		return true;

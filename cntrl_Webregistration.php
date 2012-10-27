@@ -36,6 +36,7 @@ $webregistration = new WebRegistration();
 
 if($_POST['formAction'] == "insert")
 {
+	echo "AuthorityID";
 	echo $_POST['authorityId'] ;
 	$webregistration->setDetails(GetSQLValueString($_POST['registrationType'], "text"),
                        GetSQLValueString($_POST['registrationDate'], "text"),
@@ -63,7 +64,7 @@ elseif($_POST['formAction'] == "commit")
                        GetSQLValueString($_POST['name'], "text"),
                        GetSQLValueString($_POST['authorityId'], "text"),
                        GetSQLValueString($_POST['comments'], "text"));
-	if(!$webregistration->updatewebregistration($_POST['registrationId']))
+	if(!$webregistration->updateWebRegistration($_POST['registrationId']))
 		die(mysql_error());
 	else
 		header('Location: ViewWebRegistration.php');

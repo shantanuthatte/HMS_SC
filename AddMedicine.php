@@ -90,9 +90,9 @@ $totalRows_class = mysql_num_rows($class);
         <th>Over60:</th>
       <td>
 		<select name="over60" class="styledselect_form_1">
-			<option value="S">Safe</option>
-			<option value="C">Use with Caution</option>
-			<option value="D">Do not Use</option>
+			<option value="S" <?php if($formAction == "update" && $data['over60'] == "S") echo "SELECTED"; ?>>Safe</option>
+			<option value="C" <?php if($formAction == "update" && $data['over60'] == "C") echo "SELECTED"; ?>>Use with Caution</option>
+			<option value="D" <?php if($formAction == "update" && $data['over60'] == "D") echo "SELECTED"; ?>>Do not Use</option>
 			
 			</select>
 		</td>
@@ -100,9 +100,9 @@ $totalRows_class = mysql_num_rows($class);
         <th>Paediatrics:</th>
       <td>
 		<select name="paediatrics" class="styledselect_form_1">
-			<option value="S">Safe</option>
-			<option value="C">Use with Caution</option>
-			<option value="D">Do not Use</option>
+			<option value="S" <?php if($formAction == "update" && $data['paediatrics'] == "S") echo "SELECTED"; ?>>Safe</option>
+			<option value="C" <?php if($formAction == "update" && $data['paediatrics'] == "C") echo "SELECTED"; ?>>Use with Caution</option>
+			<option value="D" <?php if($formAction == "update" && $data['paediatrics'] == "D") echo "SELECTED"; ?>>Do not Use</option>
 			
 			</select>
             </td>
@@ -111,9 +111,9 @@ $totalRows_class = mysql_num_rows($class);
             <th>Pregnancy:</th>
       <td>
 		<select name="pregnancy" class="styledselect_form_1">
-			<option value="S">Safe</option>
-			<option value="C">Use with Caution</option>
-			<option value="D">Do not Use</option>
+			<option value="S" <?php if($formAction == "update" && $data['pregnancy'] == "S") echo "SELECTED"; ?>>Safe</option>
+			<option value="C" <?php if($formAction == "update" && $data['pregnancy'] == "C") echo "SELECTED"; ?>>Use with Caution</option>
+			<option value="D" <?php if($formAction == "update" && $data['pregnancy'] == "D") echo "SELECTED"; ?>>Do not Use</option>
 			
 			</select>
             </tr>
@@ -121,9 +121,9 @@ $totalRows_class = mysql_num_rows($class);
             <th>Breast Feeding:</th>
       <td>
 		<select name="breastFeeding" class="styledselect_form_1">
-			<option value="S">Safe</option>
-			<option value="C">Use with Caution</option>
-			<option value="D">Do not Use</option>
+			<option value="S" <?php if($formAction == "update" && $data['breastFeeding'] == "S") echo "SELECTED"; ?>>Safe</option>
+			<option value="C" <?php if($formAction == "update" && $data['breastFeeding'] == "C") echo "SELECTED"; ?>>Use with Caution</option>
+			<option value="D" <?php if($formAction == "update" && $data['breastFeeding'] == "D") echo "SELECTED"; ?>>Do not Use</option>
 			
 			</select>
             </tr>
@@ -134,7 +134,7 @@ $totalRows_class = mysql_num_rows($class);
 		do {  
 		?>    
       <option value="<?php echo $row_class['classId']?>" 
-	  <?php if (($formAction == "update") && (strcmp($row_class['classId'], $data['classId']))) {echo "SELECTED";} ?>>
+	  <?php if (($formAction == "update") && (!strcmp($row_class['classId'], $data['classId']))) {echo "SELECTED";} ?>>
       <?php echo $row_class['className'];?></option>
       <?php
 		} while ($row_class = mysql_fetch_assoc($class));

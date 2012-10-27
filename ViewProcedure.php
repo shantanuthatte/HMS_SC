@@ -23,7 +23,7 @@ echo '<script type="text/javascript">
    </script>';  
     
 mysql_select_db($database_HMS, $HMS);
-$query_personRS = "SELECT * FROM procedure";
+$query_procedure = "SELECT * FROM `procedure`";
 $procedure = mysql_query($query_procedure, $HMS) or die(mysql_error());
 $row_procedure = mysql_fetch_assoc($procedure);
 $totalRows_procedure = mysql_num_rows($procedure);
@@ -75,6 +75,7 @@ $totalRows_procedure = mysql_num_rows($procedure);
     
     <th class="table-header-repeat line-left"><a href="">Procedure Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Comments</a></th>
+    <th class="table-header-repeat line-left"><a href="">Options</a></th>
     
   </tr>
   <?php
@@ -91,15 +92,14 @@ $totalRows_procedure = mysql_num_rows($procedure);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_procedure['procedureId']; ?></td>
+      
       <td><?php echo $row_procedure['procedureName']; ?></td>
       <td><?php echo $row_procedure['comments']; ?></td>
       
       <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_procedure['procedureId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_procedure['procedureId'];?>);" class="icon-2 info-tooltip"></a>
-            <a title="View Login Details" onclick="display_user(<?php echo $row_procedure['procedureId'];?>);" class="icon-3 info-tooltip"></a>
-      </td>
+            </td>
     </tr>
     <?php } while ($row_procedure = mysql_fetch_assoc($procedure)); ?>
 </table>

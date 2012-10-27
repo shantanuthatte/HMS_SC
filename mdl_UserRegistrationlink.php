@@ -18,7 +18,7 @@ class UserRegistrationlink
 	public function getDetails($id)
 	{
 		include("Connections/HMS.php");
-		$query = "SELECT * FROM userregistrationlink WHERE userRegLinkId = $id;";
+		$query = "SELECT * FROM userregistrationlink WHERE 'userRegLinkId' = $id;";
 		mysql_select_db($database_HMS, $HMS);
 		$userreglink = mysql_query($query, $HMS) or die(mysql_error());
 		$row_userreglink = mysql_fetch_assoc($userreglink);
@@ -45,7 +45,7 @@ class UserRegistrationlink
 	public function updateUserRegistrationlink($id)
 	{
 		include("Connections/HMS.php");
-		$updateSQL = "UPDATE userregistrationlink SET registrationId=$this->registrationId, userId=$this->userId WHERE userRegLinkId = $id";
+		$updateSQL = "UPDATE userregistrationlink SET registrationId=$this->registrationId, userId=$this->userId WHERE 'userRegLinkId' = $id";
 		//echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
@@ -55,7 +55,7 @@ class UserRegistrationlink
 	public function deleteUserRegistrationlink($id)
 	{
 		include("Connections/HMS.php");
-		$deleteSQL = "DELETE FROM userregistrationlink WHERE userRegLinkId=$id";
+		$deleteSQL = "DELETE FROM userregistrationlink WHERE 'userRegLinkId'=$id";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($deleteSQL, $HMS) or die(mysql_error());
 		return true;

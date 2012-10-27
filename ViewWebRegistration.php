@@ -2,22 +2,22 @@
 <?php
 include 'header.php';
 echo '<script type="text/javascript">
-       function delete_confirm(authorityId)
+       function delete_confirm(registrationId)
        {
            if(confirm("Are you sure you want to delete?")==true)
            {
-				document.getElementById("authorityId_delete").value=authorityId;
+				document.getElementById("registrationId_delete").value=registrationId;
 				document.forms["delete_form"].submit();
 		   }
        }
-	   function update_submit(authorityId)
+	   function update_submit(registrationId)
 	   {
-		  	document.getElementById("authorityId_update").value=authorityId;
+		  	document.getElementById("registrationId_update").value=registrationId;
 			document.forms["update_form"].submit();  
 	   }
 	   function display_user(Id)
 	   {
-			document.getElementById("authorityId_user").value=Id;
+			document.getElementById("registrationId_user").value=Id;
 			document.forms["user_form"].submit();
 		}
    </script>';  

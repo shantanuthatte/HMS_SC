@@ -21,7 +21,7 @@ class WebRegistration
 	public function getDetails($id)
 	{
 		include("Connections/HMS.php");
-		$query = "SELECT * FROM webregistration WHERE authorityId = $id;";
+		$query = "SELECT * FROM webregistration WHERE registrationId = $id;";
 		mysql_select_db($database_HMS, $HMS);
 		$webRS = mysql_query($query, $HMS) or die(mysql_error());
 		$row_webRS = mysql_fetch_assoc($webRS);
@@ -35,7 +35,7 @@ class WebRegistration
 		$this->name = $row_webRS['name'];
 		$this->authorityId = $row_webRS['authorityId'];
 		$this->comments = $row_webRS['comments'];
-		$data = array("authorityId"=>$id,"registrationType"=>$this->registrationType,"registrationDate"=>$this->registrationDate,"name"=>$this->name,"authorityId"=>$this->authorityId,
+		$data = array("registrationId"=>$id,"registrationType"=>$this->registrationType,"registrationDate"=>$this->registrationDate,"name"=>$this->name,"authorityId"=>$this->authorityId,
 		"comments"=>$this->comments);
 		return $data;
 	}
@@ -54,7 +54,7 @@ class WebRegistration
 	{
 		include("Connections/HMS.php");
 		$updateSQL = "UPDATE webregistration SET registrationType=$this->registrationType, registrationDate=$this->registrationDate, name=$this->name, authorityId=$this->authorityId, comments=$this->comments WHERE registrationId = $id";
-		//echo $updateSQL;
+		echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
 		return true;
