@@ -2,31 +2,31 @@
 <?php
 include 'header.php';
 echo '<script type="text/javascript">
-       function delete_confirm(ailmentId)
+       function delete_confirm(familyHisId)
        {
-           if(confirm("Are you sure you want to delete this ailment?")==true)
+           if(confirm("Are you sure you want to delete?")==true)
            {
-				document.getElementById("ailmentId_delete").value=ailmentId;
+				document.getElementById("familyHisId_delete").value=familyHisId;
 				document.forms["delete_form"].submit();
 		   }
        }
-	   function update_submit(ailmentId)
+	   function update_submit(familyHisId)
 	   {
-		  	document.getElementById("ailmentId_update").value=ailmentId;
+		  	document.getElementById("familyHisId_update").value=familyHisId;
 			document.forms["update_form"].submit();  
 	   }
-	   function display_ailment(Id)
+	   function display_family(Id)
 	   {
-			document.getElementById("ailmentId_display").value=Id;
-			document.forms["display_form"].submit();
+			document.getElementById("familyHisId_display").value=Id;
+			document.forms["family_form"].submit();
 		}
    </script>';  
     
 mysql_select_db($database_HMS, $HMS);
-$query_ailment = "SELECT * FROM ailment";
-$ailment = mysql_query($query_ailment, $HMS) or die(mysql_error());
-$row_ailment = mysql_fetch_assoc($ailment);
-$totalRows_personRS = mysql_num_rows($ailment);
+$query_familyhid = "SELECT * FROM familyhistory";
+$familyhid = mysql_query($query_familyhid, $HMS) or die(mysql_error());
+$row_familyhid = mysql_fetch_assoc($familyhid);
+$totalRows_familyhid = mysql_num_rows($familyhid);
 ?>
 <div class="clear"></div>
  
@@ -36,12 +36,13 @@ $totalRows_personRS = mysql_num_rows($ailment);
 <div id="content">
 
 
-<div id="page-heading"><h1>Ailment</h1></div>
+<div id="page-heading"><h1>Family History</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
-<a href="AddAilment.php">Add Ailment</a>
+<a href="AddFamilyHistory.php">Add Family History</a>
+</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -58,23 +59,26 @@ $totalRows_personRS = mysql_num_rows($ailment);
     <!--  start table-content  -->
     <div id="table-content">
 
-<form id="delete_form" action="cntrl_Ailment.php" method="post">
-<input id="ailmentId_delete" name="ailmentId" value="" type="hidden" />
+<form id="delete_form" action="cntrl_FamilyHistory.php" method="post">
+<input id="familyHisId_delete" name="familyHisId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="delete" type="hidden" />
 </form>
 
-<form id="update_form" action="cntrl_Ailment.php" method="post">
-<input id="ailmentId_update" name="ailmentId" value="" type="hidden" />
+<form id="update_form" action="cntrl_FamilyHistory.php" method="post">
+<input id="familyHisId_update" name="familyHisId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="display_form" action="ViewAilment.php" method="post">
-<input id="ailmentId_user" name="ailmentId" value="" type="hidden" />
+<form id="display_form" action="ViewFamilyHistory.php" method="post">
+<input id="familyHisId_user" name="familyHisId" value="" type="hidden" />
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
+    <th class="table-header-repeat line-left"><a href="">PatientId</a></th>
+    <th class="table-header-repeat line-left"><a href="">Family Relation</a></th>
+    <th class="table-header-repeat line-left"><a href="">AilmentId</a></th>
+    <th class="table-header-repeat line-left"><a href="">Diagnosis Date</a></th>
     <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>
     <th class="table-header-repeat line-left"><a href="">Comments</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
@@ -93,16 +97,19 @@ $totalRows_personRS = mysql_num_rows($ailment);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_ailment['ailmentName']; ?></td>
-      <td><?php echo $row_ailment['symptoms']; ?></td>
-      <td><?php echo $row_ailment['comments']; ?></td>
+      <td><?php echo $row_familyhid['patientId']; ?></td>
+      <td><?php echo $row_familyhid['familyRelation']; ?></td>
+      <td><?php echo $row_familyhid['ailmentId']; ?></td>
+      <td><?php echo $row_familyhid['diagnosisDate']; ?></td>
+      <td><?php echo $row_familyhid['symptoms']; ?></td>
+      <td><?php echo $row_familyhid['comments']; ?></td>
       <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_ailment['ailmentId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_ailment['ailmentId'];?>);" class="icon-2 info-tooltip"></a>
+			<a title="Edit" onclick="update_submit(<?php echo $row_familyhid['familyHisId'];?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm(<?php echo $row_familyhid['familyHisId'];?>);" class="icon-2 info-tooltip"></a>
             
       </td>
     </tr>
-    <?php } while ($row_ailment = mysql_fetch_assoc($ailment)); ?>
+    <?php } while ($row_familyhid = mysql_fetch_assoc($familyhid)); ?>
 </table>
 
 
@@ -141,5 +148,5 @@ $totalRows_personRS = mysql_num_rows($ailment);
 </body>
 </html>
 <?php
-mysql_free_result($ailment);
+mysql_free_result($familyhid);
 ?>

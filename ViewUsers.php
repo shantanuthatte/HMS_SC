@@ -48,7 +48,7 @@ if($totalRows_usersRS == 0)
 <div id="content">
 
 
-<div id="page-heading"><h1>View Users</h1></div>
+<div id="page-heading"><h1>Users</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
@@ -79,8 +79,7 @@ if($totalRows_usersRS == 0)
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
-  <tr>
-    <th class="table-header-repeat line-left"><a href="">userId</a></th>
+  <tr>   
     <th class="table-header-repeat line-left"><a href="">userName</a></th>
     <th class="table-header-repeat line-left"><a href="">password</a></th>
     <th class="table-header-repeat line-left"><a href="">type</a></th>
@@ -103,7 +102,6 @@ if($totalRows_usersRS == 0)
 		$even=1;
 	} 
   ?>    
-      <td><?php echo $row_usersRS['userId']; ?></td>
       <td><?php echo $row_usersRS['userName']; ?></td>
       <td><?php echo $row_usersRS['password']; ?></td>
       <td><?php echo $row_usersRS['type']; ?></td>

@@ -2,31 +2,31 @@
 <?php
 include 'header.php';
 echo '<script type="text/javascript">
-       function delete_confirm(ailmentId)
+       function delete_confirm(medicalHisId)
        {
-           if(confirm("Are you sure you want to delete this ailment?")==true)
+           if(confirm("Are you sure you want to delete?")==true)
            {
-				document.getElementById("ailmentId_delete").value=ailmentId;
+				document.getElementById("medicalHisId_delete").value=medicalHisId;
 				document.forms["delete_form"].submit();
 		   }
        }
-	   function update_submit(ailmentId)
+	   function update_submit(medicalHisId)
 	   {
-		  	document.getElementById("ailmentId_update").value=ailmentId;
+		  	document.getElementById("medicalHisId_update").value=medicalHisId;
 			document.forms["update_form"].submit();  
 	   }
-	   function display_ailment(Id)
+	   function display_medical(Id)
 	   {
-			document.getElementById("ailmentId_display").value=Id;
-			document.forms["display_form"].submit();
+			document.getElementById("medicalHisId_display").value=Id;
+			document.forms["medical_form"].submit();
 		}
    </script>';  
     
 mysql_select_db($database_HMS, $HMS);
-$query_ailment = "SELECT * FROM ailment";
-$ailment = mysql_query($query_ailment, $HMS) or die(mysql_error());
-$row_ailment = mysql_fetch_assoc($ailment);
-$totalRows_personRS = mysql_num_rows($ailment);
+$query_medicalHId = "SELECT * FROM medicalhistory";
+$medicalHId = mysql_query($query_medicalHId, $HMS) or die(mysql_error());
+$row_medicalHId = mysql_fetch_assoc($medicalHId);
+$totalRows_medicalHId = mysql_num_rows($medicalHId);
 ?>
 <div class="clear"></div>
  
@@ -36,12 +36,13 @@ $totalRows_personRS = mysql_num_rows($ailment);
 <div id="content">
 
 
-<div id="page-heading"><h1>Ailment</h1></div>
+<div id="page-heading"><h1>Medical History</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
-<a href="AddAilment.php">Add Ailment</a>
+<a href="AddMedicalHistory.php">Add Medical History</a>
+</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -58,23 +59,25 @@ $totalRows_personRS = mysql_num_rows($ailment);
     <!--  start table-content  -->
     <div id="table-content">
 
-<form id="delete_form" action="cntrl_Ailment.php" method="post">
-<input id="ailmentId_delete" name="ailmentId" value="" type="hidden" />
+<form id="delete_form" action="cntrl_MedicalHistory.php" method="post">
+<input id="medicalHisId_delete" name="medicalHisId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="delete" type="hidden" />
 </form>
 
-<form id="update_form" action="cntrl_Ailment.php" method="post">
-<input id="ailmentId_update" name="ailmentId" value="" type="hidden" />
+<form id="update_form" action="cntrl_MedicalHistory.php" method="post">
+<input id="medicalHisId_update" name="medicalHisId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="display_form" action="ViewAilment.php" method="post">
-<input id="ailmentId_user" name="ailmentId" value="" type="hidden" />
+<form id="medical_form" action="ViewMedicalHistory.php" method="post">
+<input id="medicalHisId_user" name="medicalHisId" value="" type="hidden" />
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
+    <th class="table-header-repeat line-left"><a href="">PatientId</a></th>
+    <th class="table-header-repeat line-left"><a href="">AilmentId</a></th>
+    <th class="table-header-repeat line-left"><a href="">DiagnosisDate</a></th>
     <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>
     <th class="table-header-repeat line-left"><a href="">Comments</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
@@ -93,16 +96,18 @@ $totalRows_personRS = mysql_num_rows($ailment);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_ailment['ailmentName']; ?></td>
-      <td><?php echo $row_ailment['symptoms']; ?></td>
-      <td><?php echo $row_ailment['comments']; ?></td>
+      <td><?php echo $row_medicalHId['patientId']; ?></td>
+      <td><?php echo $row_medicalHId['ailmentId']; ?></td>
+      <td><?php echo $row_medicalHId['diagnosisDate']; ?></td>
+      <td><?php echo $row_medicalHId['symptoms']; ?></td>
+      <td><?php echo $row_medicalHId['comments']; ?></td>
       <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_ailment['ailmentId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_ailment['ailmentId'];?>);" class="icon-2 info-tooltip"></a>
+			<a title="Edit" onclick="update_submit(<?php echo $row_medicalHId['medicalHisId'];?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm(<?php echo $row_medicalHId['medicalHisId'];?>);" class="icon-2 info-tooltip"></a>
             
       </td>
     </tr>
-    <?php } while ($row_ailment = mysql_fetch_assoc($ailment)); ?>
+    <?php } while ($row_medicalHId = mysql_fetch_assoc($medicalHId)); ?>
 </table>
 
 
@@ -141,5 +146,5 @@ $totalRows_personRS = mysql_num_rows($ailment);
 </body>
 </html>
 <?php
-mysql_free_result($ailment);
+mysql_free_result($medicalHId);
 ?>

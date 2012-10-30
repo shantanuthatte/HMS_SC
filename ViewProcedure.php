@@ -36,10 +36,13 @@ $totalRows_procedure = mysql_num_rows($procedure);
 <div id="content">
 
 
-<div id="page-heading"><h1>View Procedure</h1></div>
+<div id="page-heading"><h1>Procedure</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+<a href="AddProcedure.php">Add Procedure</a>
+</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -66,7 +69,7 @@ $totalRows_procedure = mysql_num_rows($procedure);
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="user_form" action="ViewProcedure.php" method="post">
+<form id="procedure_form" action="ViewProcedure.php" method="post">
 <input id="procedureId_user" name="procedureId" value="" type="hidden" />
 </form>
 

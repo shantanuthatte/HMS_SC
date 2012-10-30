@@ -12,7 +12,7 @@ elseif($_GET['Mode']=="update")
 }
 else
 {
-	header('Location:ViewFamilyHistory.php');
+	header('Location:ViewMedicalHistory.php');
 }
 unset($_SESSION['data']);
 
@@ -48,7 +48,7 @@ $totalRows_ailment = mysql_num_rows($ailment);
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Add Family History</title>
+<title>Add Medical History</title>
 <script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
 <link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 </head>
@@ -60,16 +60,16 @@ $totalRows_ailment = mysql_num_rows($ailment);
 <!-- start content -->
 <div id="content">
 
-<form action="cntrl_FamilyHistory.php" method="post" name="form1" id="form1">
-  <div id="page-heading"><h1>Add Family History</h1></div>
+<form action="cntrl_MedicalHistory.php" method="post" name="form1" id="form1">
+  <div id="page-heading"><h1>Add Medical History</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
-	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
 	<td id="tbl-border-top">&nbsp;</td>
 	<th class="topright"></th>
-	<th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 </tr>
 <tr>
 	<td id="tbl-border-left"></td>
@@ -89,23 +89,12 @@ do {
         <?php
 } while ($row_patient = mysql_fetch_assoc($patient));
 ?>
-<?php if($formAction == "update") echo $data['patientId']; ?>
       </select>
       
       </td>
    		</tr>
+        
         <tr>
-      <th>Family Realtion:</th>
-      <td><select name="familyRelation" class="styledselect_form_1">
-			<option value="Father" <?php if($formAction == "update" && $data['familyRelation'] == "Father") echo "SELECTED"; ?>>Father</option>
-			<option value="Mother" <?php if($formAction == "update" && $data['familyRelation'] == "Mother") echo "SELECTED"; ?>>Mother</option>
-			<option value="Grandfather" <?php if($formAction == "update" && $data['familyRelation'] == "Grandfather") echo "SELECTED"; ?>>Grandfather</option>
-			<option value="Grandmother" <?php if($formAction == "update" && $data['familyRelation'] == "Grandmother") echo "SELECTED"; ?>>Grandmother</option>
-            <option value="Brother" <?php if($formAction == "update" && $data['familyRelation'] == "Brother") echo "SELECTED"; ?>>Brother</option>
-            <option value="Sister" <?php if($formAction == "update" && $data['familyRelation'] == "Sister") echo "SELECTED"; ?>>Sister</option>
-			</select>
-</td>
- <tr>
       <th>Ailment:</th>
       
        <td><select name="ailmentId" class="styledselect_form_1">
@@ -162,7 +151,7 @@ do {
 </tr>
 </table>
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
-  <input type="hidden" name="familyHisId" value="<?php if($formAction == "update") echo $data['familyHisId']; ?>" />
+  <input type="hidden" name="medicalHisId" value="<?php if($formAction == "update") echo $data['medicalHisId']; ?>" />
 </form>
 <p>&nbsp;</p>
 <script type="text/javascript">

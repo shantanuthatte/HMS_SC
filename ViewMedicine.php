@@ -36,10 +36,13 @@ $totalRows_medicine = mysql_num_rows($medicine);
 <div id="content">
 
 
-<div id="page-heading"><h1>View Medicine</h1></div>
+<div id="page-heading"><h1>Medicine</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+<a href="AddMedicine.php">Add Medicine</a>
+</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -84,6 +87,7 @@ $totalRows_medicine = mysql_num_rows($medicine);
     <th class="table-header-repeat line-left"><a href="">Over60</a></th>
     <th class="table-header-repeat line-left"><a href="">ClassId</a></th>
     <th class="table-header-repeat line-left"><a href="">Comments</a></th>
+    <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
   $even=1;
@@ -99,8 +103,6 @@ $totalRows_medicine = mysql_num_rows($medicine);
 		$even=1;
 	}
     ?>
-     
-      <td><?php echo $row_medicine['medicineId']; ?></td>
       <td><?php echo $row_medicine['medicineNm']; ?></td>
       <td><?php echo $row_medicine['indications']; ?></td>
       <td><?php echo $row_medicine['contraIndications']; ?></td>

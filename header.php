@@ -267,14 +267,7 @@ echo <<<'EOT'
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
 		<div class="select_sub">
 			<ul class="sub">
-				<li><a href="AddPerson.php">Add Person</a></li>
-				<li><a href="AddUser.php">Add User</a></li>
-                <li><a href="AddAilment.php">Add Ailment</a></li>
-                <li><a href="AddFrequency.php">Add Frequency</a></li>
-				<li><a href="ViewPerson.php">View Person</a></li>
-                <li><a href="ViewUsers.php">View User</a></li>
-                <li><a href="ViewAilment.php">View Ailment</a></li>
-                <li><a href="ViewFrequency.php">View Frequency</a></li>
+				<li><a href="ViewPerson.php">Persons</a></li>                
 			</ul>
 		</div>
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
@@ -286,11 +279,15 @@ echo <<<'EOT'
 		<ul class="select"><li><a href="#nogo"><b>Masters</b><!--[if IE 7]><!--></a><!--<![endif]-->
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
 		<div class="select_sub show">
-			<ul class="sub">
-				<li><a href="AddMedicine.php">Add Medicine</a></li>
-				<li class="sub_show"><a href="AddAilment.php">Add Ailment</a></li>
-				<li><a href="AddSurgery.php">Add Surgery</a></li>
-                <li><a href="AddClinicalTest.php">Add Test</a></li>
+			<ul class="sub">                               
+                <li><a href="ViewMedicineClass.php">Medicine Class</a></li>
+                <li><a href="ViewMedicine.php">Medicine</a></li>    
+                <li><a href="ViewProcedure.php">Procedure</a></li> 
+                <li><a href="ViewAilment.php">Ailment</a></li>
+                <li><a href="ViewFrequency.php">Frequency</a></li>     
+                <li><a href="ViewInvestigationGr.php">Investigation Group</a></li>
+                <li><a href="ViewInvestigationCl.php">Investigation Class</a></li>     
+                <li><a href="ViewInvestigationMst.php">Investigation</a></li>                
 			</ul>
 		</div>
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
@@ -303,11 +300,9 @@ echo <<<'EOT'
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
 		<div class="select_sub">
 			<ul class="sub">
-				<li><a href="#nogo">Medical History</a></li>
-				<li><a href="AddFamilyHistory.php">Family History</a></li>
-				<li><a href="#nogo">Prescription</a></li>
-                <li><a href="#nogo">Test Details</a></li>
-                <li><a href="#nogo">Surgery</a></li>
+				<li><a href="ViewMedicalHistory.php">Medical History</a></li>
+				<li><a href="ViewFamilyHistory.php">Family History</a></li>
+                <li><a href="ViewPatientallergy.php">Allergy</a></li>				
 			</ul>
 		</div>
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->

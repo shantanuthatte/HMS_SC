@@ -36,10 +36,13 @@ $totalRows_invstmst = mysql_num_rows($invstmst);
 <div id="content">
 
 
-<div id="page-heading"><h1>View Investigation Master</h1></div>
+<div id="page-heading"><h1>Investigation Master</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+<a href="AddInvestigationMst.php">Add Investigation</a>
+</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>

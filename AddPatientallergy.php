@@ -30,8 +30,8 @@ $totalRows_patient = mysql_num_rows($patient);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Add Patient Allergy</title>
-<script src="file:///C|/Documents and Settings/sharad03/Desktop/SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
-<link href="file:///C|/Documents and Settings/sharad03/Desktop/SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
+<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 </head>
 <body> 
 <div class="clear"></div>
@@ -41,7 +41,7 @@ $totalRows_patient = mysql_num_rows($patient);
 <!-- start content -->
 <div id="content">
 
-<form action="file:///C|/Documents and Settings/sharad03/Desktop/cntrl_Patientallergy.php" method="post" name="form1" id="form1">
+<form action="cntrl_Patientallergy.php" method="post" name="form1" id="form1">
   <div id="page-heading"><h1>Patient Allergy Details</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
@@ -78,10 +78,10 @@ do {
         <tr>
       <th>Allergy Type:</th>
       <td><select name="type" class="styledselect_form_1">
-			<option value="D" <?php if($formAction == "update" && $data['type'] == "M") echo "SELECTED"; ?>>Drug</option>
+			<option value="D" <?php if($formAction == "update" && $data['type'] == "D") echo "SELECTED"; ?>>Drug</option>
 			<option value="F" <?php if($formAction == "update" && $data['type'] == "F") echo "SELECTED"; ?>>Food</option>
-			<option value="T" <?php if($formAction == "update" && $data['type'] == "C") echo "SELECTED"; ?>>Drug Text</option>
-			<option value="O" <?php if($formAction == "update" && $data['type'] == "B") echo "SELECTED"; ?>>Other</option>
+			<option value="T" <?php if($formAction == "update" && $data['type'] == "T") echo "SELECTED"; ?>>Drug Text</option>
+			<option value="O" <?php if($formAction == "update" && $data['type'] == "O") echo "SELECTED"; ?>>Other</option>
 			</select>
 </td>
     <tr>

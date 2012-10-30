@@ -18,7 +18,10 @@ if(!isset($_GET['rows'])){
 	$rows = $_GET['rows'];
 }
 
+mysql_select_db($database_HMS, $HMS);
 $total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM person"),0);
+
+
 
 // Getting the total number of pages. Always round up using ceil() 
 $total_pages = ceil($total_rows / $rows);
@@ -70,10 +73,13 @@ echo '<script type="text/javascript">
 <!-- start content -->
 <div id="content">
 
-<div id="page-heading"><h1>View Person</h1></div>
+<div id="page-heading"><h1>Persons</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
+<tr>
+<a href="AddPerson.php">Add Person</a>
+</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -136,7 +142,7 @@ echo '<script type="text/javascript">
       <td><?php echo $row_personRS['fName']; ?></td>
       <td><?php echo $row_personRS['mName']; ?></td>
       <td><?php echo $row_personRS['lName']; ?></td>
-      <td><?php echo $row_personRS['address']; ?></td>
+      <td><?php echo $row_personRS['address1']; ?></td>
       <td><?php echo $row_personRS['rPhone']; ?></td>
       <td><?php echo $row_personRS['mobile']; ?></td>
       <td><?php echo $row_personRS['gender']; ?></td>

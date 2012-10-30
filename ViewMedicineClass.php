@@ -2,31 +2,33 @@
 <?php
 include 'header.php';
 echo '<script type="text/javascript">
-       function delete_confirm(frequencyId)
+       function delete_confirm(classId)
        {
-           if(confirm("Are you sure you want to delete?")==true)
+           if(confirm("Are you sure you want to delete this medicine class?")==true)
            {
-				document.getElementById("frequencyId_delete").value=frequencyId;
+				document.getElementById("classId_delete").value=classId;
 				document.forms["delete_form"].submit();
 		   }
        }
-	   function update_submit(frequencyId)
-	   {
-		  	document.getElementById("frequencyId_update").value=frequencyId;
+	   
+	   function update_submit(classId)
+	   {		   
+		  	document.getElementById("classId_update").value=classId;
 			document.forms["update_form"].submit();  
 	   }
-	   function display_user(Id)
+	  
+	   function display_medicineclass(Id)
 	   {
-			document.getElementById("frequencyId_user").value=Id;
-			document.forms["user_form"].submit();
+			document.getElementById("classId_display").value=Id;
+			document.forms["display_form"].submit();
 		}
    </script>';  
     
 mysql_select_db($database_HMS, $HMS);
-$query_frequency = "SELECT * FROM frequency";
-$frequency = mysql_query($query_frequency, $HMS) or die(mysql_error());
-$row_frequency = mysql_fetch_assoc($frequency);
-$totalRows_frequency = mysql_num_rows($frequency);
+$query_mediclass = "SELECT * FROM medicineclass";
+$mediclass = mysql_query($query_mediclass, $HMS) or die(mysql_error());
+$row_mediclass = mysql_fetch_assoc($mediclass);
+$totalRows_mediclass = mysql_num_rows($mediclass);
 ?>
 <div class="clear"></div>
  
@@ -36,19 +38,19 @@ $totalRows_frequency = mysql_num_rows($frequency);
 <div id="content">
 
 
-<div id="page-heading"><h1>Frequency</h1></div>
+<div id="page-heading"><h1>Medicine Class</h1></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
-<a href="AddFrequency.php">Add Frequency</a>
+<a href="AddMedicineClass.php">Add Medicine Class</a>
 </tr>
 <tr>
-	<th rowspan="3" class="sized"><img src="file:///C|/Documents and Settings/sharad03/Desktop/images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
 	<td id="tbl-border-top">&nbsp;</td>
 	<th class="topright"></th>
-	<th rowspan="3" class="sized"><img src="file:///C|/Documents and Settings/sharad03/Desktop/images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
 </tr>
 <tr>
 	<td id="tbl-border-left"></td>
@@ -59,23 +61,24 @@ $totalRows_frequency = mysql_num_rows($frequency);
     <!--  start table-content  -->
     <div id="table-content">
 
-<form id="delete_form" action="cntrl_Frequency.php" method="post">
-<input id="frequencyId_delete" name="frequencyId" value="" type="hidden" />
+<form id="delete_form" action="cntrl_MedicineClass.php" method="post">
+<input id="classId_delete" name="classId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="delete" type="hidden" />
 </form>
 
-<form id="update_form" action="cntrl_Frequency.php" method="post">
-<input id="frequencyId_update" name="frequencyId" value="" type="hidden" />
+<form id="update_form" action="cntrl_MedicineClass.php" method="post">
+<input id="classId_update" name="classId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="user_form" action="ViewFrequency.php" method="post">
-<input id="frequencyId_user" name="frequencyId" value="" type="hidden" />
+<form id="display_form" action="ViewMedicineClass.php" method="post">
+<input id="classId_user" name="classId" value="" type="hidden" />
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">Frequency</a></th>
+  <th class="table-header-repeat line-left"><a href="">Class Id</a></th>
+    <th class="table-header-repeat line-left"><a href="">Class Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
     </tr>
   <?php
@@ -92,13 +95,14 @@ $totalRows_frequency = mysql_num_rows($frequency);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_frequency['frequency']; ?></td>
+      <td><?php echo $row_mediclass['classId']; ?></td>
+      <td><?php echo $row_mediclass['className']; ?></td>      
       <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_frequency['frequencyId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_frequency['frequencyId'];?>);" class="icon-2 info-tooltip"></a>
-             </td>
+			<a title="Edit" onclick="update_submit('<?php echo $row_mediclass['classId'];?>')" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm('<?php echo $row_mediclass['classId'];?>');" class="icon-2 info-tooltip"></a>            
+      </td>      
     </tr>
-    <?php } while ($row_frequency = mysql_fetch_assoc($frequency)); ?>
+    <?php } while ($row_mediclass = mysql_fetch_assoc($mediclass)); ?>
 </table>
 
 
@@ -137,5 +141,5 @@ $totalRows_frequency = mysql_num_rows($frequency);
 </body>
 </html>
 <?php
-mysql_free_result($frequency);
+mysql_free_result($mediclass);
 ?>
