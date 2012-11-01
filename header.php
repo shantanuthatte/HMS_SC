@@ -11,11 +11,13 @@ echo <<<'EOT'
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Internet Dreams</title>
+<title>Hospital Management System</title>
 <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen" title="default" />
 <link rel="stylesheet" href="css/navigationbar_styles.css" type="text/css" media="screen" title="default" />
 <link rel="stylesheet" href="css/message_styles.css" type="text/css" media="screen" title="default" />
 <link rel="stylesheet" href="css/selectbox_styles.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="css/pro_dropline_ie.css" type="text/css" media="screen" title="default" />
 <!--[if IE]>
 <link rel="stylesheet" media="all" type="text/css" href="css/pro_dropline_ie.css" />
 <![endif]-->
@@ -35,6 +37,13 @@ $(function(){
 	$('#mainform input[type=checkbox]').checkBox('toggle');
 	return false;
 	});
+});
+</script>  
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-ui-1.9.0.js"></script>
+<script>
+$(function(){
+	$('#tabs').tabs({ active:0 });
 });
 </script>  
 

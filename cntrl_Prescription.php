@@ -1,5 +1,5 @@
 <?php require_once('Connections/HMS.php');
-include('mdl_InvestigationCl.php');
+include('mdl_Prescription.php');
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -32,40 +32,48 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-$invstcl = new InvestigationCl();
+$prescription = new Prescription();
 
 if($_POST['formAction'] == "insert")
 {
-	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
-                       GetSQLValueString($_POST['className'], "text"));
-	if(!$invstcl->insertinvestigationcl())
+	$prescription->setDetails(GetSQLValueString($_POST['visitId'], "text"),
+                       GetSQLValueString($_POST['medicineName'], "text"),
+					   GetSQLValueString($_POST['Dosage'], "text"),
+					   GetSQLValueString($_POST['Instruction'], "text"),
+					   GetSQLValueString($_POST['Duration'], "text"),
+                       GetSQLValueString($_POST['lineId'], "text"));
+	if(!$prescription->insertprescription())
 		die(mysql_error());
 	else
-		header('Location: ViewInvestigationCl.php');
+		header('Location: ViewPrescription.php');
 }
 elseif($_POST['formAction'] == "update")
 {
 	session_start();
-	$data = $invstcl->getDetails($_POST['grId']);
+	$data = $prescription->getDetails($_POST['prescriptionId']);
 	$_SESSION['data'] = $data;
 	//echo "Hello update";
 	//var_dump($_SESSION['data']);
-	header('Location: AddInvestigationCl.php?Mode=update');
+	header('Location: AddPrescription.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {
-	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
-                       GetSQLValueString($_POST['className'], "text"));
-	if(!$invstcl->updateinvestigationcl($_POST['grId']))
+	$prescription->setDetails(GetSQLValueString($_POST['visitId'], "text"),
+                       GetSQLValueString($_POST['medicineName'], "text"),
+					   GetSQLValueString($_POST['Dosage'], "text"),
+					   GetSQLValueString($_POST['Instruction'], "text"),
+					   GetSQLValueString($_POST['Duration'], "text"),
+                       GetSQLValueString($_POST['lineId'], "text"));
+	if(!$prescription->updateprescription($_POST['prescriptionId']))
 		die(mysql_error());
 	else
-		header('Location: ViewInvestigationCl.php');
+		header('Location: ViewPrescription.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$invstcl->deleteinvestigationcl($_POST['grId']))
+	if(!$prescription->deleteprescription($_POST['prescriptionId']))
 		die(mysql_error());
 	else
-		header('Location: ViewInvestigationCl.php');
+		header('Location: ViewPrescription.php');
 }
 ?>

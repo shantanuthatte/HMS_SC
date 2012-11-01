@@ -52,16 +52,7 @@ $person = mysql_query($query_person, $HMS) or die(mysql_error());
 $row_person = mysql_fetch_assoc($person);
 $totalRows_person = mysql_num_rows($person);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Add Surgery</title>
-<script src="SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
-<link href="SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
-</head>
 
-<body>
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -100,8 +91,8 @@ $totalRows_person = mysql_num_rows($person);
         <tr>
 		<th>&nbsp;</th>
 		<td valign="top">
-			<input type="submit" value="" class="form-submit" />
-			<input type="reset" value="" class="form-reset"  />
+			<input type="submit" value="Submit" class="form-submit" />
+			<input type="reset" value="Reset" class="form-reset"  />
 		</td>
 		<td></td>
 	</tr>
@@ -125,10 +116,6 @@ $totalRows_person = mysql_num_rows($person);
   <input type="hidden" name="MM_insert" value="form1" />
 </form>
 <p>&nbsp;</p>
-<script type="text/javascript">
-var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1");
-var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2");
-var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3");
-</script>
+
 </body>
 </html>

@@ -1,6 +1,39 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+// Getting current page number,if not assign page number as 1 
+if(!isset($_GET['page'])){
+    $page = 1;
+} else {
+    $page = $_GET['page'];
+ }
+ 
+// Define the number of rows per page 
+if(!isset($_GET['rows'])){
+	$rows = 10;
+} else {
+	$rows = $_GET['rows'];
+}
+
+mysql_select_db($database_HMS, $HMS);
+$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM investigationmst"),0);
+
+// Getting the total number of pages. Always round up using ceil() 
+$total_pages = ceil($total_rows / $rows);
+
+$prev = $page-1; //previous page
+$next = $page+1; //next page
+
+/* Figure out the limit for the query based
+ on the current page number.*/
+$from = (($page * $rows) - $rows); 
+    
+mysql_select_db($database_HMS, $HMS);
+$query_invstmst = "SELECT * FROM investigationmst LIMIT $from,$rows";
+$invstmst = mysql_query($query_invstmst, $HMS) or die(mysql_error());
+$row_invstmst = mysql_fetch_assoc($invstmst);
+$totalRows_invstmst = mysql_num_rows($invstmst);
+
 echo '<script type="text/javascript">
        function delete_confirm(invstId)
        {
@@ -15,18 +48,13 @@ echo '<script type="text/javascript">
 		  	document.getElementById("invstId_update").value=invstId;
 			document.forms["update_form"].submit();  
 	   }
-	   function display_invst(Id)
-	   {
-			document.getElementById("invstId_user").value=Id;
-			document.forms["invst_form"].submit();
+	   function populate(event) 
+		{
+			var number = this.options[this.selectedIndex].text;
+			var url = "ViewInvestigationMst.php?rows="+number+"&page=1";
+			window.location.href = url;
 		}
-   </script>';  
-    
-mysql_select_db($database_HMS, $HMS);
-$query_invstmst = "SELECT * FROM investigationmst";
-$invstmst = mysql_query($query_invstmst, $HMS) or die(mysql_error());
-$row_invstmst = mysql_fetch_assoc($invstmst);
-$totalRows_invstmst = mysql_num_rows($invstmst);
+   </script>'; 
 ?>
 <div class="clear"></div>
  
@@ -67,10 +95,6 @@ $totalRows_invstmst = mysql_num_rows($invstmst);
 <form id="update_form" action="cntrl_InvestigationMst.php" method="post">
 <input id="invstId_update" name="invstId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
-</form>
-
-<form id="invst_form" action="ViewInvestigationMst.php" method="post">
-<input id="invstId_user" name="invstId" value="" type="hidden" />
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
@@ -123,7 +147,31 @@ $totalRows_invstmst = mysql_num_rows($invstmst);
 
 
 	</div>
-<!-- end table content -->    
+<!-- end table content -->  
+
+<!--  start paging..................................................... -->
+
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+			<tr>
+            <td>Rows  </td>
+			<td>
+			<select name="rows" id="rows" onchange="populate.call(this, event)">
+				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
+				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
+				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
+			</select>
+            
+			</td>
+			<td>
+				<a href="ViewInvestigationMst.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
+				<a href="ViewInvestigationMst.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
+				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
+				<a href="ViewInvestigationMst.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
+				<a href="ViewInvestigationMst.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
+			</td>
+			</tr>
+			</table>
+<!--  end paging................ -->  
     </div>
 <!--  end content-table-inner  -->
 </td>
@@ -146,9 +194,8 @@ $totalRows_invstmst = mysql_num_rows($invstmst);
 <!-- start footer -->         
 <div id="footer">
 	<!--  start footer-left -->
-	<div id="footer-left">
-	
-	Admin Skin &copy; Copyright Internet Dreams Ltd. <span id="spanYear"></span> <a href="">www.netdreams.co.uk</a>. All rights reserved.</div>
+	<div id="footer-left">	
+	Medical Soft &copy; Copyright Sharad Consultants <span id="spanYear"></span> <a href="">www.sharadconsultants.com</a>. All rights reserved.</div>
 	<!--  end footer-left -->
 	<div class="clear">&nbsp;</div>
 </div>

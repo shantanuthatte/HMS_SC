@@ -1,5 +1,5 @@
 <?php require_once('Connections/HMS.php');
-include('mdl_InvestigationCl.php');
+include('mdl_Visit.php');
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -32,40 +32,48 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   return $theValue;
 }
 
-$invstcl = new InvestigationCl();
+$visit = new Visit();
 
 if($_POST['formAction'] == "insert")
 {
-	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
-                       GetSQLValueString($_POST['className'], "text"));
-	if(!$invstcl->insertinvestigationcl())
+	$visit->setDetails(GetSQLValueString($_POST['patientId'], "text"),
+	                   GetSQLValueString($_POST['registrationId'], "text"),
+					   GetSQLValueString($_POST['consultingDoctorId'], "text"),
+                       GetSQLValueString($_POST['visitNo'], "text"),
+					   GetSQLValueString($_POST['visitDate'], "text"),
+					   GetSQLValueString($_POST['referringDoctorId'], "text"));
+	if(!$visit->insertvisit())
 		die(mysql_error());
 	else
-		header('Location: ViewInvestigationCl.php');
+		header('Location: ViewVisit.php');
 }
 elseif($_POST['formAction'] == "update")
 {
 	session_start();
-	$data = $invstcl->getDetails($_POST['grId']);
+	$data = $visit->getDetails($_POST['visitId']);
 	$_SESSION['data'] = $data;
 	//echo "Hello update";
 	//var_dump($_SESSION['data']);
-	header('Location: AddInvestigationCl.php?Mode=update');
+	header('Location: AddVisit.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {
-	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
-                       GetSQLValueString($_POST['className'], "text"));
-	if(!$invstcl->updateinvestigationcl($_POST['grId']))
+	$visit->setDetails(GetSQLValueString($_POST['patientId'], "text"),
+	                   GetSQLValueString($_POST['registrationId'], "text"),
+					   GetSQLValueString($_POST['consultingDoctorId'], "text"),
+                       GetSQLValueString($_POST['visitNo'], "text"),
+					   GetSQLValueString($_POST['visitDate'], "text"),
+					   GetSQLValueString($_POST['referringDoctorId'], "text"));
+	if(!$visit->updatevisit($_POST['visitId']))
 		die(mysql_error());
 	else
-		header('Location: ViewInvestigationCl.php');
+		header('Location: ViewVisit.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$invstcl->deleteinvestigationcl($_POST['grId']))
+	if(!$visit->deletevisit($_POST['visitId']))
 		die(mysql_error());
 	else
-		header('Location: ViewInvestigationCl.php');
+		header('Location: ViewVisit.php');
 }
 ?>

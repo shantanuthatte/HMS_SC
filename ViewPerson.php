@@ -3,8 +3,6 @@
 include 'header.php';
 
 // Getting current page number,if not assign page number as 1 
-
-
 if(!isset($_GET['page'])){
     $page = 1;
 } else {
@@ -20,8 +18,6 @@ if(!isset($_GET['rows'])){
 
 mysql_select_db($database_HMS, $HMS);
 $total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM person"),0);
-
-
 
 // Getting the total number of pages. Always round up using ceil() 
 $total_pages = ceil($total_rows / $rows);
@@ -111,11 +107,8 @@ echo '<script type="text/javascript">
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
-  <tr>
-    <th class="table-header-repeat line-left"><a href="">Id</a></th>
-    <th class="table-header-repeat line-left"><a href="">First</a></th>
-    <th class="table-header-repeat line-left"><a href="">Middle</a></th>
-    <th class="table-header-repeat line-left"><a href="">Last</a></th>
+  <tr>    
+    <th class="table-header-repeat line-left"><a href="">Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Address</a></th>
     <th class="table-header-repeat line-left"><a href="">Phone</a></th>
     <th class="table-header-repeat line-left"><a href="">Mobile</a></th>
@@ -137,11 +130,8 @@ echo '<script type="text/javascript">
 		echo '<tr class="alternate-row">';
 		$even=1;
 	}
-    ?>
-      <td><?php echo $row_personRS['personId']; ?></td>
-      <td><?php echo $row_personRS['fName']; ?></td>
-      <td><?php echo $row_personRS['mName']; ?></td>
-      <td><?php echo $row_personRS['lName']; ?></td>
+    ?>      
+      <td><?php echo $row_personRS['fName']; ?> &nbsp; <?php echo $row_personRS['mName']; ?> &nbsp;<?php echo $row_personRS['lName']; ?></td>
       <td><?php echo $row_personRS['address1']; ?></td>
       <td><?php echo $row_personRS['rPhone']; ?></td>
       <td><?php echo $row_personRS['mobile']; ?></td>
@@ -208,9 +198,8 @@ echo '<script type="text/javascript">
 <!-- start footer -->         
 <div id="footer">
 	<!--  start footer-left -->
-	<div id="footer-left">
-	
-	Admin Skin &copy; Copyright Internet Dreams Ltd. <span id="spanYear"></span> <a href="">www.netdreams.co.uk</a>. All rights reserved.</div>
+	<div id="footer-left">	
+	Medical Soft &copy; Copyright Sharad Consultants <span id="spanYear"></span> <a href="">www.sharadconsultants.com</a>. All rights reserved.</div>
 	<!--  end footer-left -->
 	<div class="clear">&nbsp;</div>
 </div>

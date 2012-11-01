@@ -12,9 +12,15 @@ elseif($_GET['Mode']=="update")
 }
 else
 {
-	header('Location:ViewAilment.php');
+	header('Location:ViewInvestigationCl.php');
 }
 unset($_SESSION['data']);
+
+mysql_select_db($database_HMS, $HMS);
+$query_invstgr = "SELECT * FROM investigationgr";
+$invstgr = mysql_query($query_invstgr, $HMS) or die(mysql_error());
+$row_invstgr = mysql_fetch_assoc($invstgr);
+$totalRows_invstgr = mysql_num_rows($invstgr);
 ?>
 
 <div class="clear"></div>
@@ -24,8 +30,8 @@ unset($_SESSION['data']);
 <!-- start content -->
 <div id="content">
 
-<form action="cntrl_Ailment.php" method="post" name="form1" id="form1">
-  <div id="page-heading"><h1>Add Ailment</h1></div>
+<form action="cntrl_InvestigationCl.php" method="post" name="form1" id="form1">
+  <div id="page-heading"><h1>Add Investigation Class</h1></div>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -42,25 +48,28 @@ unset($_SESSION['data']);
 	<div id="content-table-inner">
     <!-- starting table contents -->
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
- 
+ <tr>
+      <th>GroupId:</th>
+      <td><select name="grId" class="styledselect_form_1">
+        <?php 
+do {  
+?>
+
+        <option value="<?php echo $row_invstgr['groupId']?>" <?php if (!(strcmp($row_invstgr['groupId'], $row_invstgr['groupId']))) {echo "SELECTED";} ?>><?php echo $row_invstgr['groupName'];?></option>
+        <?php
+} while ($row_invstgr = mysql_fetch_assoc($invstgr));
+?>
+<?php if($formAction == "update") echo $data['groupId']; ?>
+      </select>
+      </td>
+   		</tr>
     <tr>
-      <th>Ailment Name:</th>
+      <th>Class Name:</th>
       <td>
-      <input type="text" name="ailmentName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['ailmentName']; ?>"/>
+      <input type="text" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
       </td>
    		</tr>
         <tr>
-      <th>Symptoms:</th>
-      <td><input type="text" name="symptoms" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['symptoms']; ?>" /></td>
-   		</tr>
-        <tr>
-      <th>Comments:</th>
-      <td><input type="text" name="comments" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['comments']; ?>" /></td>
-    </tr>
-    
-  
-
-<tr>
 		<th>&nbsp;</th>
 		<td valign="top">
 			<input type="submit" value="Submit" class="form-submit" />
@@ -84,7 +93,7 @@ unset($_SESSION['data']);
 </tr>
 </table>
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
-  <input type="hidden" name="ailmentId" value="<?php if($formAction == "update") echo $data['ailmentId']; ?>" />
+  <input type="hidden" name="grId" value="<?php if($formAction == "update") echo $data['grId']; ?>" />
 </form>
 <p>&nbsp;</p>
 

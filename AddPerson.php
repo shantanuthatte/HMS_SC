@@ -132,7 +132,7 @@ unset($_SESSION['data']);
     <div id="tabs-1">
         <div id="content-table-inner">
     
-    <table border="0" cellpadding="10" cellspacing="10"  id="id-form">
+    <table border="0" cellpadding="10" cellspacing="10" id="id-form">
     <tr>
       <th>First Name*:</th>
       <td>
