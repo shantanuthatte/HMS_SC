@@ -43,9 +43,18 @@ class Visit
 	public function insertvisit()
 	{
 		include("Connections/HMS.php");
-		$insertSQL = "INSERT INTO visit(patientId, registrationId, consultingDoctorId, visitNo, visitDate, referringDoctorId ) VALUES ($this->patientId,$this->registrationId,$this->consultingDoctorId,$this->visitNo,$this->visitDate,$this->referringDoctorId);";
+		$visitUid = md5(uniqid().time());
+		$visitId;		
+		$insertSQL = "INSERT INTO visit(patientId, registrationId, consultingDoctorId, visitNo, visitDate, referringDoctorId,visitUniqueId ) VALUES ($this->patientId,$this->registrationId,$this->consultingDoctorId,$this->visitNo,$this->visitDate,$this->referringDoctorId, $visitUid)";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
+		$query = "SELECT * FROM visit WHERE visitUniqueId LIKE '$visitUid'";
+  		$res = mysql_query($query, $HMS);
+  		if($res != NULL)
+  		{
+  			$row_res = mysql_fetch_assoc($res);
+  			$visitId = $row_res['visitId'];
+		}
 		return true;
 	}
 	
