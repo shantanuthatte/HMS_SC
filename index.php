@@ -4,28 +4,28 @@
 	//if(isset($_POST["username"]))
 	if($_SERVER["REQUEST_METHOD"] == "POST")
 	{		
-		$username=($_POST['username']); 
-		$password=($_POST['password']);		
+		$username=addslashes($_POST['username']); 
+		$password=addslashes($_POST['password']); 
+		
 		if(isset($username) && isset($password) )
 		{
 			mysql_select_db($database_HMS, $HMS);
 			$query = "SELECT * FROM users WHERE userName = '$username' and password='".md5($password)."'";
 			$result = mysql_query($query, $HMS) or die(mysql_error());
-			$row_result = mysql_fetch_assoc($result);
 			$totalRows = mysql_num_rows($result);			
 			if($totalRows == 1)
 			{										
 				session_start();
-				$_SESSION['userId']= $row_result['userId'];
-				$_SESSION['userName']= $row_result['userName'];
-				$_SESSION['type']= $row_result['type'];
-				$_SESSION['permission']= $row_result['permission'];
-				mysql_free_result($row_result);
+				$_SESSION['userId']= $result['userId'];
+				$_SESSION['userName']= $_POST['username'];
+				$_SESSION['type']= $result['type'];
+				$_SESSION['permission']= $result['permission'];
+				mysql_free_result($result);
+				//header("Refresh:1; URL=firstpage.php");
 				header("location: Welcome.php");
 			}
 		}
 	}
-	else{
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -170,4 +170,3 @@ constant throughout his / her life and across all healthcare organizations.
 <div 
 </body>
 </html>
-<?php } ?>
