@@ -54,6 +54,11 @@ echo '<script type="text/javascript">
 			document.getElementById("personId_user").value=Id;
 			document.forms["user_form"].submit();
 		}
+		function display_visit(Id)
+	   	{
+			document.getElementById("personId_visit").value=Id;
+			document.forms["visit_form"].submit();
+		}
         function populate(event) 
 		{
 			var number = this.options[this.selectedIndex].text;
@@ -70,12 +75,10 @@ echo '<script type="text/javascript">
 <div id="content">
 
 <div id="page-heading"><h1>Persons</h1></div>
-
+<div style="float:right; margin-right:50px;"><a href="AddPerson.php"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a href="AddPerson.php"><h3>  Add New</h3></a></div>
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
-<tr>
-<a href="AddPerson.php">Add Person</a>
-</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -104,6 +107,10 @@ echo '<script type="text/javascript">
 
 <form id="user_form" action="ViewUsers.php" method="post">
 <input id="personId_user" name="personId" value="" type="hidden" />
+</form>
+
+<form id="visit_form" action="ViewVisits.php" method="post">
+<input id="personId_visit" name="personId" value="" type="hidden" />
 </form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
@@ -141,7 +148,8 @@ echo '<script type="text/javascript">
       <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_personRS['personId'];?>);" class="icon-2 info-tooltip"></a>
-            <a title="View Login Details" onclick="display_user(<?php echo $row_personRS['personId'];?>);" class="icon-3 info-tooltip"></a>
+            <a title="View Login Details" onclick="display_user(<?php echo $row_personRS['personId'];?>);" class="icon-6 info-tooltip"></a>
+            <a title="View Visits" onclick="display_visit(<?php echo $row_personRS['personId'];?>);" class="icon-7 info-tooltip"></a>
       </td>
     </tr>
     <?php } while ($row_personRS = mysql_fetch_assoc($personRS)); ?>
