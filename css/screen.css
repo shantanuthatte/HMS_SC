@@ -140,7 +140,6 @@ height:15px;
 
 #page-heading	{
 	margin: 0 0 15px 20px;
-	float:left;
 	}
   h1	{
 	color: #4b4b4b;
@@ -217,33 +216,10 @@ a.icon-5	{
 	display: block;
 	float: left;
 	height: 24px;
-	margin: 0 8px 0 0;
 	width: 24px;
 	}
 a:hover.icon-5	{
 	background: url(../images/table/table_icon_5.gif) 0 -24px;
-	}
-a.icon-6	{
-	background: url(../images/table/table_icon_6.gif) no-repeat;
-	display: block;
-	float: left;
-	height: 24px;
-	margin: 0 8px 0 0;
-	width: 24px;
-	}
-a:hover.icon-6	{
-	background: url(../images/table/table_icon_6.gif) 0 -24px;
-	}
-a.icon-7	{
-	background: url(../images/table/table_icon_7.gif) no-repeat;
-	display: block;
-	float: left;
-	height: 24px;
-	margin: 0 8px 0 0;
-	width: 24px;
-	}
-a:hover.icon-7	{
-	background: url(../images/table/table_icon_7.gif) 0 -24px;
 	}
 #tooltip	{
 	background-color: #8c8c8c;
@@ -566,13 +542,12 @@ a:hover.action-delete	{
 	}
 	
 .inp-form-error	{
-	border: solid thin;
-	border-radius:5px;
-	border-color:#F00;
+	background: url(../images/forms/form_inp_error.gif) no-repeat;
+	border: none; 
 	color: #393939;
 	height: 25px;
 	padding: 6px 6px 0 6px;
-	width: 186px;
+	width: 187px;
 	}
 	
 .form-textarea	{
@@ -751,6 +726,7 @@ font-family: 'Dosis', sans-serif;
 	
 /* FOOTER -------------------------------------------------------------- */
 
+ 
 #footer	{
 height: 70px;
 	 
