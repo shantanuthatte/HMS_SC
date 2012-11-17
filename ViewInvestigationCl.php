@@ -29,10 +29,11 @@ $next = $page+1; //next page
 $from = (($page * $rows) - $rows); 
     
 mysql_select_db($database_HMS, $HMS);
-$query_invstcl = "SELECT * FROM investigationcl LIMIT $from,$rows";
+$query_invstcl = "SELECT GR.groupName, CL.grId, CL.classId, CL.className FROM investigationgr GR INNER JOIN investigationcl CL ON GR.groupId=CL.grId LIMIT $from,$rows";
 $invstcl = mysql_query($query_invstcl, $HMS) or die(mysql_error());
 $row_invstcl = mysql_fetch_assoc($invstcl);
 $totalRows_invstcl = mysql_num_rows($invstcl);
+
 
 echo '<script type="text/javascript">
        function delete_confirm(grId)
@@ -72,12 +73,11 @@ echo '<script type="text/javascript">
 
 
 <div id="page-heading"><h1>Investigation Class</h1></div>
+<div style="float:right; margin-right:50px;"><a href="AddInvestigationCl.php"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a href="AddInvestigationCL.php"><h3>  Add New</h3></a></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
-<tr>
-<a href="AddInvestigationCl.php">Add Investigation Class</a>
-</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -106,8 +106,7 @@ echo '<script type="text/javascript">
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">Group Id</a></th>
-    <th class="table-header-repeat line-left"><a href="">Class Id</a></th>
+    <th class="table-header-repeat line-left"><a href="">Group Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Class Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
     </tr>
@@ -125,9 +124,8 @@ echo '<script type="text/javascript">
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_invstcl['grId']; ?></td>
-      <td><?php echo $row_invstcl['classId']; ?></td>
-      <td><?php echo $row_invstcl['className']; ?></td>      
+      <td><?php echo $row_invstcl['groupName']; ?></td>
+      <td><?php echo $row_invstcl['className']; ?></td>
       <td class="options-width">
 			<a title="Edit" onclick="update_submit('<?php echo $row_invstcl['grId'];?>')" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm('<?php echo $row_invstcl['grId'];?>');" class="icon-2 info-tooltip"></a>            

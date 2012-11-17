@@ -57,7 +57,7 @@ echo '<script type="text/javascript">
 		function display_visit(Id)
 	   	{
 			document.getElementById("personId_visit").value=Id;
-			document.forms["visit_form"].submit();
+			document.forms["visit_form"].submit();			
 		}
         function populate(event) 
 		{

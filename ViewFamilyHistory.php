@@ -1,6 +1,42 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+// Getting current page number,if not assign page number as 1 
+if(!isset($_GET['page'])){
+    $page = 1;
+} else {
+    $page = $_GET['page'];
+ }
+ 
+// Define the number of rows per page 
+if(!isset($_GET['rows'])){
+	$rows = 10;
+} else {
+	$rows = $_GET['rows'];
+}
+
+mysql_select_db($database_HMS, $HMS);
+$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM familyhistory"),0);
+
+// Getting the total number of pages. Always round up using ceil() 
+$total_pages = ceil($total_rows / $rows);
+
+$prev = $page-1; //previous page
+$next = $page+1; //next page
+
+/* Figure out the limit for the query based
+ on the current page number.*/
+$from = (($page * $rows) - $rows);
+
+mysql_select_db($database_HMS, $HMS);
+$query_familyHisId = "SELECT us.userName , al.ailmentName, fh.familyRelation, fh.diagnosisDate, fh.symptoms , fh.familyHisId
+FROM familyhistory fh
+INNER JOIN ailment al ON al.ailmentId=fh.ailmentId
+INNER JOIN users us ON us.userId=fh.patientId LIMIT $from,$rows";
+$familyHisId = mysql_query($query_familyHisId, $HMS) or die(mysql_error());
+$row_familyHisId = mysql_fetch_assoc($familyHisId);
+$totalRows_familyHisId = mysql_num_rows($familyHisId);
+
 echo '<script type="text/javascript">
        function delete_confirm(familyHisId)
        {
@@ -20,13 +56,14 @@ echo '<script type="text/javascript">
 			document.getElementById("familyHisId_display").value=Id;
 			document.forms["family_form"].submit();
 		}
+		function populate(event) 
+		{
+			var number = this.options[this.selectedIndex].text;
+			var url = "ViewFamilyHistory.php?rows="+number+"&page=1";
+			window.location.href = url;
+		}
    </script>';  
     
-mysql_select_db($database_HMS, $HMS);
-$query_familyhid = "SELECT * FROM familyhistory";
-$familyhid = mysql_query($query_familyhid, $HMS) or die(mysql_error());
-$row_familyhid = mysql_fetch_assoc($familyhid);
-$totalRows_familyhid = mysql_num_rows($familyhid);
 ?>
 <div class="clear"></div>
  
@@ -37,12 +74,12 @@ $totalRows_familyhid = mysql_num_rows($familyhid);
 
 
 <div id="page-heading"><h1>Family History</h1></div>
+<div style="float:right; margin-right:50px;"><a href="AddFamilyHistory.php"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a href="AddFamilyHistory.php"><h3>  Add New</h3></a></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
-<tr>
-<a href="AddFamilyHistory.php">Add Family History</a>
-</tr>
+
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -69,18 +106,14 @@ $totalRows_familyhid = mysql_num_rows($familyhid);
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="display_form" action="ViewFamilyHistory.php" method="post">
-<input id="familyHisId_user" name="familyHisId" value="" type="hidden" />
-</form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">PatientId</a></th>
+    <th class="table-header-repeat line-left"><a href="">Patient Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Family Relation</a></th>
-    <th class="table-header-repeat line-left"><a href="">AilmentId</a></th>
+    <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Diagnosis Date</a></th>
     <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>
-    <th class="table-header-repeat line-left"><a href="">Comments</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
@@ -97,20 +130,42 @@ $totalRows_familyhid = mysql_num_rows($familyhid);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_familyhid['patientId']; ?></td>
-      <td><?php echo $row_familyhid['familyRelation']; ?></td>
-      <td><?php echo $row_familyhid['ailmentId']; ?></td>
-      <td><?php echo $row_familyhid['diagnosisDate']; ?></td>
-      <td><?php echo $row_familyhid['symptoms']; ?></td>
-      <td><?php echo $row_familyhid['comments']; ?></td>
-      <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_familyhid['familyHisId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_familyhid['familyHisId'];?>);" class="icon-2 info-tooltip"></a>
+      <td><?php echo $row_familyHisId['userName']; ?></td>
+      <td><?php echo $row_familyHisId['familyRelation']; ?></td>
+      <td><?php echo $row_familyHisId['ailmentName']; ?></td>
+      <td><?php echo $row_familyHisId['diagnosisDate']; ?></td>
+      <td><?php echo $row_familyHisId['symptoms']; ?></td>
+     <td class="options-width">
+			<a title="Edit" onclick="update_submit(<?php echo $row_familyHisId['familyHisId'];?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm(<?php echo $row_familyHisId['familyHisId'];?>);" class="icon-2 info-tooltip"></a>
             
       </td>
     </tr>
-    <?php } while ($row_familyhid = mysql_fetch_assoc($familyhid)); ?>
+    <?php } while ($row_familyHisId = mysql_fetch_assoc($familyHisId)); ?>
 </table>
+<!--  start paging..................................................... -->
+
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+			<tr>
+            <td>Rows  </td>
+			<td>
+			<select name="rows" id="rows" onchange="populate.call(this, event)">
+				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
+				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
+				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
+			</select>
+            
+			</td>
+			<td>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
+				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
+			</td>
+			</tr>
+			</table>
+<!--  end paging................ -->
 
 
 	</div>
@@ -147,5 +202,5 @@ $totalRows_familyhid = mysql_num_rows($familyhid);
 </body>
 </html>
 <?php
-mysql_free_result($familyhid);
+mysql_free_result($familyHisId);
 ?>

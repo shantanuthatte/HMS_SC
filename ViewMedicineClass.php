@@ -67,12 +67,11 @@ echo '<script type="text/javascript">
 
 
 <div id="page-heading"><h1>Medicine Class</h1></div>
+<div style="float:right; margin-right:50px;"><a href="AddMedicineClass.php"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a href="AddMedicineClass.php"><h3>  Add New</h3></a></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
-<tr>
-<a href="AddMedicineClass.php">Add Medicine Class</a>
-</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>

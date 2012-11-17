@@ -1,0 +1,90 @@
+<?php require_once('Connections/HMS.php');
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
+{
+  if (PHP_VERSION < 6) 
+  {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) 
+  {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;    
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ?  $theValue  : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+
+
+mysql_select_db($database_HMS,$HMS);
+$query_BpVisit = "SELECT v.visitId, v.patientId , v.visitDate as vd,ex.bpSys as bp, ex.bpDia
+FROM examination ex, visit v
+WHERE v.visitId = ex.visitId
+AND v.patientId= 6";
+$BpVisit = mysql_query($query_BpVisit, $HMS) or die(mysql_error());
+$row_visit = mysql_fetch_assoc($BpVisit);
+$totalRows_BpVisit = mysql_num_rows($BpVisit);
+?>
+
+<html>
+  <head>
+ 
+  
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+        </script>
+    <script type="text/javascript">
+	
+	
+	
+	
+	
+	
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+	  
+	  
+      function drawChart() {
+		  
+       var data =google.visualization.arrayToDataTable([],[],[]);
+var i=0;
+		  <?php do{?>
+var tDate= <?php if($row_visit['vd']) echo GetSQLValueString($row_visit['vd'],"text"); else echo "error";)?>;
+var tBp=<?php if($row_visit['bp']) echo (GetSQLValueString($row_visit['bp'],"int"); else echo 99; )?>;	  
+var tBp1=<?php if($row_visit['ex.bpDia']) echo (GetSQLValueString($row_visit['ex.bpDia'],"int")); else echo 99;?>;	
+		data[i] =  [tDate,tBp,  tBp1];
+		 
+		  
+		// document.write(tDate + tBp);
+		 i++;
+		  <?php  } while ($row_visit = mysql_fetch_assoc($BpVisit));?>
+		  
+       
+
+        var options = {
+          title: 'Company Performance'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

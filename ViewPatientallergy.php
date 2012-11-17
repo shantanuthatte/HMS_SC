@@ -1,6 +1,42 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+
+// Getting current page number,if not assign page number as 1 
+if(!isset($_GET['page'])){
+    $page = 1;
+} else {
+    $page = $_GET['page'];
+ }
+ 
+// Define the number of rows per page 
+if(!isset($_GET['rows'])){
+	$rows = 10;
+} else {
+	$rows = $_GET['rows'];
+}
+
+mysql_select_db($database_HMS, $HMS);
+$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM patientallergy"),0);
+
+// Getting the total number of pages. Always round up using ceil() 
+$total_pages = ceil($total_rows / $rows);
+
+$prev = $page-1; //previous page
+$next = $page+1; //next page
+
+/* Figure out the limit for the query based
+ on the current page number.*/
+$from = (($page * $rows) - $rows); 
+    
+mysql_select_db($database_HMS, $HMS);
+$query_allergyId = "SELECT us.userName , pa.type , pa.allergy, pa.allergyId
+FROM patientallergy pa
+INNER JOIN users us ON us.userId=pa.patientId LIMIT $from,$rows";
+$allergyId = mysql_query($query_allergyId, $HMS) or die(mysql_error());
+$row_allergyId = mysql_fetch_assoc($allergyId);
+$totalRows_allergyId = mysql_num_rows($allergyId);
+
 echo '<script type="text/javascript">
        function delete_confirm(allergyId)
        {
@@ -20,13 +56,14 @@ echo '<script type="text/javascript">
 			document.getElementById("allergyId_user").value=Id;
 			document.forms["allergy_form"].submit();
 		}
+		function populate(event) 
+		{
+			var number = this.options[this.selectedIndex].text;
+			var url = "ViewPatientAllergy.php?rows="+number+"&page=1";
+			window.location.href = url;
+		}
    </script>';  
     
-mysql_select_db($database_HMS, $HMS);
-$query_allergy = "SELECT * FROM patientallergy";
-$allergy = mysql_query($query_allergy, $HMS) or die(mysql_error());
-$row_allergy = mysql_fetch_assoc($allergy);
-$totalRows_allergy = mysql_num_rows($allergy);
 ?>
 <div class="clear"></div>
  
@@ -37,12 +74,12 @@ $totalRows_allergy = mysql_num_rows($allergy);
 
 
 <div id="page-heading"><h1>Patient Allergy Details</h1></div>
+<div style="float:right; margin-right:50px;"><a href="AddPatientAllergy.php"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a href="AddPatientAllergy.php"><h3>  Add New</h3></a></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
-<tr>
-<a href="AddPatientallergy.php">Add Patient Allergy</a>
-</tr>
+
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -69,16 +106,12 @@ $totalRows_allergy = mysql_num_rows($allergy);
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="allergy_form" action="ViewPatientallergy.php" method="post">
-<input id="allergy_user" name="allergyId" value="" type="hidden" />
-</form>
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">PatientId</a></th>
+    <th class="table-header-repeat line-left"><a href="">Patient Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Type</a></th>
     <th class="table-header-repeat line-left"><a href="">Allergy</a></th>
-    <th class="table-header-repeat line-left"><a href="">Comments</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
     </tr>
   <?php
@@ -95,17 +128,40 @@ $totalRows_allergy = mysql_num_rows($allergy);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_allergy['patientId']; ?></td>
-      <td><?php echo $row_allergy['type']; ?></td>
-      <td><?php echo $row_allergy['allergy']; ?></td>
-      <td><?php echo $row_allergy['comments']; ?></td>
+      <td><?php echo $row_allergyId['userName']; ?></td>
+      <td><?php echo $row_allergyId['type']; ?></td>
+      <td><?php echo $row_allergyId['allergy']; ?></td>
       <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_allergy['allergyId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_allergy['allergyId'];?>);" class="icon-2 info-tooltip"></a>
+			<a title="Edit" onclick="update_submit(<?php echo $row_allergyId['allergyId'];?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm(<?php echo $row_allergyId['allergyId'];?>);" class="icon-2 info-tooltip"></a>
             </td>
     </tr>
-    <?php } while ($row_allergy = mysql_fetch_assoc($allergy)); ?>
+    <?php } while ($row_allergyId = mysql_fetch_assoc($allergyId)); ?>
 </table>
+
+<!--  start paging..................................................... -->
+
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+			<tr>
+            <td>Rows  </td>
+			<td>
+			<select name="rows" id="rows" onchange="populate.call(this, event)">
+				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
+				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
+				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
+			</select>
+            
+			</td>
+			<td>
+				<a href="ViewPatientallergy.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
+				<a href="ViewPatientallergy.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
+				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
+				<a href="ViewPatientallergy.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
+				<a href="ViewPatientallergy.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
+			</td>
+			</tr>
+			</table>
+<!--  end paging................ --> 
 
 
 	</div>
@@ -142,5 +198,5 @@ $totalRows_allergy = mysql_num_rows($allergy);
 </body>
 </html>
 <?php
-mysql_free_result($allergy);
+mysql_free_result($allergyId);
 ?>

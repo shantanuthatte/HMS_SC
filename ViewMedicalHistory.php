@@ -1,6 +1,42 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+// Getting current page number,if not assign page number as 1 
+if(!isset($_GET['page'])){
+    $page = 1;
+} else {
+    $page = $_GET['page'];
+ }
+ 
+// Define the number of rows per page 
+if(!isset($_GET['rows'])){
+	$rows = 10;
+} else {
+	$rows = $_GET['rows'];
+}
+
+mysql_select_db($database_HMS, $HMS);
+$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM medicalhistory"),0);
+
+// Getting the total number of pages. Always round up using ceil() 
+$total_pages = ceil($total_rows / $rows);
+
+$prev = $page-1; //previous page
+$next = $page+1; //next page
+
+/* Figure out the limit for the query based
+ on the current page number.*/
+$from = (($page * $rows) - $rows); 
+    
+mysql_select_db($database_HMS, $HMS);
+$query_medicalHisId = "SELECT us.userName , al.ailmentName, mh.diagnosisDate, mh.symptoms , mh.medicalHisId
+FROM medicalhistory mh
+INNER JOIN ailment al ON al.ailmentId=mh.ailmentId
+INNER JOIN users us ON us.userId=mh.patientId LIMIT $from,$rows";
+$medicalHisId = mysql_query($query_medicalHisId, $HMS) or die(mysql_error());
+$row_medicalHisId = mysql_fetch_assoc($medicalHisId);
+$totalRows_medicalHisId = mysql_num_rows($medicalHisId);
+
 echo '<script type="text/javascript">
        function delete_confirm(medicalHisId)
        {
@@ -20,13 +56,15 @@ echo '<script type="text/javascript">
 			document.getElementById("medicalHisId_display").value=Id;
 			document.forms["medical_form"].submit();
 		}
-   </script>';  
+		function populate(event) 
+		{
+			var number = this.options[this.selectedIndex].text;
+			var url = "ViewMedicalHistory.php?rows="+number+"&page=1";
+			window.location.href = url;
+		}
+     </script>';  
     
-mysql_select_db($database_HMS, $HMS);
-$query_medicalHId = "SELECT * FROM medicalhistory";
-$medicalHId = mysql_query($query_medicalHId, $HMS) or die(mysql_error());
-$row_medicalHId = mysql_fetch_assoc($medicalHId);
-$totalRows_medicalHId = mysql_num_rows($medicalHId);
+
 ?>
 <div class="clear"></div>
  
@@ -36,13 +74,12 @@ $totalRows_medicalHId = mysql_num_rows($medicalHId);
 <div id="content">
 
 
-<div id="page-heading"><h1>Medical History</h1></div>
+<div id="page-heading"><h1>Medical History  </h1></div>
+<div style="float:right; margin-right:50px;"><a href="AddMedicalHistory.php"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a href="AddMedicalHistory.php"><h3>  Add New</h3></a></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
-<tr>
-<a href="AddMedicalHistory.php">Add Medical History</a>
-</tr>
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
@@ -69,17 +106,12 @@ $totalRows_medicalHId = mysql_num_rows($medicalHId);
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="medical_form" action="ViewMedicalHistory.php" method="post">
-<input id="medicalHisId_user" name="medicalHisId" value="" type="hidden" />
-</form>
-
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">PatientId</a></th>
-    <th class="table-header-repeat line-left"><a href="">AilmentId</a></th>
+    <th class="table-header-repeat line-left"><a href="">User Name</a></th>
+    <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
     <th class="table-header-repeat line-left"><a href="">DiagnosisDate</a></th>
     <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>
-    <th class="table-header-repeat line-left"><a href="">Comments</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
@@ -96,22 +128,42 @@ $totalRows_medicalHId = mysql_num_rows($medicalHId);
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_medicalHId['patientId']; ?></td>
-      <td><?php echo $row_medicalHId['ailmentId']; ?></td>
-      <td><?php echo $row_medicalHId['diagnosisDate']; ?></td>
-      <td><?php echo $row_medicalHId['symptoms']; ?></td>
-      <td><?php echo $row_medicalHId['comments']; ?></td>
+      <td><?php echo $row_medicalHisId['userName']; ?></td>
+      <td><?php echo $row_medicalHisId['ailmentName']; ?></td>
+      <td><?php echo $row_medicalHisId['diagnosisDate']; ?></td>
+      <td><?php echo $row_medicalHisId['symptoms']; ?></td>
       <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_medicalHId['medicalHisId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_medicalHId['medicalHisId'];?>);" class="icon-2 info-tooltip"></a>
+			<a title="Edit" onclick="update_submit(<?php echo $row_medicalHisId['medicalHisId'];?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm(<?php echo $row_medicalHisId['medicalHisId'];?>);" class="icon-2 info-tooltip"></a>
             
       </td>
     </tr>
-    <?php } while ($row_medicalHId = mysql_fetch_assoc($medicalHId)); ?>
+    <?php } while ($row_medicalHisId = mysql_fetch_assoc($medicalHisId)); ?>
 </table>
+<!--  start paging..................................................... -->
 
-
-	</div>
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
+			<tr>
+            <td>Rows  </td>
+			<td>
+			<select name="rows" id="rows" onchange="populate.call(this, event)">
+				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
+				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
+				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
+			</select>
+            
+			</td>
+			<td>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
+				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
+				<a href="ViewMedicalHistory.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
+			</td>
+			</tr>
+			</table>
+<!--  end paging................ -->   
+  </div>
 <!-- end table content -->    
     </div>
 <!--  end content-table-inner  -->
@@ -145,5 +197,5 @@ $totalRows_medicalHId = mysql_num_rows($medicalHId);
 </body>
 </html>
 <?php
-mysql_free_result($medicalHId);
+mysql_free_result($medicalHisId);
 ?>
