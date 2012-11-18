@@ -1,5 +1,7 @@
 <?php require_once('Connections/HMS.php');
 include('mdl_Visit.php');
+include('mdl_Examination.php');
+include('mdl_Prescription.php');
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -42,10 +44,48 @@ if($_POST['formAction'] == "insert")
                        GetSQLValueString($_POST['visitNo'], "text"),
 					   GetSQLValueString($_POST['visitDate'], "text"),
 					   GetSQLValueString($_POST['referringDoctorId'], "text"));
-	if(!$visit->insertvisit())
+	$visitId = $visit->insertvisit();
+	if($visitId == NULL)
 		die(mysql_error());
 	else
-		header('Location: ViewVisit.php');
+	{
+		$examination = new Examination();
+		$examination->setDetails(GetSQLValueString($visitId, "text"),
+                       GetSQLValueString($_POST['examination'], "text"),
+					   GetSQLValueString($_POST['habit'], "text"),
+					   GetSQLValueString($_POST['pulse'], "text"),
+					   GetSQLValueString($_POST['bpDia'], "text"),
+					   GetSQLValueString($_POST['bpSys'], "text"),
+					   GetSQLValueString($_POST['RR'], "text"),
+					   GetSQLValueString($_POST['height'], "text"),
+					   GetSQLValueString($_POST['weight'], "text"),
+					   GetSQLValueString($_POST['finalDiagnosis'], "text"),
+					   GetSQLValueString($_POST['patientComplain'], "text"),
+                       GetSQLValueString($_POST['comments'], "text"));
+		if(!$examination->insertexamination())
+			die(mysql_error());
+		
+		$prescription = new Prescription();
+		$count = $_POST['medicineCount'];
+		for($i=1;$i<=$count;$i++)
+		{
+			$medicineName = "medicine-".$i;
+			$dosage = "dosage-".$i;
+			$duration = "duration-".$i;
+			$instruction = "instruction-".$i;
+			if(GetSQLValueString($_POST[$medicineName], "text") != "NULL")
+			{
+				$prescription->setDetails(GetSQLValueString($visitId, "text"),
+                       GetSQLValueString($_POST[$medicineName], "text"),
+					   GetSQLValueString($_POST[$dosage], "text"),
+					   GetSQLValueString($_POST[$instruction], "text"),
+					   GetSQLValueString($_POST[$duration], "text"),
+                       GetSQLValueString($i, "text"));
+				if(!$prescription->insertprescription())
+					die(mysql_error());
+			}
+		}
+	}
 }
 elseif($_POST['formAction'] == "update")
 {
