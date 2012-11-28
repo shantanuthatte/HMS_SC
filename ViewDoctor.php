@@ -17,7 +17,7 @@ if(!isset($_GET['rows'])){
 }
 
 mysql_select_db($database_HMS, $HMS);
-$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM person where type=1"),0);
+$total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM person where type=0"),0);
 
 // Getting the total number of pages. Always round up using ceil() 
 $total_pages = ceil($total_rows / $rows);
@@ -28,9 +28,11 @@ $next = $page+1; //next page
 /* Figure out the limit for the query based
  on the current page number.*/
 $from = (($page * $rows) - $rows);
-   $type=1; 
+
+$type=0;
+    
 mysql_select_db($database_HMS, $HMS);
-$query_personRS = "SELECT * FROM person where type=1 LIMIT $from,$rows";
+$query_personRS = "SELECT * FROM person where type=0 LIMIT $from,$rows";
 $personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
 $row_personRS = mysql_fetch_assoc($personRS);
 $totalRows_personRS = mysql_num_rows($personRS);
@@ -47,12 +49,14 @@ echo '<script type="text/javascript">
 	   	function update_submit(personId)
 	   	{
 		  	document.getElementById("personId_update").value=personId;
-			document.getElementById("type_update").value=1;
+			document.getElementById("type_update").value=0;
 			document.forms["update_form"].submit();  
 	   	}
-		function insert_submit(personId)
+		
+		function insert_submit()
 	   	{
-		  	document.getElementById("type_update").value=1;
+		  	document.getElementById("type_update").value=0;
+			alert(document.getElementById("type_update").value);
 			document.forms["insert_form"].submit();  
 	   	}
 	   	function display_user(Id)
@@ -60,11 +64,7 @@ echo '<script type="text/javascript">
 			document.getElementById("personId_user").value=Id;
 			document.forms["user_form"].submit();
 		}
-		function display_visit(Id)
-	   	{
-			document.getElementById("personId_visit").value=Id;
-			document.forms["visit_form"].submit();			
-		}
+		
         function populate(event) 
 		{
 			var number = this.options[this.selectedIndex].text;
@@ -80,8 +80,9 @@ echo '<script type="text/javascript">
 <!-- start content -->
 <div id="content">
 
-<div id="page-heading"><h1>Persons</h1></div>
-<div style="float:right; margin-right:50px;"><a onclick="insert_submit(<?php echo $row_personRS['personId'];?>)"><img src="images/add.png" /></a></div>
+<div id="page-heading">
+  <h1>Doctors</h1></div>
+<div style="float:right; margin-right:50px;"><a onclick="insert_submit()"><img src="images/add.png" /></a></div>
 <div style="float:right;"><a href="AddPerson.php"><h3>  Add New</h3></a></div>
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
@@ -111,18 +112,18 @@ echo '<script type="text/javascript">
 <input id="type_update" name="type" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
+
 <form id="insert_form" action="AddPerson.php" method="post">
 <input id="type_update" name="type" value="" type="hidden" />
 <input id="formAction" name="formAction" value="" type="hidden" />
 </form>
 
+
 <form id="user_form" action="ViewUsers.php" method="post">
 <input id="personId_user" name="personId" value="" type="hidden" />
 </form>
 
-<form id="visit_form" action="ViewVisits.php" method="post">
-<input id="personId_visit" name="personId" value="" type="hidden" />
-</form>
+
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>    
@@ -160,7 +161,7 @@ echo '<script type="text/javascript">
 			<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_personRS['personId'];?>);" class="icon-2 info-tooltip"></a>
             <a title="View Login Details" onclick="display_user(<?php echo $row_personRS['personId'];?>);" class="icon-6 info-tooltip"></a>
-            <a title="View Visits" onclick="display_visit(<?php echo $row_personRS['personId'];?>);" class="icon-7 info-tooltip"></a>
+            
       </td>
     </tr>
     <?php } while ($row_personRS = mysql_fetch_assoc($personRS)); ?>

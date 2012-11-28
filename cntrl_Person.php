@@ -52,9 +52,14 @@ if($_POST['formAction'] == "insert")
 					   GetSQLValueString($_POST['maritalStatus'], "text"),
 					   GetSQLValueString($_POST['bloodGroup'], "text"),
 					   GetSQLValueString($_POST['occupation'], "text"),
-                       GetSQLValueString($_POST['email'], "text"));
+                       GetSQLValueString($_POST['email'], "text"),
+					   GetSQLValueString($_POST['type'], "int"));
 	if(!$person->insertPerson())
 		die(mysql_error());
+	else if($_POST['type'] == 0)
+	{
+		header('Location: ViewDoctor.php');
+	}
 	else
 		header('Location: ViewPerson.php');
 }
@@ -85,9 +90,15 @@ elseif($_POST['formAction'] == "commit")
 					   GetSQLValueString($_POST['maritalStatus'], "text"),
 					   GetSQLValueString($_POST['bloodGroup'], "text"),
 					   GetSQLValueString($_POST['occupation'], "text"),
-                       GetSQLValueString($_POST['email'], "text"));
+                       GetSQLValueString($_POST['email'], "text"),
+					   GetSQLValueString($_POST['type'], "int"));
 	if(!$person->updatePerson($_POST['personId']))
 		die(mysql_error());
+	
+	else if($_POST['type'] == 0)
+	{
+		header('Location: ViewDoctor.php');
+	}
 	else
 		header('Location: ViewPerson.php');
 }
@@ -95,6 +106,11 @@ elseif($_POST['formAction'] == "delete")
 {
 	if(!$person->deletePerson($_POST['personId']))
 		die(mysql_error());
+	
+	else if($_POST['type'] == 0)
+	{
+		header('Location: ViewDoctor.php');
+	}
 	else
 		header('Location: ViewPerson.php');
 }

@@ -332,8 +332,10 @@ unset($_SESSION['data']);
 		<td valign="top">
 			<input type="submit" id="submit" value="Submit" class="form-submit" />
 			<input type="reset" value="Reset" class="form-reset"  />
+            
 		</td>
 		<td></td>
+        
 	</tr>
   </table>
   
@@ -344,6 +346,7 @@ unset($_SESSION['data']);
 
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
   <input type="hidden" name="personId" value="<?php if($formAction == "update") echo $data['personId']; ?>" />
+  <input type="hidden" name="type" value="<?php if($formAction == "update") echo $data['type']; else echo $_POST['type'] ?>" />
 </form>
 <p>&nbsp;</p>
 </body>

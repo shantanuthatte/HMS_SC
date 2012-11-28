@@ -1,13 +1,13 @@
 <?php
 class Person
 {	
-	private $fName, $mName, $lName, $address, $area, $city, $state, $pin, $rPhone, $mobile, $registrationNo, $gender, $DOB, $maritalStatus, $bloodGroup, $occupation, $email;
+	private $fName, $mName, $lName, $address, $area, $city, $state, $pin, $rPhone, $mobile, $registrationNo, $gender, $DOB, $maritalStatus, $bloodGroup, $occupation, $email, $type;
 	
 	function __construct()
 	{
 	}
 	
-	function setDetails($fName, $mName, $lName, $address, $area, $city, $state, $pin, $rPhone, $mobile, $registrationNo, $gender, $DOB, $maritalStatus, $bloodGroup, $occupation, $email)
+	function setDetails($fName, $mName, $lName, $address, $area, $city, $state, $pin, $rPhone, $mobile, $registrationNo, $gender, $DOB, $maritalStatus, $bloodGroup, $occupation, $email, $type)
 	{
 		$this->fName = $fName;
 		$this->mName = $mName;
@@ -26,6 +26,7 @@ class Person
 		$this->bloodGroup = $bloodGroup;
 		$this->occupation = $occupation;
 		$this->email = $email;
+		$this->type = $type;
 	}
 	
 	public function getDetails($id)
@@ -57,18 +58,20 @@ class Person
 		$this->bloodGroup = $row_personRS['bloodGroup'];
 		$this->occupation = $row_personRS['occupation'];
 		$this->email = $row_personRS['email'];
+		$this->type = $row_personRS['type'];
+		
 		$data = array("personId"=>$id,"fName"=>$this->fName,"mName"=>$this->mName,"lName"=>$this->lName,"address"=>$this->address,
 		"area"=>$this->area,"city"=>$this->city,"state"=>$this->state,"pin"=>$this->pin,"rPhone"=>$this->rPhone,
 		"mobile"=>$this->mobile,"gender"=>$this->gender,"registrationNo"=>$this->registrationNo,
 		"DOB"=>$this->DOB,"maritalStatus"=>$this->maritalStatus,"bloodGroup"=>$this->bloodGroup,"occupation"=>$this->occupation,
-		"email"=>$this->email);
+		"email"=>$this->email,"type"=>$this->type);
 		return $data;
 	}
 	
 	public function insertPerson()
 	{
 		include("Connections/HMS.php");
-		$insertSQL = "INSERT INTO person(fName, mName, lName, address1, address2, city, state, pin, rPhone, mobile, registrationNo, gender, DOB, maritalStatus, bloodGroup, occupation, email) VALUES ($this->fName,$this->mName,$this->lName,$this->address,$this->area,$this->city,$this->state,$this->pin,$this->rPhone,$this->mobile,$this->registrationNo,$this->gender,$this->DOB,$this->maritalStatus,$this->bloodGroup,$this->occupation,$this->email);";
+		$insertSQL = "INSERT INTO person(fName, mName, lName, address1, address2, city, state, pin, rPhone, mobile, registrationNo, gender, DOB, maritalStatus, bloodGroup, occupation, email,type) VALUES ($this->fName,$this->mName,$this->lName,$this->address,$this->area,$this->city,$this->state,$this->pin,$this->rPhone,$this->mobile,$this->registrationNo,$this->gender,$this->DOB,$this->maritalStatus,$this->bloodGroup,$this->occupation,$this->email,$this->type);";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;
