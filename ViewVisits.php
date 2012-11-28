@@ -69,10 +69,14 @@ $row_visits = mysql_fetch_assoc($visits);
 $totalRows_visits = mysql_num_rows($visits);
 
 ?>
+
+
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="/resources/demos/external/jquery.bgiframe-2.1.2.js"></script>
     <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script type="text/javascript">
+
+
 $(document).ready(function(e) {
 	$( "#dialog-form" ).dialog({
             autoOpen: false,
@@ -110,7 +114,40 @@ function show_prescription(id)
 		}
 	});
 }
+
+function show_graph(id) 
+{
+	//alert(id);
+	
+	$.ajax({
+		url: "test3.php",
+		data: "action=graphDetails&patientId="+id,
+		success: function(data) {
+			var response = data;
+			//alert(data);
+			
+           // var textDiv = document.getElementById("dialog-form");
+			$("dialog-form").html("cha.chart_div")
+
+			//textDiv.innerHTML += response;
+			//textDiv.write(data);
+			//alert("done");
+			//$('#dialog-form').html(response);
+			 //response.appendTo("#dialog-form");
+			//alert(id);
+			$( "#dialog-form" ).dialog( "option", "title", "Graph" );
+			$("#dialog-form").dialog("open");
+		}
+	});
+	
+}
+
 </script>
+
+
+
+
+
 
 <style>
  body { font-size: 62.5%; }
@@ -220,6 +257,7 @@ function show_prescription(id)
 			<a title="Delete" onclick="delete_confirm(<?php echo $userId;?>);" class="icon-2 info-tooltip"></a>
 			<a title="Examination" id="pop_examination" onclick="show_examination(<?php echo $row_visits['visitId'];?>)" class="icon-3 info-tooltip"></a>
 			<a title="Prescription" id="pop_prescription" onclick="show_prescription(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
+
       </td>
     </tr>
     <?php } while ($row_visits = mysql_fetch_assoc($visits)); ?>
@@ -250,6 +288,7 @@ function show_prescription(id)
     </td>
     </tr>
 </table>
+
 </div>
 <!-- end table content -->    
     </div>
@@ -273,9 +312,12 @@ function show_prescription(id)
 			<!--  start related-act-inner -->
 			<div id="related-act-inner">
 			
-				<div class="left"><a href=""><img src="images/forms/icon_edit.gif" width="21" height="21" alt="" /></a></div>
+				<div class="left"><a href=""><img src="images/forms/icon_edit.gif" width="21" height="21" alt="" /></a>
+                <a title="Graph" id="pop_graph" onclick="show_graph(<?php echo $userId ?>);" class="icon-3 info-tooltip"></a>
+                </div>
 				<div class="right">
 					<h5 style="font-size:14px; color:#92b22c">Personal Details</h5>
+                    
                     <table cellpadding="5">
                     <tr>
                     <th align="left"> Name:  </th>
