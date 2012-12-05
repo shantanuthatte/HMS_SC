@@ -57,6 +57,9 @@ if(isset($_GET['action']))
 			exit(0);
 		}
 	}
+	
+	
+	
 	else if($_GET['action'] == "familyDetails")
 	{
 		if(isset($_GET['userId']))
@@ -131,22 +134,30 @@ if(isset($_GET['action']))
 			exit(0);
 		}
 	}
-	else if($_GET['action'] == "prescriptionDetails")
+	
+	else if($_GET['action'] == "investigationDetails")
 	{
 		if(isset($_GET['visitId']))
 		{
 			$even = false;
-			$query = "SELECT * FROM prescription WHERE visitId = '".$_GET['visitId']."';";
+			$query = "SELECT  m.invstName as Iname,t.reportDate as iDate,t.results as iresult,t.value as ivalue 
+FROM investigationtrx t,investigationmst m 
+WHERE m.invstId=t.investigationId 
+AND t.visitId='".$_GET['visitId']."';";
 			$rows = mysql_query($query, $HMS) or die(mysql_error());
 			$row = mysql_fetch_assoc($rows);
 			$totalRows = mysql_num_rows($rows);
+			if($totalRows==0)
+			{echo'
+						No Invastigation Done!';}
+			else
+			{
 			echo '<table border="1" cellspacing="50" cellpadding="10" bordercolor="#D6D6D6" class="ui-widget" id="users-contain">
-					<tr>
-					<th class="head">Id</th>
-					<th class="head">Medicine</th>
-					<th class="head">Dosage</th>
-					<th class="head">Duration</th>
-					<th class="head">Instruction</th>
+					<tr>					
+					<th class="head">Investigation Name</th>
+					<th class="head">Report Date</th>
+					<th class="head">Result</th>
+					<th class="head">Value</th>					
 					</tr>';
 			do{
 				if($even == true)
@@ -158,9 +169,45 @@ if(isset($_GET['action']))
 				{
 					echo '<tr>';
 					$even = true;
+				}	
+	echo "<td>".$row['Iname']."</td><td>".$row['iDate']."</td>";
+	echo "<td>".$row['iresult']."</td><td>".$row['ivalue']."</td></tr>";
+
+			}while($row = mysql_fetch_assoc($rows));
+			echo '</table>';
+			}
+			exit(0);
+		}
+	}
+	else if($_GET['action'] == "prescriptionDetails")
+	{
+		if(isset($_GET['visitId']))
+		{
+			$even = false;
+			$query = "SELECT * FROM prescription WHERE visitId = '".$_GET['visitId']."';";
+			$rows = mysql_query($query, $HMS) or die(mysql_error());
+			$row = mysql_fetch_assoc($rows);
+			$totalRows = mysql_num_rows($rows);
+			echo '<table border="1" cellspacing="50" cellpadding="10" bordercolor="#D6D6D6" class="ui-widget" id="users-contain">
+					<tr>					
+					<th class="head">Medicine</th>
+					<th class="head">Dosage</th>
+					<th class="head">Duration</th>					
+					</tr>';
+			do{
+				if($even == true)
+				{
+					echo '<tr class="alt">';
+					$even = false;
 				}
-				echo "<td>".$row['lineId']."</td><td>".$row['medicineName']."</td><td>".$row['dosage']."</td>";
-				echo "<td>".$row['duration']."</td><td>".$row['instruction']."</td></tr>";
+				else
+				{
+					echo '<tr>';
+					$even = true;
+				}				
+				echo "<td>".$row['medicineName']."</td><td>".$row['dosage']."</td>";
+				echo "<td>".$row['duration']."</td></tr>";
+
 			}while($row = mysql_fetch_assoc($rows));
 			echo '</table>';
 			exit(0);
@@ -175,6 +222,8 @@ if(isset($_GET['action']))
 				$from = (($_GET['page']*10)-10);
 			else
 				$from = 0;
+				
+
 			$query = "SELECT invstId, invstName, info FROM investigationmst LIMIT $from, 10;";
 			$rows = mysql_query($query, $HMS) or die(mysql_error());
 			$row = mysql_fetch_assoc($rows);
@@ -236,6 +285,90 @@ if(isset($_GET['action']))
 							//alert( id + name);
 							document.getElementById("investigationId-'.$_GET['num'].'").value=id;
 							document.getElementById("investigationName-'.$_GET['num'].'").value=name;
+							$("#dialog-form").dialog("close");
+						}
+					</script>';
+			exit(0);
+		}
+	}	
+	else if($_GET['action'] == "medicineNames")
+	{
+		if(isset($_GET['page'])&&(isset($_GET['num'])))
+		{
+			$even = false;
+			if(($_GET['page'] > 0) && ($_GET['page'] < 36))
+				$from = (($_GET['page']*10)-10);
+			else
+				$from = 0;
+				
+
+			$query = "SELECT medicineId,medicineNm, indications, pregnancy, breastfeeding, paediatrics, over60 FROM `medicine` ORDER BY medicineNm LIMIT $from, 10;";
+			$rows = mysql_query($query, $HMS) or die(mysql_error());
+			$row = mysql_fetch_assoc($rows);
+			$totalRows = mysql_num_rows($rows);
+			echo '<table border="1" cellspacing="50" cellpadding="10" bordercolor="#D6D6D6" class="ui-widget" id="users-contain">
+					<tr>
+					<th class="head" width="3%">Id</th>
+					<th class="head" width="20%">Name</th>
+					<th class="head" width="37%">indications</th>
+					<th class="head" width="10%">pregnancy</th>
+					<th class="head" width="10%">breastfeeding</th>
+					<th class="head" width="10%">paediatrics</th>
+					<th class="head" width="10%">over60</th>
+					</tr>';
+			do{
+				if($even == true)
+				{
+					echo '<tr class="alt">';
+					$even = false;
+				}
+				else
+				{
+					echo '<tr>';
+					$even = true;
+				}
+				echo '<td><input type="radio" name="medicine" value="'.$row['medicineId'].'"></td>';
+				echo "<td>".$row['medicineNm']."</td><td>".$row['indications']."</td>";
+				echo "<td>".$row['pregnancy']."</td><td>".$row['breastfeeding']."</td>";
+				echo "<td>".$row['paediatrics']."</td><td>".$row['over60']."</td>";
+			}while($row = mysql_fetch_assoc($rows));
+			echo '<input type="text" id="pageNumber" name="pageNumber" hidden="true" value="'.$_GET['page'].'" /></table>';
+			echo '<div style="float:right"><a onclick="prevPage()" class="page-left"></a>
+				<div id="page-info">Page <strong>'.$_GET['page'].'</strong> / 35 </div>
+				<a onclick="nextPage()" class="page-right"></a></div>';
+			echo '<input type="button" id="confirm" onclick="confirm()" value="Submit" style="margin-left:45%" class="form-submit" />';
+			echo '<script type="text/javascript">
+						function nextPage()
+						{
+							$.ajax({
+								url: "AjaxVisit.php",
+								data: "action=medicineNames&page='.($_GET['page']+1).'&num='.$_GET['num'].'",
+								success: function(data) {
+									$("#dialog-form").html(data);
+									$("#dialog-form").dialog( "option", "title", "Investigation Names" );
+									$("#dialog-form").dialog("open");
+								}
+							});
+						}
+						function prevPage()
+						{
+							$.ajax({
+								url: "AjaxVisit.php",
+								data: "action=medicineNames&page='.($_GET['page']-1).'&num='.$_GET['num'].'",
+								success: function(data) {
+									$("#dialog-form").html(data);
+									$("#dialog-form").dialog( "option", "title", "Investigation Names" );
+									$("#dialog-form").dialog("open");
+								}
+							});
+						}
+						function confirm()
+						{
+							var id = $("input[type=\'radio\']:checked").val();
+							var name = $("input[type=\'radio\']:checked").parent().next().html();
+							//alert( id + name);
+							document.getElementById("medicineId-'.$_GET['num'].'").value=id;
+							document.getElementById("medicine-'.$_GET['num'].'").value=name;
 							$("#dialog-form").dialog("close");
 						}
 					</script>';

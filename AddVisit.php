@@ -49,9 +49,9 @@ else if($_POST['formAction'] == "insert")
 	{
 		var count = document.getElementById("medicineCount").value;
 		
-		var row1 = new String('<tr bgcolor="#EEFFDD"><th align="right">Medicine Name:</th><td><input name="medicine-0" type="text" class="inp-form" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Duration:</th><td><input name="duration-0" type="text" class="inp-form" value="" /></td>        <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
+		var row1 = new String('<tr bgcolor="#EEFFDD"><th align="right">Medicine Name:</th><td><input  name="medicine-0" id="medicine-0" type="text" class="inp-form" value="" style="width:85%" onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>  <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Duration:</th><td><input name="duration-0" type="text" class="inp-form" value="" /></td>        <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
 		
-		var row2 = new String('<tr><th align="right">Medicine Name:</th><td><input name="medicine-0" type="text" class="inp-form" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Duration:</th><td><input name="duration-0" type="text" class="inp-form" value="" /></td>        <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
+		var row2 = new String('<tr><th align="right">Medicine Name:</th><td><input id="medicine-0" name="medicine-0" type="text" class="inp-form" value="" style="width:85%" onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Duration:</th><td><input name="duration-0" type="text" class="inp-form" value="" /></td>        <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
 		
 		count++;
 		var content1 = row1.replace(/0/g,count);
@@ -221,6 +221,19 @@ else if($_POST['formAction'] == "insert")
 			success: function(data) {
 				$('#dialog-form').html(data);
 				$( "#dialog-form" ).dialog( "option", "title", "Investigation Names" );
+				$("#dialog-form").dialog("open");
+			}
+		});
+	}
+	
+	function popMedicine(num)
+	{
+		$.ajax({
+			url: "AjaxVisit.php",
+			data: "action=medicineNames&page=1&num="+num,
+			success: function(data) {
+				$('#dialog-form').html(data);
+				$( "#dialog-form" ).dialog( "option", "title", "Medicine Names" );
 				$("#dialog-form").dialog("open");
 			}
 		});
@@ -406,7 +419,8 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input name="medicine-1" type="text" class="inp-form" value="" />
+        <input id="medicine-1" name="medicine-1" type="text" class="inp-form" value=""  onclick="popMedicine(1)" />
+        <input type="text" id="medicineId-1" name="medicineId-1" hidden="true" value="" />        
         </td>
         <th align="right">Dosage:
         </th>
@@ -430,7 +444,8 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input name="medicine-2" type="text" class="inp-form" value="" />
+        <input id="medicine-2" name="medicine-2" type="text" class="inp-form" value="" onclick="popMedicine(2)" />
+        <input type="text" id="medicineId-2" name="medicineId-2" hidden="true" value="" />
         </td>
         <th align="right">Dosage:
         </th>
@@ -454,7 +469,8 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input name="medicine-3" type="text" class="inp-form" value="" />
+        <input id="medicine-3" name="medicine-3" type="text" class="inp-form" value="" onclick="popMedicine(3)" />
+        <input type="text" id="medicineId-3" name="medicineId-3" hidden="true" value="" />
         </td>
         <th align="right">Dosage:
         </th>
