@@ -4,7 +4,6 @@ include 'header.php';
   
 if(!isset($_POST['personId'])) 
 {
-	echo "Error! Unexpected flow of navigation! Redirecting you back to the main page...";
 	header('Location:ViewPerson.php');
 }
 else
@@ -44,7 +43,7 @@ $row_users = mysql_fetch_assoc($users);
 $totalRows_users = mysql_num_rows($users);
 
 $userId = $row_users['userId'];
-
+//var_dump($userId);
 //fetch row count and start calculations
 mysql_select_db($database_HMS, $HMS);
 $total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM visit WHERE patientId ='".$userId."';"),0);
@@ -69,10 +68,13 @@ $row_visits = mysql_fetch_assoc($visits);
 $totalRows_visits = mysql_num_rows($visits);
 
 ?>
+
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="/resources/demos/external/jquery.bgiframe-2.1.2.js"></script>
     <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script type="text/javascript">
+
+
 $(document).ready(function(e) {
 	$( "#dialog-form" ).dialog({
             autoOpen: false,
@@ -104,13 +106,54 @@ function show_prescription(id)
 		url: "AjaxVisit.php",
 		data: "action=prescriptionDetails&visitId="+id,
 		success: function(data) {
-			$('#dialog-form').html(data);
+				$('#dialog-form').html(data);
 			$( "#dialog-form" ).dialog( "option", "title", "Prescription" );
 			$("#dialog-form").dialog("open");
 		}
 	});
 }
+function show_Investigation(id) 
+{
+	$.ajax({
+		url: "AjaxVisit.php",
+		data: "action=investigationDetails&visitId="+id,
+		success: function(data) {
+				$('#dialog-form').html(data);
+			$( "#dialog-form" ).dialog( "option", "title", "Investigation" );
+			$("#dialog-form").dialog("open");
+		}
+	});
+}
+function show_graph(id) 
+{
+	//alert(id);
+	
+	$.ajax({
+		url: "test3.php",
+		data: "action=graphDetails&patientId="+id,
+		success: function(data) {
+			// $('#dialog-form').load('test3.php');
+		//$("dialog-form").html(data);
+		
+		$("#dialog-form").html(data);
+		//$.get("test3.php", function(data){ $("#dialog-form").html(data); });
+			$( "#dialog-form" ).dialog( "option", "title", "Graph" );
+			$("#dialog-form").dialog("open");
+		}
+	});
+	
+	// Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+	
+}
+
 </script>
+
+
+
+
+
 
 <style>
  body { font-size: 62.5%; }
@@ -130,21 +173,25 @@ function show_prescription(id)
 	<script type="text/javascript">
        	function add_visit(Id)
        	{
-           	document.getElementById("userId").value=Id;
+           	document.getElementById("visit_userId").value=Id;
 			document.forms["visit_form"].submit();
        	}
-		
-		function populate(event) 
+		function add_procedure(Id)
+       	{
+           	document.getElementById("proc_userId").value=Id;
+			document.forms["procedure_form"].submit();
+       	}
+		function populate(event,id) 
 		{
 			var number = this.options[this.selectedIndex].text;
-			document.getElementById("personId").value="'.$personId.'";
+			document.getElementById("personId").value=id;
 			$("#page_form").attr("action","ViewVisits.php?rows="+number+"&page=1");
 			document.forms["page_form"].submit();
 		}
 		
-		function page_direct(row,page)
-		{
-			document.getElementById("personId").value="'.$personId.'";
+		function page_direct(row,page,id)
+		{			
+			document.getElementById("personId").value= id;
 			$("#page_form").attr("action","ViewVisits.php?rows="+row+"&page="+page);
 			document.forms["page_form"].submit(); 
 		}
@@ -160,8 +207,9 @@ function show_prescription(id)
 
 <div id="page-heading"><h1>Visits</h1></div>
 <div style="float:right; margin-right:50px;"><a onClick="add_visit(<?php echo $userId ?>);"><img src="images/add.png" /></a></div>
-<div style="float:right;"><a onClick="add_visit(<?php echo $userId ?>);"><h3>  Add New</h3></a></div>
-
+<div style="float:right;"><a onClick="add_visit(<?php echo $userId ?>);"><h3>Add New</h3></a></div>
+<div style="float:right; margin-right:50px;"><a onClick="add_procedure(<?php echo $userId ?>);"><img src="images/add.png" /></a></div>
+<div style="float:right;"><a onClick="add_procedure(<?php echo $userId ?>);"><h4>Add New Procedure</h4></a></div>
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -183,11 +231,16 @@ function show_prescription(id)
 <form id="page_form" method="post">
 <input id="personId" name="personId" value="" type="hidden" />
 </form>
-
-<form id="visit_form" action="AddVisit.php" method="post">
-<input id="userId" name="userId" value="" type="hidden" />
+<form id="procedure_form" action="AddProcedureTsn.php" method="post">
+<input id="proc_userId" name="userId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="insert" type="hidden" />
 </form>
+
+<form id="visit_form" action="AddVisit.php" method="post">
+<input id="visit_userId" name="userId" value="" type="hidden" />
+<input id="formAction" name="formAction" value="insert" type="hidden" />
+</form>
+
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>   
@@ -220,6 +273,8 @@ function show_prescription(id)
 			<a title="Delete" onclick="delete_confirm(<?php echo $userId;?>);" class="icon-2 info-tooltip"></a>
 			<a title="Examination" id="pop_examination" onclick="show_examination(<?php echo $row_visits['visitId'];?>)" class="icon-3 info-tooltip"></a>
 			<a title="Prescription" id="pop_prescription" onclick="show_prescription(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
+            <a title="Investigation" id="pop_Investigation" onclick="show_Investigation(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
+
       </td>
     </tr>
     <?php } while ($row_visits = mysql_fetch_assoc($visits)); ?>
@@ -230,7 +285,7 @@ function show_prescription(id)
 			<tr style="border:none">
             <td style="border:none">Rows  </td>
 			<td style="border:none">
-			<select name="rows" id="rows" onchange="populate.call(this, event)">
+			<select name="rows" id="rows" onchange="populate.call(this, event, <?php echo $personId; ?>)">
 				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
 				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
 				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
@@ -238,11 +293,11 @@ function show_prescription(id)
             
 			</td>
 			<td style="border:none">
-				<a onclick="page_direct(<?php echo $rows; ?>,1)" class="page-far-left"></a>
-				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($prev>0) echo $prev; else echo 1; ?>)" class="page-left"></a>
+				<a onclick="page_direct(<?php echo $rows; ?>,1, <?php echo $personId; ?>)" class="page-far-left"></a>
+				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($prev>0) echo $prev; else echo 1; ?>, <?php echo $personId; ?>)" class="page-left"></a>
 				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
-				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($next<=$total_pages) echo $next; else echo 1; ?>)" class="page-right"></a>
-				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($total_pages>1) echo $total_pages; else echo 1; ?>)" class="page-far-right"></a>
+				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($next<=$total_pages) echo $next; else echo 1; ?>, <?php echo $personId; ?>)" class="page-right"></a>
+				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($total_pages>1) echo $total_pages; else echo 1; ?>, <?php echo $personId; ?>)" class="page-far-right"></a>
 			</td>
 			</tr>
 		</table>
@@ -250,6 +305,7 @@ function show_prescription(id)
     </td>
     </tr>
 </table>
+
 </div>
 <!-- end table content -->    
     </div>
@@ -273,9 +329,12 @@ function show_prescription(id)
 			<!--  start related-act-inner -->
 			<div id="related-act-inner">
 			
-				<div class="left"><a href=""><img src="images/forms/icon_edit.gif" width="21" height="21" alt="" /></a></div>
+				<div class="left"><a href=""><img src="images/forms/icon_edit.gif" width="21" height="21" alt="" /></a>
+                <a title="Graph" id="pop_graph" onclick="show_graph(<?php echo $userId ?>);" class="icon-3 info-tooltip"></a>
+                </div>
 				<div class="right">
 					<h5 style="font-size:14px; color:#92b22c">Personal Details</h5>
+                    
                     <table cellpadding="5">
                     <tr>
                     <th align="left"> Name:  </th>

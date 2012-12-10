@@ -100,15 +100,7 @@ echo '<script type="text/javascript">
   <tr>
     <th class="table-header-repeat line-left"><a href="">Invst Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Information</a></th>
-    <th class="table-header-repeat line-left"><a href="">Sex Flag</a></th>
-    <th class="table-header-repeat line-left"><a href="">To Val1</a></th>
-    <th class="table-header-repeat line-left"><a href="">From Val1</a></th>
-    <th class="table-header-repeat line-left"><a href="">To Val2</a></th>
-    <th class="table-header-repeat line-left"><a href="">From Val2</a></th>
-    <th class="table-header-repeat line-left"><a href="">impression</a></th>
-    <th class="table-header-repeat line-left"><a href="">result</a></th>
-    <th class="table-header-repeat line-left"><a href="">unit</a></th>
-    <th class="table-header-repeat line-left"><a href="">charges</a></th>
+    <th class="table-header-repeat line-left"><a href="">Sex</a></th>       
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
@@ -126,16 +118,9 @@ echo '<script type="text/javascript">
 	}
     ?>
       <td><?php echo $row_invstmst['invstName']; ?></td>
-      <td><?php echo $row_invstmst['info']; ?></td>
-      <td><?php echo $row_invstmst['sexFlag']; ?></td>
-      <td><?php echo $row_invstmst['toVal1']; ?></td>
-      <td><?php echo $row_invstmst['fromVal1']; ?></td>
-      <td><?php echo $row_invstmst['toVal2']; ?></td>
-      <td><?php echo $row_invstmst['fromVal2']; ?></td>
-      <td><?php echo $row_invstmst['impression']; ?></td>
-      <td><?php echo $row_invstmst['result']; ?></td>
-      <td><?php echo $row_invstmst['unit']; ?></td>
-      <td><?php echo $row_invstmst['charges']; ?></td>
+      <td><?php echo $row_invstmst['info'] ;?></td>
+      <td><?php if($row_invstmst['sexFlag'] == "M") echo "Male"; else if($row_invstmst['sexFlag'] == "F") echo "Female"; else if($row_invstmst['sexFlag'] == "B") echo "Both"; else echo "Common";?></td>     
+          
     <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_invstmst['invstId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_invstmst['invstId'];?>);" class="icon-2 info-tooltip"></a>

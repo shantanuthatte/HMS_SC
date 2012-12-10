@@ -1,6 +1,121 @@
 <?php require_once('Connections/HMS.php');
 include('mdl_Person.php');
 
+function serverValidation()
+{
+	$count=0;
+	$retVal=0;
+	$check1="";
+	if(empty($_POST['fName']))
+		{
+			$count = $count+1;
+		$check1= $count.". First Name is required.,";
+		$retVal=1;
+		
+		}
+	else if(strlen($_POST['fName'])<3)
+		{
+			$count = $count+1;
+		$check1= $check1.$count. ". First Name requires at least 3 characters.,";
+		$retVal=1;
+		}
+		
+	if(empty($_POST['lName']))
+	{
+		$count = $count+1;
+		$check1= $check1. $count .". Last Name is required.,";
+		$retVal=1;
+		}
+	else if(strlen($_POST['lName'])<3)
+		{
+			$count = $count+1;
+		$check1= $check1. $count .". Last Name requires at least 3 characters.,";
+		$retVal=1;
+		}
+		
+	if(empty($_POST['email']))
+	{
+		$count = $count+1;
+		$check1= $check1. $count .". Email is required.,";
+		$retVal=1;
+		}
+	else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+		{
+			$count = $count+1;
+		$check1= $check1 . $count .". Enter a valid Email address.,";
+		$retVal=1;
+		}
+		
+		if(empty($_POST['pin']))
+		{
+			$count = $count+1;
+		$check1= $check1 . $count .". PIN Code is required.,";
+		$retVal=1;
+		}
+		else if(is_numeric($_POST['pin'])==false)
+		{
+			$count = $count+1;
+		$check1= $check1. $count .". PIN Code requires at least 6 digits.,";
+		$retVal=1;
+		}
+		else if(strlen((string)$_POST['pin'])<6)
+		{
+			$count = $count+1;
+		$check1= $check1. $count .". PIN Code field requires at least 6 digits.,";
+		$retVal=1;
+		}
+		
+		if(empty($_POST['mobile']))
+		{
+			$count = $count+1;
+		$check1= $check1. $count .". Mobile field is required.,";
+		$retVal=1;
+		}
+		else if(is_numeric($_POST['mobile'])==false)
+		{
+			$count = $count+1;
+		$check1= $check1. $count .". Mobile field requires at  digits.,";
+		$retVal=1;
+		}
+		else if(strlen((string)$_POST['mobile'])<10)
+		{
+			$count = $count+1;
+		$check1= $check1. $count .". Mobile field requires at  digits.,";
+		$retVal=1;
+		}
+		
+		if(empty($_POST['DOB']))
+	   {
+		   $count = $count+1;
+		$check1= $check1. $count .". Date Of Birth is required.";
+		$retVal=1;
+		}
+		
+		
+		
+		if($retVal==1)
+		{
+		session_start();
+		$_SESSION['Error'] = $check1;
+			if($_POST['type'] == 0)
+			{
+			header('Location: AddDoctor.php');
+			}
+			else
+			{
+			header('Location: AddPerson.php');
+			}
+		return 1;
+		}
+		else
+		{
+			return 0;
+		}
+		
+	
+	}
+
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   if (PHP_VERSION < 6) 
@@ -9,6 +124,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
   }
 
   $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
 
   switch ($theType) 
   {
@@ -36,6 +152,10 @@ $person = new Person();
 
 if($_POST['formAction'] == "insert")
 {
+	
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
@@ -54,15 +174,22 @@ if($_POST['formAction'] == "insert")
 					   GetSQLValueString($_POST['occupation'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
 					   GetSQLValueString($_POST['type'], "int"));
-	if(!$person->insertPerson())
-		die(mysql_error());
-	else if($_POST['type'] == 0)
-	{
-		header('Location: ViewDoctor.php');
+					   
+					   
+			  
+
+						if(!$person->insertPerson())
+							die(mysql_error());
+						else if($_POST['type'] == 0)
+							{
+							header('Location: ViewDoctor.php');
+							}
+						else
+							header('Location: ViewPerson.php');
 	}
-	else
-		header('Location: ViewPerson.php');
+	
 }
+
 elseif($_POST['formAction'] == "update")
 {
 	session_start();
@@ -74,6 +201,9 @@ elseif($_POST['formAction'] == "update")
 }
 elseif($_POST['formAction'] == "commit")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
@@ -101,6 +231,7 @@ elseif($_POST['formAction'] == "commit")
 	}
 	else
 		header('Location: ViewPerson.php');
+	}
 }
 elseif($_POST['formAction'] == "delete")
 {
@@ -114,4 +245,10 @@ elseif($_POST['formAction'] == "delete")
 	else
 		header('Location: ViewPerson.php');
 }
+
+
+
+
+
+
 ?>

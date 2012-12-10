@@ -112,8 +112,7 @@ echo '<script type="text/javascript">
     <th class="table-header-repeat line-left"><a href="">Patient Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Family Relation</a></th>
     <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Diagnosis Date</a></th>
-    <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>
+    <th class="table-header-repeat line-left"><a href="">Diagnosis Date</a></th>    
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
@@ -133,8 +132,7 @@ echo '<script type="text/javascript">
       <td><?php echo $row_familyHisId['userName']; ?></td>
       <td><?php echo $row_familyHisId['familyRelation']; ?></td>
       <td><?php echo $row_familyHisId['ailmentName']; ?></td>
-      <td><?php echo $row_familyHisId['diagnosisDate']; ?></td>
-      <td><?php echo $row_familyHisId['symptoms']; ?></td>
+      <td><?php echo $row_familyHisId['diagnosisDate']; ?></td>      
      <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_familyHisId['familyHisId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_familyHisId['familyHisId'];?>);" class="icon-2 info-tooltip"></a>

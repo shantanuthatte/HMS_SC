@@ -1,6 +1,45 @@
 <?php require_once('Connections/HMS.php');
 include('mdl_MedicineClass.php');
 
+function serverValidation()
+{
+	$count=0;
+	$retVal=0;
+	$check1="";
+	if(empty($_POST['classIId']))
+		{
+			$count=$count+1;
+		$check1= $count.". Class Id is required.,";
+		$retVal=1;
+		}
+	if(empty($_POST['className']))
+	{
+		$count=$count+1;
+		$check1= $check1.$count. ". Class Name is required.,";
+		$retVal=1;
+		}
+	else if(strlen($_POST['className'])<3)
+		{
+			$count=$count+1;
+		$check1= $check1.$count. ". Class Name requires at least 3 characters.,";
+		$retVal=1;
+		}
+		
+		if($retVal==1)
+		{
+		session_start();
+		$_SESSION['Error'] = $check1;
+		header("Location: AddMedicineClass.php");
+		return 1;
+		}
+		else
+		{
+			return 0;
+		}
+		
+	
+	}
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   if (PHP_VERSION < 6) 
@@ -36,12 +75,16 @@ $mediclass = new MedicineClass();
 
 if($_POST['formAction'] == "insert")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$mediclass->setDetails(GetSQLValueString($_POST['classIId'], "text"),
                        GetSQLValueString($_POST['className'], "text"));
 	if(!$mediclass->insertmedicineclass())
 		die(mysql_error());
 	else
 		header('Location: ViewMedicineClass.php');
+	}
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -54,12 +97,16 @@ elseif($_POST['formAction'] == "update")
 }
 elseif($_POST['formAction'] == "commit")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$mediclass->setDetails(GetSQLValueString($_POST['classId'], "text"),
                        GetSQLValueString($_POST['className'], "text"));
 	if(!$mediclass->updatemedicineclass($_POST['classId']))
 		die(mysql_error());
 	else
 		header('Location: ViewMedicineClass.php');
+	}
 }
 elseif($_POST['formAction'] == "delete")
 {

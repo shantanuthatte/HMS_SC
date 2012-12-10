@@ -38,10 +38,11 @@ else if($_POST['formAction'] == "insert")
 	$visitNo = $row_num['visitNo'] + 1;
 	
 	mysql_select_db($database_HMS, $HMS);
-	$query_doc = "SELECT person.fName, person.mName, person.lName, users.userId FROM person,users WHERE users.personId = person.personId;";
+	$query_doc = "SELECT person.fName, person.mName, person.lName, users.userId  FROM person,users WHERE users.personId = person.personId and person.type=0;";
 	$doc = mysql_query($query_doc, $HMS) or die(mysql_error());
 	$row_doc = mysql_fetch_assoc($doc);	
-	
+	//var_dump($userId);
+	//var_dump($row_person['fName']);
 ?>
 
 <script type="text/javascript">
@@ -79,7 +80,9 @@ else if($_POST['formAction'] == "insert")
 		
 		$('#add-investigation').before(content);
 		document.getElementById("investigationCount").value=count;
+		
 	}
+	
 	
 </script>
 
@@ -150,6 +153,7 @@ else if($_POST['formAction'] == "insert")
         });
 		
     });
+	
 	  
 	$('#form-visit').validate({
 			rules:{
@@ -165,11 +169,8 @@ else if($_POST['formAction'] == "insert")
 				consultingDoctorId:{
 					required:true	
 				},
-				formAction:{
+				patientComplain:{
 					required:true
-				},
-				complain:{
-					required:true	
 				},
 				pulse:{
 					required:true,
@@ -178,18 +179,17 @@ else if($_POST['formAction'] == "insert")
 				examination:{
 					required:true	
 				},
+				
 				finalDiagnosis:{
 					required:true	
-				},
-				medicineCount:{
-					required:true,
-					digits:true	
 				}
 			},
 			invalidHandler:function(form,validator){
+				
 				var errors = validator.numberOfInvalids();
 				if(errors)
 				{
+					$("#accordion").accordion("activate", 1);
 					var message = "There are "+errors+" errors in the Visit data. Correct them before submitting.";
 					$("#red-left").html(message);
 					$("#message-red").show();
@@ -209,6 +209,7 @@ else if($_POST['formAction'] == "insert")
 			},
 			unhighlight: function(element,errorClass){
 				$(element).removeClass('inp-form-error');
+				
 			}
 		});
     });
@@ -238,6 +239,7 @@ else if($_POST['formAction'] == "insert")
 			}
 		});
 	}
+	
 </script>
 
 
@@ -267,7 +269,7 @@ else if($_POST['formAction'] == "insert")
 </div>
 
   <div id="page-heading"><h1>Visit Details</h1></div>
-
+<span style="float:right; margin-right:50px; " ><a href="ViewVisits.php"  ><img title="Back to List" src="images/back1.gif" /></a></span>
 <table border="0" width="100%" cellpadding="0" cellspacing="0" >
 <tr>
 <td width="80%">
@@ -301,7 +303,7 @@ else if($_POST['formAction'] == "insert")
         <td></td><td></td>
         <th align="right">Referring Doctor:</th>
         <td align="center"><select id="referringDoctorId" name="referringDoctorId" class="styledselect_form_1">
-        <option selected="selected" value=""></option>
+        <option selected="selected" value="">....Select....</option>
         <?php 
 			do{
 				echo'<option value="'.$row_doc["userId"].'">';
@@ -493,10 +495,11 @@ else if($_POST['formAction'] == "insert")
         <tr id="add-medicine">
         <td colspan="4" id="add-icon" align="center"><img src="images/add.png" style="cursor:pointer" width="32" height="32" onclick="addMedicine()" /></td>
         <input type="text" id="medicineCount" name="medicineCount" hidden="true" value="3" />
-        </tr>  
+        
+         </tr>  
         </table>
     </div>
-    <h3>Investigation</h3>
+    <h3 >Investigation</h3>
     <div id="content-table-inner">
         <table border="0" width="100%" cellpadding="5" cellspacing="5">
         <tr>
@@ -623,6 +626,12 @@ else if($_POST['formAction'] == "insert")
 
  </div>
  <!-- End Content Outer -->
+ 
+ <div><br />
+ <br />
+ <br />
+ </div>
+ 
 </body>
 </html>
 <?php } ?>

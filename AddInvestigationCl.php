@@ -1,6 +1,8 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+$err="";
+
 if(empty($_GET))
 {
 	$formAction = "insert";
@@ -23,15 +25,74 @@ $row_invstgr = mysql_fetch_assoc($invstgr);
 $totalRows_invstgr = mysql_num_rows($invstgr);
 ?>
 
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript">
+ 	
+	$(document).ready(function(e) {
+				
+        $("#form1").validate({
+			rules:{
+			
+			className:{
+				required: true,
+				minlength: 3
+				},
+			grId:{
+				   required: function(element) {
+                return $("#grId").val() == '';
+                                                 }
+                  }
+				
+			},	
+			invalidHandler: function(form, validator){
+				var errors = validator.numberOfInvalids();
+				if(errors)
+				{
+					var message = "There are "+errors+" errors in the data entered. Correct them before submitting.";
+					$("#red-left").html(message);
+					$("#message-red").show();
+					$(".error-left").show();
+				}
+			},
+			ignore:"ui-tabs-hide",
+			errorElement: "div",
+			wrapper: "div",
+			errorPlacement: function(error,element){
+				error.insertAfter('#invalid-' + element.attr('id'));
+				error.addClass('error-inner');
+			},
+			highlight: function(element,errorClass){
+				$(element).fadeOut(function() {
+     			  $(element).fadeIn();
+     			});
+				$(element).parent().siblings(".error-left").show();
+			},
+			unhighlight: function(element,errorClass){
+				$(element).parent().siblings(".error-left").hide();
+			}
+		})
+    });
+	
+</script> 
+
 <div class="clear"></div>
  
 <!-- start content-outer -->
 <div id="content-outer">
 <!-- start content -->
 <div id="content">
+<div id="message-red" hidden="true">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="red-left" class="red-left"></td>
+					<td class="red-right"><a class="close-red"><img src="images/table/icon_close_red.gif"   alt="" /></a></td>
+				</tr>
+			</table>
+</div>
 
 <form action="cntrl_InvestigationCl.php" method="post" name="form1" id="form1">
   <div id="page-heading"><h1>Add Investigation Class</h1></div>
+  <span style="float:right; margin-right:50px; " ><a href="ViewInvestigationCl.php" ><img title="Back to List" src="images/back1.gif"  /></a></span>
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -50,24 +111,26 @@ $totalRows_invstgr = mysql_num_rows($invstgr);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  <tr>
       <th>GroupId:</th>
-      <td><select name="grId" class="styledselect_form_1">
+      <td><select name="grId" class="styledselect_form_1" id="grId">
+      <option value="" selected="selected">.....Select.....</option>
         <?php 
 do {  
-?>
-
-        <option value="<?php echo $row_invstgr['groupId']?>" <?php if (!(strcmp($row_invstgr['groupId'], $row_invstgr['groupId']))) {echo "SELECTED";} ?>><?php echo $row_invstgr['groupName'];?></option>
+?>      
+        <option value="<?php echo $row_invstgr['groupId']?>" <?php/* if (!(strcmp($row_invstgr['groupId'], $row_invstgr['groupId']))) {echo "SELECTED";}*/ ?><?php echo $row_invstgr['groupName'];?></option>
         <?php
 } while ($row_invstgr = mysql_fetch_assoc($invstgr));
 ?>
 <?php if($formAction == "update") echo $data['groupId']; ?>
-      </select>
-      </td>
+
+      </select> </td>
+      <td id="invalid-grId" class="error-left" hidden="true">
+     
    		</tr>
     <tr>
       <th>Class Name:</th>
       <td>
-      <input type="text" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
-      </td>
+      <input type="text" id="className" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/></td>
+     <td id="invalid-className" class="error-left" hidden="true">
    		</tr>
         <tr>
 		<th>&nbsp;</th>
@@ -96,6 +159,20 @@ do {
   <input type="hidden" name="grId" value="<?php if($formAction == "update") echo $data['grId']; ?>" />
 </form>
 <p>&nbsp;</p>
+<div id="check" class="red-left-s">
+<?php
+if(isset($_SESSION['Error']))
+	{
+		$err = $_SESSION['Error'];
+		unset($_SESSION['Error']);
+		$explodedstring = explode(",", $err);
+foreach($explodedstring as $err)
+ echo $err.'<br />';
+ 		 
+	}
+
+?>
+</div>
 
 </body>
 </html>

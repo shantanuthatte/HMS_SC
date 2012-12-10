@@ -109,8 +109,7 @@ echo '<script type="text/javascript">
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
-    <th class="table-header-repeat line-left"><a href="">Patient Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Type</a></th>
+    <th class="table-header-repeat line-left"><a href="">Patient Name</a></th>   
     <th class="table-header-repeat line-left"><a href="">Allergy</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
     </tr>
@@ -128,8 +127,7 @@ echo '<script type="text/javascript">
 		$even=1;
 	}
     ?>
-      <td><?php echo $row_allergyId['userName']; ?></td>
-      <td><?php echo $row_allergyId['type']; ?></td>
+      <td><?php echo $row_allergyId['userName']; ?></td>      
       <td><?php echo $row_allergyId['allergy']; ?></td>
       <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_allergyId['allergyId'];?>)" class="icon-1 info-tooltip"></a>

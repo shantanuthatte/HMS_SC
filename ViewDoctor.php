@@ -40,9 +40,10 @@ $totalRows_personRS = mysql_num_rows($personRS);
 echo '<script type="text/javascript">
        	function delete_confirm(personId)
        	{
-           if(confirm("Are you sure you want to delete this person?")==true)
+           if(confirm("Are you sure you want to delete?")==true)
            {
 				document.getElementById("personId_delete").value=personId;
+				document.getElementById("type_update").value=0;
 				document.forms["delete_form"].submit();
 		   }
        	}
@@ -53,12 +54,7 @@ echo '<script type="text/javascript">
 			document.forms["update_form"].submit();  
 	   	}
 		
-		function insert_submit()
-	   	{
-		  	document.getElementById("type_update").value=0;
-			alert(document.getElementById("type_update").value);
-			document.forms["insert_form"].submit();  
-	   	}
+		
 	   	function display_user(Id)
 	   	{
 			document.getElementById("personId_user").value=Id;
@@ -82,7 +78,7 @@ echo '<script type="text/javascript">
 
 <div id="page-heading">
   <h1>Doctors</h1></div>
-<div style="float:right; margin-right:50px;"><a onclick="insert_submit()"><img src="images/add.png" /></a></div>
+<div style="float:right; margin-right:50px;"><a href="AddDoctor.php"><img src="images/add.png" /></a></div>
 <div style="float:right;"><a href="AddPerson.php"><h3>  Add New</h3></a></div>
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
@@ -104,6 +100,7 @@ echo '<script type="text/javascript">
 
 <form id="delete_form" action="cntrl_Person.php" method="post">
 <input id="personId_delete" name="personId" value="" type="hidden" />
+<input id="type_update" name="type" value="" type="hidden" />
 <input id="formAction" name="formAction" value="delete" type="hidden" />
 </form>
 
@@ -113,10 +110,7 @@ echo '<script type="text/javascript">
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
-<form id="insert_form" action="AddPerson.php" method="post">
-<input id="type_update" name="type" value="" type="hidden" />
-<input id="formAction" name="formAction" value="" type="hidden" />
-</form>
+
 
 
 <form id="user_form" action="ViewUsers.php" method="post">
@@ -131,8 +125,8 @@ echo '<script type="text/javascript">
     <th class="table-header-repeat line-left"><a href="">Address</a></th>
     <th class="table-header-repeat line-left"><a href="">Phone</a></th>
     <th class="table-header-repeat line-left"><a href="">Mobile</a></th>
-    <th class="table-header-repeat line-left"><a href="">Gender</a></th>
-    <th class="table-header-repeat line-left"><a href="">DOB</a></th>
+    <!--<th class="table-header-repeat line-left"><a href="">Gender</a></th>
+    <th class="table-header-repeat line-left"><a href="">DOB</a></th> -->
     <th class="table-header-repeat line-left"><a href="">Email</a></th>
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
@@ -154,8 +148,8 @@ echo '<script type="text/javascript">
       <td><?php echo $row_personRS['address1']; ?></td>
       <td><?php echo $row_personRS['rPhone']; ?></td>
       <td><?php echo $row_personRS['mobile']; ?></td>
-      <td><?php echo $row_personRS['gender']; ?></td>
-      <td><?php echo $row_personRS['DOB']; ?></td>
+      <!--<td><?php //echo $row_personRS['gender']; ?></td>
+      <td><?php //echo $row_personRS['DOB']; ?></td>  -->
       <td><?php echo $row_personRS['email']; ?></td>
       <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>

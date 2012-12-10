@@ -1,5 +1,6 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
+$error = '';
 	//include 'scripts.php';	
 	//if(isset($_POST["username"]))
 	if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -12,19 +13,22 @@
 			mysql_select_db($database_HMS, $HMS);
 			$query = "SELECT * FROM users WHERE userName = '$username' and password='".md5($password)."'";
 			$result = mysql_query($query, $HMS) or die(mysql_error());
+			$row_result = mysql_fetch_assoc($result);
 			$totalRows = mysql_num_rows($result);			
 			if($totalRows == 1)
 			{										
 				session_start();
-				$_SESSION['userId']= $result['userId'];
-				$_SESSION['userName']= $_POST['username'];
-				$_SESSION['type']= $result['type'];
-				$_SESSION['permission']= $result['permission'];
-				mysql_free_result($result);
-				//header("Refresh:1; URL=firstpage.php");
-				header("location: Welcome.php");
+				$_SESSION['userId']= $row_result['userId'];
+				$_SESSION['userName']= $row_result['userName'];
+				$_SESSION['type']= $row_result['type'];
+				$_SESSION['permission']= $row_result['permission'];
+				mysql_free_result($row_result);
+				header("location: ViewPerson.php");
+				exit;
+			}else { $error = "Incorrect login info"; 
 			}
-		}
+			
+			}
 	}
 ?>
 
@@ -32,7 +36,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Hospital Management</title>
+<title>Health Data Management</title>
 <link rel="stylesheet" href="css/login.css" type="text/css" title="default" />
 
 <!-- Including web fonts -->
@@ -73,7 +77,7 @@ $(document).pngFix( );
  
 <!-- Start: login-holder -->
 <div id="login-holder">
-<img src="images/login/Untitled-24.png" />
+<!--<img src="images/login/Untitled-24.png" /> -->
 	<!-- start logo -->
     
 	<div class="clear"></div>

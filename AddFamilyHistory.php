@@ -1,6 +1,7 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+$err="";
 if(empty($_GET))
 {
 	$formAction = "insert";
@@ -28,6 +29,67 @@ $ailment = mysql_query($query_ailment, $HMS) or die(mysql_error());
 $row_ailment = mysql_fetch_assoc($ailment);
 $totalRows_ailment = mysql_num_rows($ailment);
 ?>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript">
+ 	
+	$(document).ready(function(e) {
+				
+        $("#form1").validate({
+			rules:{
+			
+			
+			patientId:{
+				   required: function(element) {
+                return $("#patientId").val() == '';
+                                                 }
+						},	
+			familyRelation:{
+				   required: function(element) {
+                return $("#familyRelation").val() == '';
+                                                 }
+						},
+				ailmentId:{
+				   required: function(element) {
+                return $("#ailmentId").val() == '';
+                                                 }
+						},
+		    diagnosisDate:{
+				required: true
+				}
+				
+			
+			},	
+			invalidHandler: function(form, validator){
+				var errors = validator.numberOfInvalids();
+				if(errors)
+				{
+					var message = "There are "+errors+" errors in the data entered. Correct them before submitting.";
+					$("#red-left").html(message);
+					$("#message-red").show();
+					$(".error-left").show();
+				}
+			},
+			ignore:"ui-tabs-hide",
+			errorElement: "div",
+			wrapper: "div",
+			errorPlacement: function(error,element){
+				error.insertAfter('#invalid-' + element.attr('id'));
+				error.addClass('error-inner');
+			},
+			highlight: function(element,errorClass){
+				$(element).fadeOut(function() {
+     			  $(element).fadeIn();
+     			});
+				$(element).parent().siblings(".error-left").show();
+			},
+			unhighlight: function(element,errorClass){
+				$(element).parent().siblings(".error-left").hide();
+			}
+		})
+    });
+	
+</script>
+
 
 
 
@@ -52,9 +114,18 @@ $totalRows_ailment = mysql_num_rows($ailment);
 <!-- start content -->
 <div id="content">
 
+<div id="message-red" hidden="true">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="red-left" class="red-left"></td>
+					<td class="red-right"><a class="close-red"><img src="images/table/icon_close_red.gif"   alt="" /></a></td>
+				</tr>
+			</table>
+</div>
+
 <form action="cntrl_FamilyHistory.php" method="post" name="form1" id="form1">
   <div id="page-heading"><h1>Add Family History</h1></div>
-
+<span style="float:right; margin-right:50px; " ><a href="ViewFamilyHistory.php" ><img title="Back to List" src="images/back1.gif"  /></a></span>
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
@@ -73,22 +144,25 @@ $totalRows_ailment = mysql_num_rows($ailment);
  
     <tr>
       <th>PatientId:</th>
-      <td><select name="patientId" class="styledselect_form_1">
+      <td><select name="patientId" id="patientId" class="styledselect_form_1">
+       <option value="" selected="selected">.....Select.....</option>
         <?php 
 do {  
 ?>
-        <option value="<?php echo $row_patient['userId']?>" <?php if (!(strcmp($row_patient['userId'], $row_patient['userId']))) {echo "SELECTED";} ?>><?php echo $row_patient['userName'];?></option>
+        <option value="<?php echo $row_patient['userId']?>" <?php/* if (!(strcmp($row_patient['userId'], $row_patient['userId']))) {echo "SELECTED";} */?><?php echo $row_patient['userName'];?></option>
         <?php
 } while ($row_patient = mysql_fetch_assoc($patient));
 ?>
 <?php if($formAction == "update") echo $data['patientId']; ?>
-      </select>
-      
+
+      </select></td><td>&nbsp;
       </td>
-   		</tr>
+      <td id="invalid-patientId" class="error-left" hidden="true">
+      </tr>
         <tr>
       <th>Family Realtion:</th>
-      <td><select name="familyRelation" class="styledselect_form_1">
+      <td><select name="familyRelation" id="familyRelation" class="styledselect_form_1">
+      <option value="" selected="selected">.....Select.....</option>
 			<option value="Father" <?php if($formAction == "update" && $data['familyRelation'] == "Father") echo "SELECTED"; ?>>Father</option>
 			<option value="Mother" <?php if($formAction == "update" && $data['familyRelation'] == "Mother") echo "SELECTED"; ?>>Mother</option>
 			<option value="Grandfather" <?php if($formAction == "update" && $data['familyRelation'] == "Grandfather") echo "SELECTED"; ?>>Grandfather</option>
@@ -96,26 +170,32 @@ do {
             <option value="Brother" <?php if($formAction == "update" && $data['familyRelation'] == "Brother") echo "SELECTED"; ?>>Brother</option>
             <option value="Sister" <?php if($formAction == "update" && $data['familyRelation'] == "Sister") echo "SELECTED"; ?>>Sister</option>
 			</select>
-</td>
- <tr>
+            </td>
+            <td>&nbsp;
+      </td>
+      <td id="invalid-familyRelation" class="error-left" hidden="true">
+      </tr>
+           <tr>
       <th>Ailment:</th>
       
-       <td><select name="ailmentId" class="styledselect_form_1">
+       <td><select name="ailmentId" id="ailmentId" class="styledselect_form_1">
+       <option value="" selected="selected">.....Select.....</option>
         <?php 
 do {  
-?>
-        <option value="<?php echo $row_ailment['ailmentId']?>" <?php if (!(strcmp($row_ailment['ailmentId'], $row_ailment['ailmentId']))) {echo "SELECTED";} ?>><?php echo $row_ailment['ailmentName'];?></option>
+?> <option value="<?php echo $row_ailment['ailmentId']?>" <?php/* if (!(strcmp($row_ailment['ailmentId'], $row_ailment['ailmentId']))) {echo "SELECTED";}*/ ?><?php echo $row_ailment['ailmentName'];?></option>
         <?php
 } while ($row_ailment = mysql_fetch_assoc($ailment));
 ?>
 <?php if($formAction == "update") echo $data['ailmentId']; ?>
-      </select>
+      </select></td><td>&nbsp;
+      </td>
+      <td id="invalid-ailmentId" class="error-left" hidden="true">
       <tr>
       <th>Diagnosis Date:</th>
-      <td><input id="txtDate1" type="text" name="diagnosisDate" value="<?php if($formAction == "update") echo $data['diagnosisDate']; ?>" size="32" class="inp-form" />
-      </td>
-      <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/>
-      </td>
+      <td><input id="txtDate1" type="text" name="diagnosisDate" value="<?php if($formAction == "update") echo $data['diagnosisDate']; ?>" size="32" class="inp-form" /></td>
+     <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/> </td>
+      <td id="invalid-txtDate1" class="error-left" hidden="true">
+     
     </tr>
         <tr>
       <th>Symptoms:</th>
@@ -158,5 +238,20 @@ do {
 </form>
 <p>&nbsp;</p>
 
+
+<div id="check" class="red-left-s">
+<?php
+if(isset($_SESSION['Error']))
+	{
+		$err = $_SESSION['Error'];
+		
+		unset($_SESSION['Error']);
+		$explodedstring = explode(",", $err);
+foreach($explodedstring as $err)
+ echo $err.'<br />';
+ 		 
+	}
+?>
+</div>
 </body>
 </html>

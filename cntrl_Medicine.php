@@ -1,6 +1,33 @@
 <?php require_once('Connections/HMS.php');
 include('mdl_Medicine.php');
 
+$flag;
+function serverValidation()
+{
+	if(empty($_POST['medicineNm']))
+		{
+		$check1= "Medicine Name is required.";
+		session_start();
+		$_SESSION['Error'] = $check1;
+		
+		header("Location: AddMedicine.php");
+		return 1;
+		}
+	else if(strlen($_POST['medicineNm'])<3)
+		{
+		$check1= "Medicine Name requires at least 3";
+		session_start();
+		$_SESSION['Error'] = $check1;
+		header("Location: AddMedicine.php");
+		return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	
+	}
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   if (PHP_VERSION < 6) 
@@ -36,6 +63,9 @@ $medicine = new Medicine();
 
 if($_POST['formAction'] == "insert")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$medicine->setDetails(GetSQLValueString($_POST['medicineNm'], "text"),
 					   GetSQLValueString($_POST['indications'], "text"),
 					   GetSQLValueString($_POST['contraIndications'], "text"),
@@ -52,6 +82,7 @@ if($_POST['formAction'] == "insert")
 		die(mysql_error());
 	else
 		header('Location: ViewMedicine.php');
+	}
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -64,6 +95,9 @@ elseif($_POST['formAction'] == "update")
 }
 elseif($_POST['formAction'] == "commit")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$medicine->setDetails(GetSQLValueString($_POST['medicineNm'], "text"),
 					   GetSQLValueString($_POST['indications'], "text"),
 					   GetSQLValueString($_POST['contraIndications'], "text"),
@@ -80,6 +114,7 @@ elseif($_POST['formAction'] == "commit")
 		die(mysql_error());
 	else
 		header('Location: ViewMedicine.php');
+	}
 }
 elseif($_POST['formAction'] == "delete")
 {

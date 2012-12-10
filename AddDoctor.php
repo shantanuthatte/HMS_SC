@@ -31,7 +31,6 @@ else
 }
 unset($_SESSION['data']);
 ?>
-
 <script src="Calendar/popcalendar.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
@@ -72,30 +71,24 @@ unset($_SESSION['data']);
 				minlength: 10,
 				digits:true
 				},
-			
-				
 			DOB:{
 				required: true
 				}
-			},
-			
+			},	
 			invalidHandler: function(form, validator){
 				var errors = validator.numberOfInvalids();
 				if(errors)
 				{
 					var message = "There are "+errors+" errors in the data entered. Correct them before submitting.";
-					
 					$("#red-left").html(message);
 					$("#message-red").show();
 					$(".error-left").show();
-					
 				}
 			},
 			ignore:"ui-tabs-hide",
 			errorElement: "div",
 			wrapper: "div",
 			errorPlacement: function(error,element){
-				
 				error.insertAfter('#invalid-' + element.attr('id'));
 				error.addClass('error-inner');
 			},
@@ -111,7 +104,11 @@ unset($_SESSION['data']);
 		})
     });
 	
+	
+	
+	
 </script>
+ 
 
 <div class="clear"></div>
  
@@ -129,13 +126,13 @@ unset($_SESSION['data']);
 			</table>
 </div>
 <form action="cntrl_Person.php" method="post" name="form1" id="form1">
-  <div id="page-heading"><h1>Person Details</h1></div>
-<span style="float:right; margin-right:50px; " ><a href="ViewPerson.php" ><img title="Back to List" src="images/back1.gif"  /></a></span>
+  <div id="page-heading"><h1> Doctor Details</h1></div>
+
+<span style="float:right; margin-right:50px; " ><a href="ViewDoctor.php" ><img title="Back to List" src="images/back1.gif"  /></a></span>
 <div><br />
 <br />
 <br />
  </div>
-
 <div id="tabs">
     <ul>
         <li><a href="#tabs-1">Personal Details</a></li>
@@ -171,7 +168,7 @@ unset($_SESSION['data']);
     </tr>
     <tr>
       <th>Gender*:</th>
-     <td><select id="gender" name="gender" class="styledselect_form_1">
+      <td><select id="gender" name="gender" class="styledselect_form_1">
         <option value="Male" <?php if($formAction == "update")
 									{
 										if($data['gender'] == "Male") {echo "SELECTED";}
@@ -194,7 +191,11 @@ unset($_SESSION['data']);
     </tr>
     <tr>
       <th>Date Of Birth*:</th>
-      <td><input id="txtDate1" type="text" name="DOB" value="<?php if($formAction == "update") echo $data['DOB']; ?>" size="32" class="inp-form" />
+      <td><p>&nbsp;
+        </p>
+        <p>
+          <input id="txtDate1" type="text" name="DOB" value="<?php if($formAction == "update") echo $data['DOB']; ?>" size="32" class="inp-form" />
+        </p>
       </td>
       <td><img alt="" src="Calendar/calender.gif"  style="float:left" onClick=" fnOpenCalendar('txtDate1');"/>
       </td>
@@ -358,7 +359,7 @@ unset($_SESSION['data']);
 
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
   <input type="hidden" name="personId" value="<?php if($formAction == "update") echo $data['personId']; ?>" />
-  <input type="hidden" name="type" value="<?php if($formAction == "update") echo $data['type'];else echo 1; ?>" />
+  <input type="hidden" name="type" value="<?php if($formAction == "update") echo $data['type'];else echo 0; ?>" />
 </form>
 <p>&nbsp;</p>
 
@@ -376,6 +377,5 @@ foreach($explodedstring as $err)
 
 ?>
 </div>
-
 </body>
 </html>

@@ -102,8 +102,7 @@ echo '<script type="text/javascript">
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
     <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>
-    <th class="table-header-repeat line-left"><a href="">Comments</a></th>
+    <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>   
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
@@ -121,8 +120,7 @@ echo '<script type="text/javascript">
 	}
     ?>
       <td><?php echo $row_ailment['ailmentName']; ?></td>
-      <td><?php echo $row_ailment['symptoms']; ?></td>
-      <td><?php echo $row_ailment['comments']; ?></td>
+      <td><?php echo $row_ailment['symptoms']; ?></td>      
       <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_ailment['ailmentId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_ailment['ailmentId'];?>);" class="icon-2 info-tooltip"></a>

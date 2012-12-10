@@ -1,5 +1,33 @@
 <?php require_once('Connections/HMS.php');
 include('mdl_Frequency.php');
+
+$flag;
+function serverValidation()
+{
+	if(empty($_POST['frequency']))
+		{
+		$check1= "Frequency is required.";
+		session_start();
+		$_SESSION['Error'] = $check1;
+		
+		header("Location: AddFrequency.php");
+		return 1;
+		}
+	else if(strlen($_POST['frequency'])<3)
+		{
+		$check1= "Frequency requires at least 3 characters.";
+		session_start();
+		$_SESSION['Error'] = $check1;
+		header("Location: AddFrequency.php");
+		return 1;
+		}
+		else{
+		return 0;
+		}
+	
+	}
+
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   if (PHP_VERSION < 6) 
@@ -35,11 +63,15 @@ $frequency = new Frequency();
 
 if($_POST['formAction'] == "insert")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$frequency->setDetails(GetSQLValueString($_POST['frequency'], "text"));
 	if(!$frequency->insertfrequency())
 		die(mysql_error());
 	else
 		header('Location: ViewFrequency.php');
+	}
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -52,11 +84,15 @@ elseif($_POST['formAction'] == "update")
 }
 elseif($_POST['formAction'] == "commit")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$frequency->setDetails(GetSQLValueString($_POST['frequency'], "text"));
 	if(!$frequency->updatefrequency($_POST['frequencyId']))
 		die(mysql_error());
 	else
 		header('Location: ViewFrequency.php');
+	}
 }
 elseif($_POST['formAction'] == "delete")
 {

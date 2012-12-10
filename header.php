@@ -5,19 +5,23 @@ if(isset($_SESSION['userName']))
 {
 	$username = $_SESSION['userName'];	
 }
-//else $username = "GUEST"; 
+else
+{
+	$username = "GUEST";
+	$_SESSION['userName'] = $username;
+	$_SESSION['userId'] = 0;
+}
 echo <<<'EOT'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Hospital Management System</title>
+<title>Health Data Management</title>
 <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen" title="default" />
 <link rel="stylesheet" href="css/navigationbar_styles.css" type="text/css" media="screen" title="default" />
 <link rel="stylesheet" href="css/message_styles.css" type="text/css" media="screen" title="default" />
 <link rel="stylesheet" href="css/selectbox_styles.css" type="text/css" media="screen" title="default" />
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" type="text/css" media="screen" title="default" />
-<link rel="stylesheet" href="css/pro_dropline_ie.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="css/tabs.css" type="text/css" media="screen" title="default" />
 <!--[if IE]>
 <link rel="stylesheet" media="all" type="text/css" href="css/pro_dropline_ie.css" />
 <![endif]-->
@@ -201,7 +205,7 @@ $(document).pngFix( );
 
 	<!-- start logo -->
 	<div id="logo">
-	<a href=""><img src="images/shared/logo.png" width="156" height="40" alt="" /></a>
+	<a href=""><img src="images/shared/footer_logo_03.gif" width="156" height="40" alt="" /></a>
 	</div>
 	<!-- end logo -->
 	
@@ -276,7 +280,7 @@ echo <<<'EOT'
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
 		<div class="select_sub">
 			<ul class="sub">
-				<li><a href="ViewPerson.php">Persons</a></li>                
+				<li><a href="ViewPerson.php">Persons</a></li>                <li><a href="ViewDoctor.php">Doctor</a></li>
 			</ul>
 		</div>
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->

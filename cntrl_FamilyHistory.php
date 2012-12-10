@@ -1,6 +1,55 @@
 <?php require_once('Connections/HMS.php');
 include('mdl_FamilyHistory.php');
 
+$flag=0;
+function serverValidation()
+{
+	$count=0;
+	$retVal=0;
+	$check1="";
+	if(empty($_POST['patientId']))
+		{
+			$count = $count+1;
+		$check1= $count.". Select Patient Id.,";
+		$retVal=1;
+		}
+		if(empty($_POST['familyRelation']))
+		{
+			$count = $count+1;
+		$check1=$check1. $count.". Select Family Relation.,";
+		$retVal=1;
+		}
+		if(empty($_POST['ailmentId']))
+		{
+			$count = $count+1;
+		$check1= $check1.$count.". Select Ailment.,";
+		$retVal=1;
+		}
+	if(empty($_POST['diagnosisDate']))
+	{
+		$count=$count+1;
+		$check1= $check1.$count. ". Diagnosis Date is required.,";
+		$retVal=1;
+		}
+	
+		
+		if($retVal==1)
+		{
+		session_start();
+		$_SESSION['Error'] = $check1;
+		header("Location: AddFamilyHistory.php");
+		return 1;
+		}
+		else
+		{
+			return 0;
+		}
+		
+	
+	}
+
+
+
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
   if (PHP_VERSION < 6) 
@@ -36,6 +85,9 @@ $famhis = new FamilyHistory();
 
 if($_POST['formAction'] == "insert")
 {
+	$flag= serverValidation();
+	if($flag==0)
+	{
 	$famhis->setDetails(GetSQLValueString($_POST['patientId'], "text"),
 					   GetSQLValueString($_POST['familyRelation'], "text"),
 					   GetSQLValueString($_POST['ailmentId'], "text"),
@@ -46,6 +98,7 @@ if($_POST['formAction'] == "insert")
 		die(mysql_error());
 	else
 		header('Location: ViewFamilyHistory.php');
+	}
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -58,6 +111,7 @@ elseif($_POST['formAction'] == "update")
 }
 elseif($_POST['formAction'] == "commit")
 {
+	{
 	$famhis->setDetails(GetSQLValueString($_POST['patientId'], "text"),
 					   GetSQLValueString($_POST['familyRelation'], "text"),
 					   GetSQLValueString($_POST['ailmentId'], "text"),
@@ -68,6 +122,7 @@ elseif($_POST['formAction'] == "commit")
 		die(mysql_error());
 	else
 		header('Location: ViewFamilyHistory.php');
+	}
 }
 elseif($_POST['formAction'] == "delete")
 {

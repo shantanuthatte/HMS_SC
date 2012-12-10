@@ -102,16 +102,10 @@ echo '<script type="text/javascript">
   <tr>
     <th class="table-header-repeat line-left"><a href="">Medicine Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Indications</a></th>
-    <th class="table-header-repeat line-left"><a href="">Contra Indications</a></th>
-    <th class="table-header-repeat line-left"><a href="">Adverse Effects</a></th>
-    <th class="table-header-repeat line-left"><a href="">Drug Interactions</a></th>
-    <th class="table-header-repeat line-left"><a href="">Special Precautions</a></th>
     <th class="table-header-repeat line-left"><a href="">BreastFeeding</a></th>
     <th class="table-header-repeat line-left"><a href="">Pregnancy</a></th>
     <th class="table-header-repeat line-left"><a href="">Paediatrics</a></th>
-    <th class="table-header-repeat line-left"><a href="">Over60</a></th>
-    <th class="table-header-repeat line-left"><a href="">ClassId</a></th>
-    <th class="table-header-repeat line-left"><a href="">Comments</a></th>
+    <th class="table-header-repeat line-left"><a href="">Over60</a></th>   
     <th class="table-header-repeat line-left"><a href="">Options</a></th>
   </tr>
   <?php
@@ -129,17 +123,11 @@ echo '<script type="text/javascript">
 	}
     ?>
       <td><?php echo $row_medicine['medicineNm']; ?></td>
-      <td><?php echo $row_medicine['indications']; ?></td>
-      <td><?php echo $row_medicine['contraIndications']; ?></td>
-      <td><?php echo $row_medicine['adverseEffects']; ?></td>
-      <td><?php echo $row_medicine['drugInteractions']; ?></td>
-      <td><?php echo $row_medicine['specialPrecautions']; ?></td>
-      <td><?php echo $row_medicine['breastFeeding']; ?></td>
-      <td><?php echo $row_medicine['pregnancy']; ?></td>
-      <td><?php echo $row_medicine['paediatrics']; ?></td>
-      <td><?php echo $row_medicine['over60']; ?></td>
-      <td><?php echo $row_medicine['classId']; ?></td>
-      <td><?php echo $row_medicine['comments']; ?></td>
+      <td><?php echo $row_medicine['indications']; ?></td>      
+      <td><?php if ($row_medicine['breastFeeding'] == "S") echo "Safe"; else if ($row_medicine['breastFeeding'] == "C") echo "Use with Caution"; else   echo "Do not Use"; ?></td>
+      <td><?php if ($row_medicine['pregnancy'] == "S") echo "Safe"; else if ($row_medicine['pregnancy'] == "C") echo "Use with Caution"; else echo "Do not Use"; ?></td>
+      <td><?php if ($row_medicine['paediatrics'] == "S") echo "Safe"; else if ($row_medicine['paediatrics'] == "C") echo "Use with Caution"; else echo "Do not Use"; ?></td>
+      <td><?php if ($row_medicine['over60'] == "S") echo "Safe"; else if ($row_medicine['over60'] == "C") echo "Use with Caution"; else echo "Do not Use"; ?></td>      
       <td class="options-width">
 			<a title="Edit" onclick="update_submit(<?php echo $row_medicine['medicineId'];?>)" class="icon-1 info-tooltip"></a>
 			<a title="Delete" onclick="delete_confirm(<?php echo $row_medicine['medicineId'];?>);" class="icon-2 info-tooltip"></a>

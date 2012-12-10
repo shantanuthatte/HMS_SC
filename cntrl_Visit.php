@@ -2,6 +2,7 @@
 include('mdl_Visit.php');
 include('mdl_Examination.php');
 include('mdl_Prescription.php');
+include('mdl_InvestigationTrx.php');
 
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -38,6 +39,7 @@ $visit = new Visit();
 
 if($_POST['formAction'] == "insert")
 {
+	
 	$visit->setDetails(GetSQLValueString($_POST['patientId'], "text"),
 	                   GetSQLValueString($_POST['registrationId'], "text"),
 					   GetSQLValueString($_POST['consultingDoctorId'], "text"),
@@ -73,6 +75,15 @@ if($_POST['formAction'] == "insert")
 			$dosage = "dosage-".$i;
 			$duration = "duration-".$i;
 			$instruction = "instruction-".$i;
+			/*if(!empty($_POST[$dosage]) or !empty($_POST[$instruction])or !empty($_POST[$duration]) )
+			{
+				if(empty($_POST[$medicineName]))
+				{
+					echo'not complete';
+					}
+				}
+			else
+			{*/
 			if(GetSQLValueString($_POST[$medicineName], "text") != "NULL")
 			{
 				$prescription->setDetails(GetSQLValueString($visitId, "text"),
@@ -84,8 +95,36 @@ if($_POST['formAction'] == "insert")
 				if(!$prescription->insertprescription())
 					die(mysql_error());
 			}
+			
 		}
+		
+		$investigationTrx = new InvestigationTrx();
+		$count = $_POST['investigationCount'];
+		for($i=1;$i<=$count;$i++)
+		{
+			$investigationName = "investigationName-".$i;
+			$investigationId = "investigationId-".$i;
+			$reportDate = "reportDate-".$i;
+			$institution = "institution-".$i;
+			$value = "value-".$i;
+			$results = "results-".$i;
+			if(GetSQLValueString($_POST[$investigationName], "text") != "NULL")
+			{
+				$investigationTrx->setDetails(GetSQLValueString($visitId, "text"),
+                       GetSQLValueString($_POST['patientId'], "text"),
+					   GetSQLValueString($_POST[$investigationId], "text"),NULL,
+					   GetSQLValueString($_POST[$reportDate], "text"),
+					   GetSQLValueString($_POST[$institution], "text"),
+					   GetSQLValueString($_POST[$results], "text"),
+					   GetSQLValueString($_POST[$value], "text"),
+					   NULL,NULL);
+				if(!$investigationTrx->insertinvestigationtrx())
+					die(mysql_error());
+			}
+		}
+		header('Location: ViewVisits.php');
 	}
+	
 }
 elseif($_POST['formAction'] == "update")
 {
@@ -107,13 +146,13 @@ elseif($_POST['formAction'] == "commit")
 	if(!$visit->updatevisit($_POST['visitId']))
 		die(mysql_error());
 	else
-		header('Location: ViewVisit.php');
+		header('Location: ViewVisits.php');
 }
 elseif($_POST['formAction'] == "delete")
 {
 	if(!$visit->deletevisit($_POST['visitId']))
 		die(mysql_error());
 	else
-		header('Location: ViewVisit.php');
+		header('Location: ViewVisits.php');
 }
 ?>

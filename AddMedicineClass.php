@@ -1,6 +1,8 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 include 'header.php';
+$err="";
+
 if(empty($_GET))
 {
 	$formAction = "insert";
@@ -17,6 +19,56 @@ else
 unset($_SESSION['data']);
 ?>
 
+
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript">
+ 	
+	$(document).ready(function(e) {
+				
+        $("#form1").validate({
+			rules:{
+			
+			classIId:{
+				required: true,
+				},
+			className:{
+				required: true,
+				minlength: 3
+				}
+			},	
+			invalidHandler: function(form, validator){
+				var errors = validator.numberOfInvalids();
+				if(errors)
+				{
+					var message = "There are "+errors+" errors in the data entered. Correct them before submitting.";
+					$("#red-left").html(message);
+					$("#message-red").show();
+					$(".error-left").show();
+				}
+			},
+			ignore:"ui-tabs-hide",
+			errorElement: "div",
+			wrapper: "div",
+			errorPlacement: function(error,element){
+				error.insertAfter('#invalid-' + element.attr('id'));
+				error.addClass('error-inner');
+			},
+			highlight: function(element,errorClass){
+				$(element).fadeOut(function() {
+     			  $(element).fadeIn();
+     			});
+				$(element).parent().siblings(".error-left").show();
+			},
+			unhighlight: function(element,errorClass){
+				$(element).parent().siblings(".error-left").hide();
+			}
+		})
+    });
+	
+</script>
+
+
+
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -24,9 +76,20 @@ unset($_SESSION['data']);
 <!-- start content -->
 <div id="content">
 
+
+<div id="message-red" hidden="true">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="red-left" class="red-left"></td>
+					<td class="red-right"><a class="close-red"><img src="images/table/icon_close_red.gif"   alt="" /></a></td>
+				</tr>
+			</table>
+</div>
+
+
 <form action="cntrl_MedicineClass.php" method="post" name="form1" id="form1">
   <div id="page-heading"><h1>Add Medicine Class</h1></div>
-
+<span style="float:right; margin-right:50px; " ><a href="ViewMedicineClass.php" ><img title="Back to List" src="images/back1.gif"  /></a></span>
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
 	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
@@ -46,15 +109,17 @@ unset($_SESSION['data']);
     echo ' <tr>
       <th>Class Id:</th>
       <td>
-      <input type="text" name="classIId" size="32" class="inp-form-error" value=""/>
+      <input type="text" id="classIId" name="classIId" size="32" class="inp-form-error" value=""/>
       </td>
+	  <td id="invalid-classIId" class="error-left" hidden="true">
    		</tr>'
 	?>		
     <tr>
       <th>Class Name:</th>
       <td>
-      <input type="text" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
+      <input type="text" id="className" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
       </td>
+      <td id="invalid-className" class="error-left" hidden="true">
    		</tr>
         <tr>
 		<th>&nbsp;</th>
@@ -83,6 +148,20 @@ unset($_SESSION['data']);
   <input type="hidden" name="classId" value="<?php if($formAction == "update") echo $data['classId']; ?>" />
 </form>
 <p>&nbsp;</p>
+<div id="check" class="red-left-s">
+<?php
+if(isset($_SESSION['Error']))
+	{
+		$err = $_SESSION['Error'];
+		unset($_SESSION['Error']);
+		$explodedstring = explode(",", $err);
+foreach($explodedstring as $err)
+ echo $err.'<br />';
+ 		 
+	}
+
+?>
+</div>
 
 </body>
 </html>
