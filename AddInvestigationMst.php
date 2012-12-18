@@ -23,36 +23,10 @@ unset($_SESSION['data']);
 	$(document).ready(function(e) {
 				
         $("#form1").validate({
-			rules:{
-			
+			rules:{			
 			invstName:{
 				required: true,
 				minlength: 3
-				},
-			charges:{
-				required: false,
-			    minlength: 2,
-				digits:true
-				},
-			fromVal1:{
-				required: true,
-				minlength: 2,
-				digits:true
-				},
-			toVal1:{
-				required: true,
-				minlength: 2,
-				digits:true
-				},
-			fromVal2:{
-				required: true,
-				minlength: 2,
-				digits:true
-				},
-			toVal2:{
-				required: true,
-				minlength: 2,
-				digits:true
 				}
 			},	
 			invalidHandler: function(form, validator){
@@ -122,9 +96,9 @@ unset($_SESSION['data']);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  
     <tr>
-      <th>Investigation Name:</th>
+      <th>Investigation Name*:</th>
       <td>
-      <input type="text" id="invstName" name="invstName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['invstName']; ?>"/></td>
+      <input type="text" id="invstName" name="invstName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['invstName']; ?>"/></td>
       <td id="invalid-invstName" class="error-left" hidden="true">
    		</tr>
         <tr>
@@ -144,24 +118,24 @@ unset($_SESSION['data']);
     <tr>
       <th>To Val1:</th>
       <td><input type="text" id="toVal1" name="toVal1" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['toVal1']; ?>" /></td>
-      <td id="invalid-toVal1" class="error-left" hidden="true">
+      
     </tr>
     <tr>
       <th>From Val1:</th>
       <td><input type="text" id="fromVal1" name="fromVal1" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['fromVal1']; ?>"/></td>
-      <td id="invalid-fromVal1" class="error-left" hidden="true">
+      
       
     </tr>
     <tr>
       <th>To Val2:</th>
       <td><input type="text" id="toVal2" name="toVal2" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['toVal2']; ?>" /></td>
-      <td id="invalid-toVal2" class="error-left" hidden="true">
+     
     </tr>
     <tr>
    <tr>
       <th>From Val2:</th>
       <td><input id="fromVal2" type="text" name="fromVal2" value="<?php if($formAction == "update") echo $data['fromVal2']; ?>" size="32" class="inp-form" /></td>
-      <td id="invalid-fromVal2" class="error-left" hidden="true">
+      
       </tr>
     <tr>
       <th>Impression:</th>
@@ -185,7 +159,7 @@ unset($_SESSION['data']);
       <th>Charges:</th>
       <td>
       <input type="text" id="charges" name="charges" value="<?php if($formAction == "update") echo $data['charges']; ?>" size="32" class="inp-form"/></td>
-      <td id="invalid-charges" class="error-left" hidden="true">
+      
     </tr> 
     
     <tr>

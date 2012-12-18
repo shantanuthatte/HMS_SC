@@ -107,17 +107,17 @@ unset($_SESSION['data']);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
      <?php if($formAction != "update")
     echo ' <tr>
-      <th>Class Id:</th>
+      <th>Class Id*:</th>
       <td>
-      <input type="text" id="classIId" name="classIId" size="32" class="inp-form-error" value=""/>
+      <input type="text" id="classIId" name="classIId" size="32" class="inp-form" value=""/>
       </td>
 	  <td id="invalid-classIId" class="error-left" hidden="true">
    		</tr>'
 	?>		
     <tr>
-      <th>Class Name:</th>
+      <th>Class Name*:</th>
       <td>
-      <input type="text" id="className" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
+      <input type="text" id="className" name="className" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
       </td>
       <td id="invalid-className" class="error-left" hidden="true">
    		</tr>

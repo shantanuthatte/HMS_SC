@@ -126,26 +126,8 @@ function show_Investigation(id)
 }
 function show_graph(id) 
 {
-	//alert(id);
-	
-	$.ajax({
-		url: "test3.php",
-		data: "action=graphDetails&patientId="+id,
-		success: function(data) {
-			// $('#dialog-form').load('test3.php');
-		//$("dialog-form").html(data);
-		
-		$("#dialog-form").html(data);
-		//$.get("test3.php", function(data){ $("#dialog-form").html(data); });
-			$( "#dialog-form" ).dialog( "option", "title", "Graph" );
-			$("#dialog-form").dialog("open");
-		}
-	});
-	
-	// Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-	
+	window.open('test3_org.php?patientId=' + id,'Medical Graphs','toolbar=no,width=650,height=450,resizable=false ');
+                                 return false;	
 }
 
 </script>
@@ -155,7 +137,8 @@ function show_graph(id)
 
 
 
-<style>
+
+		<style>
  body { font-size: 62.5%; }
  label, input { display:block; }
  input.text { margin-bottom:12px; width:95%; padding: .4em; }
@@ -171,7 +154,7 @@ function show_graph(id)
 </style>
     
 	<script type="text/javascript">
-       	function add_visit(Id)
+function add_visit(Id)
        	{
            	document.getElementById("visit_userId").value=Id;
 			document.forms["visit_form"].submit();
@@ -195,8 +178,11 @@ function show_graph(id)
 			$("#page_form").attr("action","ViewVisits.php?rows="+row+"&page="+page);
 			document.forms["page_form"].submit(); 
 		}
-   </script>
-
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+    </script>
+<body  >
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -269,11 +255,11 @@ function show_graph(id)
       <td><?php echo $row_visits['consultingName']; ?></td>
       <td><?php echo $row_visits['referringName']; ?></td>
       <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $userId;?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $userId;?>);" class="icon-2 info-tooltip"></a>
-			<a title="Examination" id="pop_examination" onclick="show_examination(<?php echo $row_visits['visitId'];?>)" class="icon-3 info-tooltip"></a>
-			<a title="Prescription" id="pop_prescription" onclick="show_prescription(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
-            <a title="Investigation" id="pop_Investigation" onclick="show_Investigation(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
+			<a title="Edit" onClick="update_submit(<?php echo $userId;?>)" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onClick="delete_confirm(<?php echo $userId;?>);" class="icon-2 info-tooltip"></a>
+			<a title="Examination" id="pop_examination" onClick="show_examination(<?php echo $row_visits['visitId'];?>)" class="icon-3 info-tooltip"></a>
+			<a title="Prescription" id="pop_prescription" onClick="show_prescription(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
+            <a title="Investigation" id="pop_Investigation" onClick="show_Investigation(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
 
       </td>
     </tr>
@@ -285,7 +271,7 @@ function show_graph(id)
 			<tr style="border:none">
             <td style="border:none">Rows  </td>
 			<td style="border:none">
-			<select name="rows" id="rows" onchange="populate.call(this, event, <?php echo $personId; ?>)">
+			<select name="rows" id="rows" onChange="populate.call(this, event, <?php echo $personId; ?>)">
 				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
 				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
 				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
@@ -293,11 +279,11 @@ function show_graph(id)
             
 			</td>
 			<td style="border:none">
-				<a onclick="page_direct(<?php echo $rows; ?>,1, <?php echo $personId; ?>)" class="page-far-left"></a>
-				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($prev>0) echo $prev; else echo 1; ?>, <?php echo $personId; ?>)" class="page-left"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,1, <?php echo $personId; ?>)" class="page-far-left"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($prev>0) echo $prev; else echo 1; ?>, <?php echo $personId; ?>)" class="page-left"></a>
 				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
-				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($next<=$total_pages) echo $next; else echo 1; ?>, <?php echo $personId; ?>)" class="page-right"></a>
-				<a onclick="page_direct(<?php echo $rows; ?>,<?php if($total_pages>1) echo $total_pages; else echo 1; ?>, <?php echo $personId; ?>)" class="page-far-right"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($next<=$total_pages) echo $next; else echo 1; ?>, <?php echo $personId; ?>)" class="page-right"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($total_pages>1) echo $total_pages; else echo 1; ?>, <?php echo $personId; ?>)" class="page-far-right"></a>
 			</td>
 			</tr>
 		</table>
@@ -330,7 +316,7 @@ function show_graph(id)
 			<div id="related-act-inner">
 			
 				<div class="left"><a href=""><img src="images/forms/icon_edit.gif" width="21" height="21" alt="" /></a>
-                <a title="Graph" id="pop_graph" onclick="show_graph(<?php echo $userId ?>);" class="icon-3 info-tooltip"></a>
+                <a title="Graph" id="pop_graph" onClick="show_graph(<?php echo $userId ?>);" class="icon-3 info-tooltip"></a>
                 </div>
 				<div class="right">
 					<h5 style="font-size:14px; color:#92b22c">Personal Details</h5>

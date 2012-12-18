@@ -24,7 +24,7 @@ $row_class = mysql_fetch_assoc($class);
 $totalRows_class = mysql_num_rows($class);
 
 ?>
-
+<!--
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
  	
@@ -67,7 +67,7 @@ $totalRows_class = mysql_num_rows($class);
 		})
     });
 	
-</script>
+</script> -->
 
 <div class="clear"></div>
  
@@ -105,9 +105,9 @@ $totalRows_class = mysql_num_rows($class);
     <!-- starting table contents -->
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
     <tr>
-      <th>Medicine Name:</th>
+      <th>Medicine Name*:</th>
       <td>
-      <input type="text" id="medicineNm" name="medicineNm" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['medicineNm']; ?>"/>
+      <input type="text" id="medicineNm" name="medicineNm" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['medicineNm']; ?>"/>
       </td>
       <td id="invalid-medicineNm" class="error-left" hidden="true">
    		</tr>
@@ -174,15 +174,11 @@ $totalRows_class = mysql_num_rows($class);
        <tr>
       <th>ClassId:</th>
       <td><select name="classId" class="styledselect_form_1">
-      <?php 
-		do {  
-		?>    
+      <option value="" selected="selected">.....Select.....</option>
+      <?php do {  ?>    
       <option value="<?php echo $row_class['classId']?>" 
-	  <?php if (($formAction == "update") && (!strcmp($row_class['classId'], $data['classId']))) {echo "SELECTED";} ?>>
-      <?php echo $row_class['className'];?></option>
-      <?php
-		} while ($row_class = mysql_fetch_assoc($class));
-		?>        
+	  <?php if (($formAction == "update") && (!strcmp($data['classId'], $row_class['classId']))) {echo "SELECTED";} ?>><?php echo $row_class['className'];?></option>
+      <?php } while ($row_class = mysql_fetch_assoc($class)); ?>        
       </select>
    		</tr>
         <tr>

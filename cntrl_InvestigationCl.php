@@ -4,26 +4,27 @@ include('mdl_InvestigationCl.php');
 $flag=0;
 function serverValidation()
 {
-	$count=0;
-	$retVal=0;
-	$check1="";
-	if(empty($_POST['grId']))
+		$count=0;
+		$retVal=0;
+		$check1="";
+		$groupId =  GetSQLValueString($_POST['grId'], "text");
+		if(empty($groupId)) 
 		{
 			$count = $count+1;
-		$check1= $count.". Select Group Id.,";
-		$retVal=1;
+			$check1= $count.". Select Group Id.,";
+			$retVal=1;
 		}
-	if(empty($_POST['className']))
-	{
-		$count=$count+1;
-		$check1= $check1.$count. ". Class Name is required.,";
-		$retVal=1;
-		}
-	else if(strlen($_POST['className'])<3)
+		if(empty($_POST['className']))
 		{
 			$count=$count+1;
-		$check1= $check1.$count. ". Class Name requires at least 3 characters.,";
-		$retVal=1;
+			$check1= $check1.$count. ". Class Name is required.,";
+			$retVal=1;
+		}
+		else if(strlen($_POST['className'])<3)
+		{
+				$count=$count+1;
+				$check1= $check1.$count. ". Class Name requires at least 3 characters.,";
+			$retVal=1;
 		}
 		
 		if($retVal==1)
@@ -36,8 +37,7 @@ function serverValidation()
 		else
 		{
 			return 0;
-		}
-		
+		}		
 	
 	}
 
@@ -76,12 +76,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 $invstcl = new InvestigationCl();
 
 if($_POST['formAction'] == "insert")
-{
-	
+{	
 	$flag= serverValidation();
 	if($flag==0)
 	{
 	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
+						GetSQLValueString($_POST['classId'], "text"),
                        GetSQLValueString($_POST['className'], "text"));
 	if(!$invstcl->insertinvestigationcl())
 		die(mysql_error());
@@ -90,13 +90,14 @@ if($_POST['formAction'] == "insert")
 	}
 }
 elseif($_POST['formAction'] == "update")
-{
+{	
 	session_start();
-	$data = $invstcl->getDetails($_POST['grId']);
+	$data = $invstcl->getDetails($_POST['grId'], $_POST['classId']);
 	$_SESSION['data'] = $data;
 	//echo "Hello update";
 	//var_dump($_SESSION['data']);
 	header('Location: AddInvestigationCl.php?Mode=update');
+	
 }
 elseif($_POST['formAction'] == "commit")
 {
@@ -104,8 +105,9 @@ elseif($_POST['formAction'] == "commit")
 	if($flag==0)
 	{
 	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
+					GetSQLValueString($_POST['classId'], "text"),
                        GetSQLValueString($_POST['className'], "text"));
-	if(!$invstcl->updateinvestigationcl($_POST['grId']))
+	if(!$invstcl->updateinvestigationcl($_POST['grId'], $_POST['classId']))
 		die(mysql_error());
 	else
 		header('Location: ViewInvestigationCl.php');
@@ -113,7 +115,7 @@ elseif($_POST['formAction'] == "commit")
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$invstcl->deleteinvestigationcl($_POST['grId']))
+	if(!$invstcl->deleteinvestigationcl($_POST['grId'], $_POST['classId']))
 		die(mysql_error());
 	else
 		header('Location: ViewInvestigationCl.php');

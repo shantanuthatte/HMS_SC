@@ -102,7 +102,7 @@ unset($_SESSION['data']);
     <tr>
       <th>Procedure Name*:</th>
       <td>
-      <input type="text" id="procedureName" name="procedureName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['procedureName']; ?>"/></td>
+      <input type="text" id="procedureName" name="procedureName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['procedureName']; ?>"/></td>
       <td id="invalid-procedureName" class="error-left" hidden="true">
     </tr>
      <tr>

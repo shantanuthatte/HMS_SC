@@ -13,6 +13,13 @@ function serverValidation()
 		$retVal=1;
 		
 		}
+	else if(is_numeric($_POST['fName']))
+	{
+		$count = $count+1;
+		$check1= $count.". Enter Alphabets in First Name.,";
+		$retVal=1;
+	}
+		    
 	else if(strlen($_POST['fName'])<3)
 		{
 			$count = $count+1;
@@ -26,6 +33,12 @@ function serverValidation()
 		$check1= $check1. $count .". Last Name is required.,";
 		$retVal=1;
 		}
+		else if(is_numeric($_POST['lName']))
+	{
+		$count = $count+1;
+		$check1= $count.". Enter Alphabets in Last Name.,";
+		$retVal=1;
+	}
 	else if(strlen($_POST['lName'])<3)
 		{
 			$count = $count+1;

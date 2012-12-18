@@ -97,18 +97,18 @@ unset($_SESSION['data']);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  
     <tr>
-      <th>Group Name:</th>
+      <th>Group Name*:</th>
       <td>
-      <input type="text" id="groupName" name="groupName" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['groupName']; ?>"/></td>
-      <td id="invalid-groupName" class="error-left" hidden="true">
-   		</tr>
-        <tr>
-		<th>&nbsp;</th>
-		<td valign="top">
+      <input type="text" id="groupName" name="groupName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['groupName']; ?>"/></td>
+      <td id="invalid-groupName" class="error-left" hidden="true"> </td>
+   	</tr>
+    <tr>
+	<th>&nbsp;</th>
+	<td valign="top">
 			<input type="submit" value="Submit" class="form-submit" />
 			<input type="reset" value="Reset" class="form-reset"  />
-		</td>
-		<td></td>
+	</td>
+	<td></td>
 	</tr>
   </table>
   <!-- ending table contents -->

@@ -29,34 +29,31 @@ $next = $page+1; //next page
 $from = (($page * $rows) - $rows); 
     
 mysql_select_db($database_HMS, $HMS);
-$query_invstcl = "SELECT GR.groupName, CL.grId, CL.classId, CL.className FROM investigationgr GR INNER JOIN investigationcl CL ON GR.groupId=CL.grId LIMIT $from,$rows";
+$query_invstcl = "SELECT GR.groupName, CL.grId, CL.classId, CL.className FROM investigationcl CL  INNER JOIN investigationgr GR ON GR.groupId=CL.grId LIMIT $from,$rows";
 $invstcl = mysql_query($query_invstcl, $HMS) or die(mysql_error());
 $row_invstcl = mysql_fetch_assoc($invstcl);
 $totalRows_invstcl = mysql_num_rows($invstcl);
 
 
 echo '<script type="text/javascript">
-       function delete_confirm(grId)
+       function delete_confirm(grId, classId)
        {
            if(confirm("Are you sure you want to delete?")==true)
            {
 				document.getElementById("grId_delete").value=grId;
+				document.getElementById("classId_delete").value=classId;
 				document.forms["delete_form"].submit();
 		   }
        }
 	   
-	   function update_submit(grId)
+	   function update_submit(grId, classId)
 	   {		   
 		  	document.getElementById("grId_update").value=grId;
+			document.getElementById("classId_update").value=classId;
 			document.forms["update_form"].submit();  
 	   }
-	  
-	   function display_invstcl(Id)
-	   {
-			document.getElementById("grId_display").value=Id;
-			document.forms["display_form"].submit();
-		}
-		 function populate(event) 
+	  	  
+		function populate(event) 
 		{
 			var number = this.options[this.selectedIndex].text;
 			var url = "ViewInvestigationCl.php?rows="+number+"&page=1";
@@ -96,11 +93,13 @@ echo '<script type="text/javascript">
 
 <form id="delete_form" action="cntrl_InvestigationCl.php" method="post">
 <input id="grId_delete" name="grId" value="" type="hidden" />
+<input id="classId_delete" name="classId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="delete" type="hidden" />
 </form>
 
 <form id="update_form" action="cntrl_InvestigationCl.php" method="post">
 <input id="grId_update" name="grId" value="" type="hidden" />
+<input id="classId_update" name="classId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
 
@@ -127,8 +126,8 @@ echo '<script type="text/javascript">
       <td><?php echo $row_invstcl['groupName']; ?></td>
       <td><?php echo $row_invstcl['className']; ?></td>
       <td class="options-width">
-			<a title="Edit" onclick="update_submit('<?php echo $row_invstcl['grId'];?>')" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm('<?php echo $row_invstcl['grId'];?>');" class="icon-2 info-tooltip"></a>            
+			<a title="Edit" onclick="update_submit('<?php echo $row_invstcl['grId'];?> ',' <?php echo $row_invstcl['classId'];?>')" class="icon-1 info-tooltip"></a>
+			<a title="Delete" onclick="delete_confirm('<?php echo $row_invstcl['grId'];?> ',' <?php echo $row_invstcl['classId'];?>');" class="icon-2 info-tooltip"></a>            
       </td>      
     </tr>
     <?php } while ($row_invstcl = mysql_fetch_assoc($invstcl)); ?>

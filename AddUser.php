@@ -129,23 +129,23 @@ if(isset($formAction))
     </tr>
     <?php if($formAction != "update")
     echo '<tr >
-      <th>Password:</th>
+      <th>Password*:</th>
       <td><input type="text" id="password" name="password" value="" size="32" class="inp-form"/></td>
 	  <td id="invalid-password" class="error-left" hidden="true">
       </td>
     </tr>'
 	?>
-    <tr >
+    <tr>
       <th>Type*:</th>
       <td><input type="text" id="type" name="type" value="<?php  if($formAction == "update") echo $data['type'] ?>" size="32" class="inp-form"/></td>
       <td id="invalid-type" class="error-left" hidden="true">
     </tr>
-    <tr >
+    <tr>
       <th>RecoveryEmail*:</th>
       <td><input type="text" id="recoveryEmail" name="recoveryEmail" value="<?php  if($formAction == "update") echo $data['recoveryEmail'] ?>" size="32" class="inp-form"/></td>
       <td id="invalid-recoveryEmail" class="error-left" hidden="true">
     </tr>
-    <tr >
+    <tr>
       <th >Permission*:</th>
       <td><input type="text" id="permission" name="permission" value="<?php  if($formAction == "update") echo $data['permission'] ?>" size="32" class="inp-form" /></td>
       <td id="invalid-permission" class="error-left" hidden="true">

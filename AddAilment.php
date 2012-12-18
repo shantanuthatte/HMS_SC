@@ -45,17 +45,23 @@ unset($_SESSION['data']);
 			errorElement: "div",
 			wrapper: "div",
 			errorPlacement: function(error,element){
-				error.insertAfter('#invalid-' + element.attr('id'));
+				error.insertAfter('#invalid-' + 
+
+element.attr('id'));
 				error.addClass('error-inner');
 			},
 			highlight: function(element,errorClass){
 				$(element).fadeOut(function() {
      			  $(element).fadeIn();
      			});
-				$(element).parent().siblings(".error-left").show();
+				
+
+$(element).parent().siblings(".error-left").show();
 			},
 			unhighlight: function(element,errorClass){
-				$(element).parent().siblings(".error-left").hide();
+				
+
+$(element).parent().siblings(".error-left").hide();
 			}
 		})
     });

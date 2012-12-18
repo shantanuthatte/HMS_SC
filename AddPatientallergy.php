@@ -107,11 +107,11 @@ $totalRows_patient = mysql_num_rows($patient);
 
   <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
-	<th rowspan="3" class="sized"><img src="file:///C|/Documents and Settings/sharad03/Desktop/images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 	<th class="topleft"></th>
 	<td id="tbl-border-top">&nbsp;</td>
 	<th class="topright"></th>
-	<th rowspan="3" class="sized"><img src="file:///C|/Documents and Settings/sharad03/Desktop/images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
+	<th rowspan="3" class="sized"><img src="images/shared/side_shadowright.jpg" width="20" height="300" alt="" /></th>
 </tr>
 <tr>
 	<td id="tbl-border-left"></td>
@@ -122,24 +122,18 @@ $totalRows_patient = mysql_num_rows($patient);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  
     <tr>
-      <th>PatientId:</th>
+      <th>PatientId*:</th>
       <td><select id="patientId" name="patientId" class="styledselect_form_1">
       <option value="" selected="selected">.....Select.....</option>
-        <?php 
-do {  
-?>
-
-        <option value="<?php echo $row_patient['userId']?>" <?php /*if (!(strcmp($row_patient['userId'], $row_patient['userId']))) {echo "SELECTED";} */?>><?php echo $row_patient['userName'];?></option>
-        <?php
-} while ($row_patient = mysql_fetch_assoc($patient));
-?>
-<?php if($formAction == "update") echo $data['patientId']; ?>
+        <?php do {  ?>
+        <option value="<?php echo $row_patient['userId']?>" <?php if($formAction == "update"){if (!(strcmp($data['patientId'], $row_patient['userId']))) {echo "SELECTED";}} ?>><?php echo $row_patient['userName'];?></option>
+        <?php } while ($row_patient = mysql_fetch_assoc($patient)); ?>
       </select>
       </td>
-      <td id="invalid-patientId" class="error-left" hidden="true">
+      <td id="invalid-patientId" class="error-left" hidden="true"> </td>
    		</tr>
         <tr>
-      <th>Allergy Type:</th>
+      <th>Allergy Type*:</th>
       <td><select id="type" name="type" class="styledselect_form_1">
       <option value="" selected="selected">.....Select.....</option>
 			<option value="D" <?php if($formAction == "update" && $data['type'] == "D") echo "SELECTED"; ?>>Drug</option>
@@ -148,11 +142,11 @@ do {
 			<option value="O" <?php if($formAction == "update" && $data['type'] == "O") echo "SELECTED"; ?>>Other</option>
 			</select>
 </td>
-<td id="invalid-type" class="error-left" hidden="true">
+<td id="invalid-type" class="error-left" hidden="true"> </td>
     <tr>
-      <th>Allergy:</th>
+      <th>Allergy*:</th>
       <td><input type="text" id="allergy" name="allergy" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['allergy']; ?>" /></td>
-      <td id="invalid-allergy" class="error-left" hidden="true">
+      <td id="invalid-allergy" class="error-left" hidden="true"> </td>
     </tr>
     <tr>
       <th>Comments:</th>
@@ -188,15 +182,13 @@ do {
 <p>&nbsp;</p>
 <div id="check" class="red-left-s">
 <?php
-if(isset($_SESSION['Error']))
+	if(isset($_SESSION['Error']))
 	{
-		$err = $_SESSION['Error'];
-		
+		$err = $_SESSION['Error'];		
 		unset($_SESSION['Error']);
 		$explodedstring = explode(",", $err);
-foreach($explodedstring as $err)
- echo $err.'<br />';
- 		 
+		foreach($explodedstring as $err)
+	 	echo $err.'<br />'; 		 
 	}
 ?>
 </div>

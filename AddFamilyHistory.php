@@ -143,24 +143,18 @@ $totalRows_ailment = mysql_num_rows($ailment);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  
     <tr>
-      <th>PatientId:</th>
+      <th>PatientId*:</th>
       <td><select name="patientId" id="patientId" class="styledselect_form_1">
        <option value="" selected="selected">.....Select.....</option>
-        <?php 
-do {  
-?>
-        <option value="<?php echo $row_patient['userId']?>" <?php/* if (!(strcmp($row_patient['userId'], $row_patient['userId']))) {echo "SELECTED";} */?><?php echo $row_patient['userName'];?></option>
-        <?php
-} while ($row_patient = mysql_fetch_assoc($patient));
-?>
-<?php if($formAction == "update") echo $data['patientId']; ?>
-
-      </select></td><td>&nbsp;
-      </td>
-      <td id="invalid-patientId" class="error-left" hidden="true">
+        <?php do { ?>
+        <option value="<?php echo $row_patient['userId']?>" <?php if($formAction == "update") {if (!(strcmp($data['patientId'], $row_patient['userId']))) {echo "SELECTED";}} ?> ><?php echo $row_patient['userName'];?></option>
+       	<?php } while ($row_patient = mysql_fetch_assoc($patient)); ?>
+	  	</select></td>   
+        <td>&nbsp; </td>   
+        <td id="invalid-patientId" class="error-left" hidden="true"> </td>
       </tr>
         <tr>
-      <th>Family Realtion:</th>
+      <th>Family Realtion*:</th>
       <td><select name="familyRelation" id="familyRelation" class="styledselect_form_1">
       <option value="" selected="selected">.....Select.....</option>
 			<option value="Father" <?php if($formAction == "update" && $data['familyRelation'] == "Father") echo "SELECTED"; ?>>Father</option>
@@ -171,46 +165,37 @@ do {
             <option value="Sister" <?php if($formAction == "update" && $data['familyRelation'] == "Sister") echo "SELECTED"; ?>>Sister</option>
 			</select>
             </td>
-            <td>&nbsp;
-      </td>
-      <td id="invalid-familyRelation" class="error-left" hidden="true">
+            <td>&nbsp; </td>	
+      <td id="invalid-familyRelation" class="error-left" hidden="true"> </td>
       </tr>
            <tr>
-      <th>Ailment:</th>
+      <th>Ailment*:</th>
       
        <td><select name="ailmentId" id="ailmentId" class="styledselect_form_1">
        <option value="" selected="selected">.....Select.....</option>
-        <?php 
-do {  
-?> <option value="<?php echo $row_ailment['ailmentId']?>" <?php/* if (!(strcmp($row_ailment['ailmentId'], $row_ailment['ailmentId']))) {echo "SELECTED";}*/ ?><?php echo $row_ailment['ailmentName'];?></option>
-        <?php
-} while ($row_ailment = mysql_fetch_assoc($ailment));
-?>
-<?php if($formAction == "update") echo $data['ailmentId']; ?>
-      </select></td><td>&nbsp;
-      </td>
-      <td id="invalid-ailmentId" class="error-left" hidden="true">
+        <?php do {  ?> 
+        <option value="<?php echo $row_ailment['ailmentId']?>" <?php if($formAction == "update") { if (!(strcmp($data['ailmentId'], $row_ailment['ailmentId']))) {echo "SELECTED";}} ?> ><?php echo $row_ailment['ailmentName'];?></option>
+        <?php } while ($row_ailment = mysql_fetch_assoc($ailment)); ?>
+      </select></td>
+      <td>&nbsp; </td>
+      <td id="invalid-ailmentId" class="error-left" hidden="true"> </td>
       <tr>
-      <th>Diagnosis Date:</th>
+      <th>Diagnosis Date*:</th>
       <td><input id="txtDate1" type="text" name="diagnosisDate" value="<?php if($formAction == "update") echo $data['diagnosisDate']; ?>" size="32" class="inp-form" /></td>
      <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/> </td>
-      <td id="invalid-txtDate1" class="error-left" hidden="true">
-     
+      <td id="invalid-txtDate1" class="error-left" hidden="true">   </td>  
     </tr>
         <tr>
       <th>Symptoms:</th>
-      <td><input type="text" name="symptoms" value="" size="32" class="inp-form"/>
-      <?php if($formAction == "update") echo $data['symptoms']; ?></td>
+      <td><input type="text" name="symptoms" value="<?php if($formAction == "update") echo $data['symptoms']; ?>" size="32" class="inp-form"/>
+      </td>
    		</tr>
         <tr>
       <th>Comments:</th>
-      <td><input type="text" name="comments" value="" size="32" class="inp-form"/>
-   		<?php if($formAction == "update") echo $data['comments']; ?></td>
+      <td><input type="text" name="comments" value="<?php if($formAction == "update") echo $data['comments']; ?>" size="32" class="inp-form"/>
+   		</td>
     </tr>
-    
-  
-
-<tr>
+    <tr>
 		<th>&nbsp;</th>
 		<td valign="top">
 			<input type="submit" value="Submit" class="form-submit" />
@@ -241,15 +226,13 @@ do {
 
 <div id="check" class="red-left-s">
 <?php
-if(isset($_SESSION['Error']))
+	if(isset($_SESSION['Error']))
 	{
-		$err = $_SESSION['Error'];
-		
+		$err = $_SESSION['Error'];		
 		unset($_SESSION['Error']);
 		$explodedstring = explode(",", $err);
-foreach($explodedstring as $err)
- echo $err.'<br />';
- 		 
+		foreach($explodedstring as $err)
+		echo $err.'<br />'; 		 
 	}
 ?>
 </div>

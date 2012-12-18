@@ -101,11 +101,11 @@ unset($_SESSION['data']);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  
     <tr>
-      <th>Frequency:</th>
+      <th>Frequency*:</th>
       <td>
-      <input type="text" id="frequency" name="frequency" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['frequency']; ?>"/>
+      <input type="text" id="frequency" name="frequency" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['frequency']; ?>"/>
       </td>
-      <td id="invalid-frequency" class="error-left" hidden="true">
+      <td id="invalid-frequency" class="error-left" hidden="true"> </td>
    		</tr>
         <tr>
 		<th>&nbsp;</th>

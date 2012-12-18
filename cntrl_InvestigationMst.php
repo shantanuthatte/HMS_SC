@@ -19,7 +19,8 @@ function serverValidation()
 		$check1= $check1.$count. ". Investigation Name at least 3 characters.,";
 		$retVal=1;
 		}
-	if(empty($_POST['toVal1']))
+	
+	/*if(empty($_POST['toVal1']))
 	{
 		$count=$count+1;
 		$check1= $check1.$count. ". To Val1 is required.,";
@@ -96,7 +97,7 @@ function serverValidation()
 			$count=$count+1;
 		$check1= $check1.$count. ". From Val 2 requires at least 6 digits.,";
 		$retVal=1;
-		}
+		} */
 		
 		if($retVal==1)
 		{

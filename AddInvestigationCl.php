@@ -109,27 +109,23 @@ $totalRows_invstgr = mysql_num_rows($invstgr);
 	<div id="content-table-inner">
     <!-- starting table contents -->
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
- <tr>
-      <th>GroupId:</th>
-      <td><select name="grId" class="styledselect_form_1" id="grId">
-      <option value="" selected="selected">.....Select.....</option>
-        <?php 
-do {  
-?>      
-        <option value="<?php echo $row_invstgr['groupId']?>" <?php/* if (!(strcmp($row_invstgr['groupId'], $row_invstgr['groupId']))) {echo "SELECTED";}*/ ?><?php echo $row_invstgr['groupName'];?></option>
-        <?php
-} while ($row_invstgr = mysql_fetch_assoc($invstgr));
-?>
-<?php if($formAction == "update") echo $data['groupId']; ?>
-
-      </select> </td>
-      <td id="invalid-grId" class="error-left" hidden="true">
-     
-   		</tr>
-    <tr>
-      <th>Class Name:</th>
+ 	<tr>
+      <th>GroupId*:</th>
       <td>
-      <input type="text" id="className" name="className" size="32" class="inp-form-error" value="<?php if($formAction == "update") echo $data['className']; ?>"/></td>
+       <select id="grId" name="grId" class="styledselect_form_1" >      
+        <option value="" selected="selected">.....Select.....</option>
+		<?php do {  ?>      
+        <option value="<?php echo $row_invstgr['groupId']; ?>" 
+         <?php if($formAction == "update") { if (!(strcmp($data['grId'], $row_invstgr['groupId']))) {echo "SELECTED";} }?>><?php echo $row_invstgr['groupName']; ?></option>
+        <?php } while ($row_invstgr = mysql_fetch_assoc($invstgr)); ?>
+      </select> 
+      </td>
+      <td id="invalid-grId" class="error-left" hidden="true"> </td>
+   	</tr>
+    <tr>
+      <th>Class Name*:</th>
+      <td>
+      <input type="text" id="className" name="className" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['className']; ?>"/></td>
      <td id="invalid-className" class="error-left" hidden="true">
    		</tr>
         <tr>
@@ -155,8 +151,8 @@ do {
 	<th class="sized bottomright"></th>
 </tr>
 </table>
-  <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
-  <input type="hidden" name="grId" value="<?php if($formAction == "update") echo $data['grId']; ?>" />
+  <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />  
+  <input type="hidden" name="classId" value="<?php if($formAction == "update") echo $data['classId']; ?>" />
 </form>
 <p>&nbsp;</p>
 <div id="check" class="red-left-s">

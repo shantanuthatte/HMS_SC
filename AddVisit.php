@@ -50,9 +50,9 @@ else if($_POST['formAction'] == "insert")
 	{
 		var count = document.getElementById("medicineCount").value;
 		
-		var row1 = new String('<tr bgcolor="#EEFFDD"><th align="right">Medicine Name:</th><td><input  name="medicine-0" id="medicine-0" type="text" class="inp-form" value="" style="width:85%" onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>  <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Duration:</th><td><input name="duration-0" type="text" class="inp-form" value="" /></td>        <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
+		var row1 = new String('<tr bgcolor="#EEFFDD"><th align="right">Medicine Name:</th><td><input  name="medicine-0" id="medicine-0" type="text" class="inp-form" value="" /> <input id="medSearch-0" name="medSearch-0" type="button" value="search"  onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>  <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Duration:</th><td> <input id="duration-0" name="duration-0" type="text" class="inp-form" value=""  /> <input id="freqSearch-0" name="freqSearch-0" type="button" value="search"  onclick="popDuration(0)" /> <input type="text" id="durationId-0" name="durationId-0" hidden="true" value="" /> </td> <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
 		
-		var row2 = new String('<tr><th align="right">Medicine Name:</th><td><input id="medicine-0" name="medicine-0" type="text" class="inp-form" value="" style="width:85%" onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Duration:</th><td><input name="duration-0" type="text" class="inp-form" value="" /></td>        <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
+		var row2 = new String('<tr><th align="right">Medicine Name:</th><td><input id="medicine-0" name="medicine-0" type="text" class="inp-form" value="" /> <input id="medSearch-0" name="medSearch-0" type="button" value="search"  onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Duration:</th><td> <input id="duration-0" name="duration-0" type="text" class="inp-form" value=""  /> <input id="freqSearch-0" name="freqSearch-0" type="button" value="search"  onclick="popDuration(0)" /> <input type="text" id="durationId-0" name="durationId-0" hidden="true" value="" /> </td><th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
 		
 		count++;
 		var content1 = row1.replace(/0/g,count);
@@ -240,6 +240,19 @@ else if($_POST['formAction'] == "insert")
 		});
 	}
 	
+	function popDuration(num)
+	{		
+		$.ajax({
+			url: "AjaxVisit.php",
+			data: "action=frequencyNames&page=1&num="+num,
+			success: function(data) {
+				$('#dialog-form').html(data);
+				$( "#dialog-form" ).dialog( "option", "title", "Duration" );
+				$("#dialog-form").dialog("open");
+			}
+		});
+	}
+	
 </script>
 
 
@@ -332,7 +345,7 @@ else if($_POST['formAction'] == "insert")
         <table border="0" width="100%" cellpadding="5" cellspacing="5">
         <tr>
         	<th align="right">
-            Complain:
+            Complain*:
         	</th>
             <td colspan="3">
             <textarea id="patientComplain" name="patientComplain" class="form-textarea" style="width:84%; height:32px;" value="" ></textarea>
@@ -340,7 +353,7 @@ else if($_POST['formAction'] == "insert")
         </tr>
         <tr bgcolor="#EEFFDD">
         	<th align="right">
-            Pulse:
+            Pulse*:
         	</th>
             <td>
             <input id="pulse" name="pulse" type="text" class="inp-form" value="" />
@@ -368,7 +381,7 @@ else if($_POST['formAction'] == "insert")
         </tr>
         <tr>
         	<th align="right">
-            Examination:
+            Examination*:
         	</th>
             <td colspan="3">
             <textarea id="examination" name="examination" class="form-textarea" style="width:84%; height:32px;" value="" ></textarea>
@@ -400,7 +413,7 @@ else if($_POST['formAction'] == "insert")
         </tr>
         <tr>
         	<th align="right">
-            Final Diagnosis:
+            Final Diagnosis*:
         	</th>
             <td>
             <textarea id="finalDiagnosis" name="finalDiagnosis" class="form-textarea" style="height:60px;" value="" ></textarea>
@@ -421,7 +434,8 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input id="medicine-1" name="medicine-1" type="text" class="inp-form" value=""  onclick="popMedicine(1)" />
+        <input id="medicine-1" name="medicine-1" type="text" class="inp-form" value=""  />
+        <input id="medSearch-1" name="medSearch-1" type="button" value="search"  onclick="popMedicine(1)"/>
         <input type="text" id="medicineId-1" name="medicineId-1" hidden="true" value="" />        
         </td>
         <th align="right">Dosage:
@@ -433,9 +447,11 @@ else if($_POST['formAction'] == "insert")
         <tr>
         <th align="right">Duration:
         </th>
-        <td>
-        <input name="duration-1" type="text" class="inp-form" value="" />
-        </td>
+        <td>      
+        <input id="duration-1" name="duration-1" type="text" class="inp-form" value=""  />  
+        <input id="freqSearch-1" name="freqSearch-1" type="button" value="search"  onclick="popDuration(1)" />
+        <input type="text" id="durationId-1" name="durationId-1" hidden="true" value="" /> 
+         </td>   
         <th align="right">Instruction:
         </th>
         <td>
@@ -446,7 +462,8 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input id="medicine-2" name="medicine-2" type="text" class="inp-form" value="" onclick="popMedicine(2)" />
+        <input id="medicine-2" name="medicine-2" type="text" class="inp-form" value="" />
+        <input id="medSearch-2" name="medSearch-2" type="button" value="search"  onclick="popMedicine(2)"/>
         <input type="text" id="medicineId-2" name="medicineId-2" hidden="true" value="" />
         </td>
         <th align="right">Dosage:
@@ -458,9 +475,11 @@ else if($_POST['formAction'] == "insert")
         <tr bgcolor="#EEFFDD">
         <th align="right">Duration:
         </th>
-        <td>
-        <input name="duration-2" type="text" class="inp-form" value="" />
-        </td>
+        <td>      
+        <input id="duration-2" name="duration-2" type="text" class="inp-form" value=""  />  
+        <input id="freqSearch-2" name="freqSearch-2" type="button" value="search"  onclick="popDuration(2)" />
+        <input type="text" id="durationId-2" name="durationId-2" hidden="true" value="" /> 
+         </td> 
         <th align="right">Instruction:
         </th>
         <td>
@@ -471,7 +490,8 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input id="medicine-3" name="medicine-3" type="text" class="inp-form" value="" onclick="popMedicine(3)" />
+        <input id="medicine-3" name="medicine-3" type="text" class="inp-form" value="" />
+        <input id="medSearch-3" name="medSearch-3" type="button" value="search"  onclick="popMedicine(3)"/>
         <input type="text" id="medicineId-3" name="medicineId-3" hidden="true" value="" />
         </td>
         <th align="right">Dosage:
@@ -483,9 +503,11 @@ else if($_POST['formAction'] == "insert")
         <tr>
         <th align="right">Duration:
         </th>
-        <td>
-        <input name="duration-3" type="text" class="inp-form" value="" />
-        </td>
+        <td>      
+        <input id="duration-3" name="duration-3" type="text" class="inp-form" value=""  />  
+        <input id="freqSearch-3" name="freqSearch-3" type="button" value="search"  onclick="popDuration(3)" />
+        <input type="text" id="durationId-3" name="durationId-3" hidden="true" value="" /> 
+         </td>        
         <th align="right">Instruction:
         </th>
         <td>
