@@ -34,8 +34,13 @@ $query_personRS = "SELECT * FROM person where type=1 LIMIT $from,$rows";
 $personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
 $row_personRS = mysql_fetch_assoc($personRS);
 $totalRows_personRS = mysql_num_rows($personRS);
+?>
+<script type="text/javascript">
 
-echo '<script type="text/javascript">
+		$(document).ready(function(e) {
+            implementSearch();
+        });
+		
        	function delete_confirm(personId)
        	{
            if(confirm("Are you sure you want to delete?")==true)
@@ -64,12 +69,55 @@ echo '<script type="text/javascript">
 		}
         function populate(event) 
 		{
-			var number = this.options[this.selectedIndex].text;
-			var url = "ViewPerson.php?rows="+number+"&page=1";
-			window.location.href = url;
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = this.options[this.selectedIndex].text;
+			$("#fill").animate({width:'toggle'},1500).empty();
+			$.ajax({
+				url:"AjaxPersons.php",
+				data:"name="+name+"&rows="+rows+"&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({width:'toggle'},1500);
     	}
-   </script>';  
-?>
+		
+		function setPage(page)
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({width:'toggle'},1500).empty();
+			$.ajax({
+				url:"AjaxPersons.php",
+				data:"name="+name+"&rows="+rows+"&page="+page,
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({width:'toggle'},1500);
+		}
+		
+		function implementSearch()
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({width:'toggle'},1500).empty();
+			$.ajax({
+				url:"AjaxPersons.php",
+				data:"name="+name+"&rows=10&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({width:'toggle'},1500);
+		}
+   </script>
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -118,76 +166,9 @@ echo '<script type="text/javascript">
 <form id="visit_form" action="ViewVisits.php" method="post">
 <input id="personId_visit" name="personId" value="" type="hidden" />
 </form>
+<div id="fill">
+</div>
 
-<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
-  <tr>    
-    <th class="table-header-repeat line-left"><a href="">Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Address</a></th>
-    <th class="table-header-repeat line-left"><a href="">Phone</a></th>
-    <th class="table-header-repeat line-left"><a href="">Mobile</a></th>
-    <!--<th class="table-header-repeat line-left"><a href="">Gender</a></th>
-    <th class="table-header-repeat line-left"><a href="">DOB</a></th> -->
-    <th class="table-header-repeat line-left"><a href="">Email</a></th>
-    <th class="table-header-repeat line-left"><a href="">Options</a></th>
-  </tr>
-  <?php
-  $even=1;
-   do {
-    if($even == 1)
-	{
-		echo '<tr>';
-		$even=0;
-	}
-	else
-	{
-		echo '<tr class="alternate-row">';
-		$even=1;
-	}
-    ?>      
-      <td><?php echo $row_personRS['fName']; ?> &nbsp; <?php echo $row_personRS['mName']; ?> &nbsp;<?php echo $row_personRS['lName']; ?></td>
-      <td><?php echo $row_personRS['address1']; ?></td>
-      <td><?php echo $row_personRS['rPhone']; ?></td>
-      <td><?php echo $row_personRS['mobile']; ?></td>
-      <!--<td><?php //echo $row_personRS['gender']; ?></td>
-      <td><?php //echo $row_personRS['DOB']; ?></td> -->
-      <td><?php echo $row_personRS['email']; ?></td>
-      <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_personRS['personId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_personRS['personId'];?>);" class="icon-2 info-tooltip"></a>
-            <a title="View Login Details" onclick="display_user(<?php echo $row_personRS['personId'];?>);" class="icon-6 info-tooltip"></a>
-            <a title="View Visits" onclick="display_visit(<?php echo $row_personRS['personId'];?>);" class="icon-7 info-tooltip"></a>
-      </td>
-    </tr>
-    <?php } while ($row_personRS = mysql_fetch_assoc($personRS)); ?>
-</table>
-
-
-	</div>
-<!-- end table content -->    
-
-<!--  start paging..................................................... -->
-
-			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
-			<tr>
-            <td>Rows  </td>
-			<td>
-			<select name="rows" id="rows" onchange="populate.call(this, event)">
-				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
-				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
-				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
-			</select>
-            
-			</td>
-			<td>
-				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
-				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
-				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
-				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
-				<a href="ViewPerson.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
-			</td>
-			</tr>
-			</table>
-<!--  end paging................ -->
 			
 
     </div>
