@@ -26,7 +26,8 @@ class Medicine
 	public function getDetails($id)
 	{
 		include("Connections/HMS.php");
-		$query = "SELECT * FROM medicine WHERE medicineId = $id;";
+		$query = "SELECT * FROM medicine m LEFT JOIN  medicineclass c ON c.classId = m.classId WHERE
+m.medicineId = $id;";
 		mysql_select_db($database_HMS, $HMS);
 		$medicine = mysql_query($query, $HMS) or die(mysql_error());
 		$row_medicine = mysql_fetch_assoc($medicine);
@@ -47,8 +48,9 @@ class Medicine
 		$this->over60 = $row_medicine['over60'];
 		$this->classId = $row_medicine['classId'];
 		$this->comments = $row_medicine['comments'];
+		$this->className = $row_medicine['className'];
 		$data = array("medicineId"=>$id,"medicineNm"=>$this->medicineNm,"indications"=>$this->indications,"contraIndications"=>$this->contraIndications,"adverseEffects"=>$this->adverseEffects,
-		"drugInteractions"=>$this->drugInteractions,"specialPrecautions"=>$this->specialPrecautions,"breastFeeding"=>$this->breastFeeding,"pregnancy"=>$this->pregnancy,"paediatrics"=>$this->paediatrics,"over60"=>$this->over60,"classId"=>$this->classId,"comments"=>$this->comments);
+		"drugInteractions"=>$this->drugInteractions,"specialPrecautions"=>$this->specialPrecautions,"breastFeeding"=>$this->breastFeeding,"pregnancy"=>$this->pregnancy,"paediatrics"=>$this->paediatrics,"over60"=>$this->over60,"classId"=>$this->classId,"comments"=>$this->comments,"className"=>$this->className);
 		return $data;
 	}
 	

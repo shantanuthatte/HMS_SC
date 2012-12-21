@@ -14,12 +14,15 @@ class MedicalHistory
 		$this->diagnosisDate = $diagnosisDate;
 		$this->symptoms = $symptoms;
 		$this->comments = $comments;
+		
 		}
 	
 	public function getDetails($id)
 	{
 		include("Connections/HMS.php");
-		$query = "SELECT * FROM medicalhistory WHERE medicalHisId = $id;";
+		$query = "SELECT m.medicalHisId, m.diagnosisDate, m.symptoms, m.comments, m. patientId, m. ailmentId, p.fName, p.lName, a.ailmentName
+FROM medicalhistory m,person p,ailment a,users u
+WHERE u.userId=m.patientId AND  u.userId=p.personId AND m.ailmentId=a.ailmentId AND m.medicalHisId = $id;";
 		mysql_select_db($database_HMS, $HMS);
 		$medicalHId = mysql_query($query, $HMS) or die(mysql_error());
 		$row_medicalHId = mysql_fetch_assoc($medicalHId);
@@ -28,12 +31,16 @@ class MedicalHistory
 		{
 			die(mysql_error());
 		}
+		$patientName= $row_medicalHId['fName']." ".$row_medicalHId['lName'];
 		$this->patientId = $row_medicalHId['patientId'];
 		$this->ailmentId = $row_medicalHId['ailmentId'];
 		$this->diagnosisDate = $row_medicalHId['diagnosisDate'];
 		$this->symptoms = $row_medicalHId['symptoms'];
 		$this->comments = $row_medicalHId['comments'];
-		$data = array("medicalHisId"=>$id,"patientId"=>$this->patientId,"ailmentId"=>$this->ailmentId,"diagnosisDate"=>$this->diagnosisDate,"symptoms"=>$this->symptoms,"comments"=>$this->comments);
+		$this->patientName = $patientName;
+		$this->ailmentName = $row_medicalHId['ailmentName'];
+		
+		$data = array("medicalHisId"=>$id,"patientId"=>$this->patientId,"ailmentId"=>$this->ailmentId,"diagnosisDate"=>$this->diagnosisDate,"symptoms"=>$this->symptoms,"comments"=>$this->comments ,"patientName"=>$this->patientName,"ailmentName"=>$this->ailmentName);
 		return $data;
 	}
 	

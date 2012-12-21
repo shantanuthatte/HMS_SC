@@ -68,9 +68,9 @@ else if($_POST['formAction'] == "insert")
 	{
 		var count = document.getElementById("investigationCount").value;
 		
-		var row1 = new String('<tr><th align="right">Investigation Name:</th><td colspan="3"><input name="investigationName-0" id="investigationName-0" type="text" class="inp-form" value="" style="width:85%" onclick="popInvestigation(0)" /><input type="text" id="investigationId-0" name="investigationId-0" hidden="true" value="" /></td></tr>        <tr><th align="right">Report Date:</th><td><input name="reportDate-0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Value:</th><td><input name="value-0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results-0" type="text" class="inp-form" value="" /></td></tr>');
+		var row1 = new String('<tr><th align="right">Investigation Name:</th><td><input name="investigationName-0" id="investigationName-0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId-0" name="investigationId-0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass-0" name="investigationClass-0" type="text" class="inp-form" value="" onclick="" /><input type="text" id="classId-0" name="classId-0" hidden="true" value="" /></td></tr>        <tr><th align="right">Report Date:</th><td><input name="reportDate-0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Value:</th><td><input name="value-0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results-0" type="text" class="inp-form" value="" /></td></tr>');
 		
-		var row2 = new String('<tr bgcolor="#EEFFDD"><th align="right">Investigation Name:</th><td colspan="3"><input name="investigationName-0" id="investigationName-0" type="text" class="inp-form" value="" style="width:85%" onclick="popInvestigation(0)" /><input type="text" id="investigationId-0" name="investigationId-0" hidden="true" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Report Date:</th><td><input name="reportDate-0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Value:</th><td><input name="value-0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results-0" type="text" class="inp-form" value="" /></td></tr>');
+		var row2 = new String('<tr bgcolor="#EEFFDD"><th align="right">Investigation Name:</th><td><input name="investigationName-0" id="investigationName-0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId-0" name="investigationId-0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass-0" name="investigationClass-0" type="text" class="inp-form" value="" onclick="" /><input type="text" id="classId-0" name="classId-0" hidden="true" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Report Date:</th><td><input name="reportDate-0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Value:</th><td><input name="value-0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results-0" type="text" class="inp-form" value="" /></td></tr>');
 		
 		count++;
 		var content1 = row1.replace(/0/g,count);
@@ -179,7 +179,6 @@ else if($_POST['formAction'] == "insert")
 				examination:{
 					required:true	
 				},
-				
 				finalDiagnosis:{
 					required:true	
 				}
@@ -195,7 +194,7 @@ else if($_POST['formAction'] == "insert")
 					$("#message-red").show();
 				}
 			},
-			ignore: [],
+			ignore: "",
 			errorElement: "div",
 			wrapper: "div",
 			errorPlacement: function(error,element){
@@ -527,9 +526,14 @@ else if($_POST['formAction'] == "insert")
         <tr>
         <th align="right">Investigation Name:
         </th>
-        <td colspan="3">
-        <input id="investigationName-1" name="investigationName-1" type="text" class="inp-form" value="" style="width:85%" onclick="popInvestigation(1)" />
+        <td>
+        <input id="investigationName-1" name="investigationName-1" type="text" class="inp-form" value="" onclick="popInvestigation(1)" />
         <input type="text" id="investigationId-1" name="investigationId-1" hidden="true" value="" />
+        </td>
+        <th align="right">Class Id:</th>
+        <td>
+        <input id="investigationClass-1" name="investigationClass-1" type="text" class="inp-form" value="" onclick="" />
+        <input type="text" id="classId-1" name="classId-1" hidden="true" value="" />
         </td>
         </tr>
         <tr>
@@ -559,9 +563,14 @@ else if($_POST['formAction'] == "insert")
         <tr bgcolor="#EEFFDD">
         <th align="right">Investigation Name:
         </th>
-        <td colspan="3">
-        <input id="investigationName-2" name="investigationName-2" type="text" class="inp-form" value="" style="width:85%" onclick="popInvestigation(2)" />
+        <td>
+        <input id="investigationName-2" name="investigationName-2" type="text" class="inp-form" value="" onclick="popInvestigation(2)" />
         <input type="text" id="investigationId-2" name="investigationId-2" hidden="true" value="" />
+        </td>
+        <th align="right">Class Id:</th>
+        <td>
+        <input id="investigationClass-2" name="investigationClass-2" type="text" class="inp-form" value="" onclick="" />
+        <input type="text" id="classId-2" name="classId-2" hidden="true" value="" />
         </td>
         </tr>
         <tr bgcolor="#EEFFDD">

@@ -18,7 +18,7 @@ $next = $page+1; //next page
 $from = (($page * $rows) - $rows);
    $type=1; 
 mysql_select_db($database_HMS, $HMS);
-$query_personRS = "SELECT person.personId as personId, person.fName AS fName, person.mName AS mName, person.lName AS lName, person.address1 AS address1, person.rPhone AS rPhone, person.mobile AS mobile, person.email AS email, users.userId AS userId FROM person INNER JOIN users ON person.personId = users.personId WHERE person.type=1 AND fName LIKE '".$name."' OR lName LIKE '".$name."' LIMIT $from,$rows";
+$query_personRS = "SELECT person.personId as personId, person.fName AS fName, person.mName AS mName, person.lName AS lName, person.address1 AS address1, person.rPhone AS rPhone, person.mobile AS mobile, person.email AS email, users.userId AS userId FROM users INNER JOIN person ON person.personId = users.personId AND person.type = users.type AND users.type = 1 WHERE fName LIKE '".$name."' OR lName LIKE '".$name."' LIMIT $from,$rows";
 $personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
 $row_personRS = mysql_fetch_assoc($personRS);
 $totalRows_personRS = mysql_num_rows($personRS);

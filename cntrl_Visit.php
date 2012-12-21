@@ -91,7 +91,7 @@ if($_POST['formAction'] == "insert")
 					   GetSQLValueString($_POST[$dosage], "text"),
 					   GetSQLValueString($_POST[$instruction], "text"),
 					   GetSQLValueString($_POST[$duration], "text"),
-                       GetSQLValueString($i, "text"));
+                       GetSQLValueString($i,"text"));
 				if(!$prescription->insertprescription())
 					die(mysql_error());
 			}
@@ -104,6 +104,7 @@ if($_POST['formAction'] == "insert")
 		{
 			$investigationName = "investigationName-".$i;
 			$investigationId = "investigationId-".$i;
+			$classId = "classId-".$i;
 			$reportDate = "reportDate-".$i;
 			$institution = "institution-".$i;
 			$value = "value-".$i;
@@ -112,7 +113,8 @@ if($_POST['formAction'] == "insert")
 			{
 				$investigationTrx->setDetails(GetSQLValueString($visitId, "text"),
                        GetSQLValueString($_POST['patientId'], "text"),
-					   GetSQLValueString($_POST[$investigationId], "text"),NULL,
+					   GetSQLValueString($_POST[$investigationId], "text"),
+					   GetSQLValueString($_POST[$classId], "text"),
 					   GetSQLValueString($_POST[$reportDate], "text"),
 					   GetSQLValueString($_POST[$institution], "text"),
 					   GetSQLValueString($_POST[$results], "text"),

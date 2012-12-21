@@ -176,7 +176,7 @@ elseif($_POST['formAction'] == "update")
 	$_SESSION['data'] = $data;
 	//echo "Hello";
 	//var_dump($_SESSION['data']);
-	header('Location: AddInvestigationmst.php?Mode=update');
+	header('Location: AddInvestigationMst.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {

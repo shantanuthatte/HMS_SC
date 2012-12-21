@@ -5,12 +5,13 @@ $err="";
 if(empty($_GET))
 {
 	$formAction = "insert";
+
 }
 elseif($_GET['Mode']=="update")
 {
 	$data = $_SESSION['data'];
 	$formAction = "update";
-}
+	}
 else
 {
 	header('Location:ViewMedicine.php');
@@ -20,11 +21,17 @@ unset($_SESSION['data']);
 mysql_select_db($database_HMS, $HMS);
 $query_class = "SELECT * FROM medicineclass";
 $class = mysql_query($query_class, $HMS) or die(mysql_error());
-$row_class = mysql_fetch_assoc($class);
 $totalRows_class = mysql_num_rows($class);
 
+$classArray = array();
+while( $row_class = mysql_fetch_assoc($class))
+	{
+		$classArray[]= $row_class;	
+		
+	}
+
 ?>
-<!--
+
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
  	
@@ -67,7 +74,79 @@ $totalRows_class = mysql_num_rows($class);
 		})
     });
 	
-</script> -->
+</script> 
+<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+   <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>  
+    
+    
+    <style>
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+    </style>    
+    
+ <script>
+    $(function() {
+		
+			var availableClass =new Array();
+			availableClass.push(
+			<?php 
+			$i=0;
+			$names = array();
+			foreach($classArray as $row )
+			{
+				$checkTemp= $row['className'];
+				$checkTemp = htmlspecialchars($checkTemp);
+				$checkTemp = preg_replace("/[^A-Za-z]/"," ",$checkTemp);  
+				$names[$i] = "'".$checkTemp."'";
+				
+				$i++;
+			}
+			echo(implode(",", $names));
+			echo ");";
+		
+		?>
+		var arrayClassStore =new Array();
+			arrayClassStore.push(
+			<?php 
+			$i=0;
+			$names = array();
+			foreach($classArray as $row )
+			{
+				$names[$i] = "'".$row['classId']."'";
+				$i++;
+			}
+			echo(implode(",", $names));
+			echo ");";
+		
+		?>
+		
+		
+		$( "#className" ).autocomplete(
+		{
+			source: availableClass,
+			select:function(event, ui) {
+			var temp=ui.item.value;
+			var t = availableClass.indexOf(temp);
+			var firstArrayItem = arrayClassStore[t]
+			document.getElementById('classId').value= firstArrayItem;
+			
+             }
+
+		}
+	
+        );
+		
+    });
+	
+	
+    </script> 
 
 <div class="clear"></div>
  
@@ -173,14 +252,11 @@ $totalRows_class = mysql_num_rows($class);
             </tr>
        <tr>
       <th>ClassId:</th>
-      <td><select name="classId" class="styledselect_form_1">
-      <option value="" selected="selected">.....Select.....</option>
-      <?php do {  ?>    
-      <option value="<?php echo $row_class['classId']?>" 
-	  <?php if (($formAction == "update") && (!strcmp($data['classId'], $row_class['classId']))) {echo "SELECTED";} ?>><?php echo $row_class['className'];?></option>
-      <?php } while ($row_class = mysql_fetch_assoc($class)); ?>        
-      </select>
+      <td>
+      <input id="className" name="className" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['className']; ?>"/>
+      </td>
    		</tr>
+    
         <tr>
       <th>Comments:</th>
       <td><textarea rows="3" name="comments" size="32" class="inp-form"><?php if($formAction == "update") echo $data['comments']; ?></textarea></td>
@@ -196,6 +272,7 @@ $totalRows_class = mysql_num_rows($class);
   </table>
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
   <input type="hidden" name="medicineId" value="<?php if($formAction == "update") echo $data['medicineId']; ?>" />
+  <input type="hidden" id="classId" name="classId" size="32" value="<?php if($formAction == "update") echo $data['classId']; ?> class="inp-form"/>
 </form>
 <p>&nbsp;</p>
 <div id="check" class="red-left" ><?php

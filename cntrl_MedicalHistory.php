@@ -10,7 +10,7 @@ function serverValidation()
 	if(empty($_POST['patientId']))
 		{
 			$count = $count+1;
-		$check1= $count.". Select Patient Id.,";
+		$check1= $count.". Enter Patient.,";
 		$retVal=1;
 		}
 	if(empty($_POST['diagnosisDate']))
@@ -91,8 +91,6 @@ elseif($_POST['formAction'] == "update")
 	session_start();
 	$data = $medical->getDetails($_POST['medicalHisId']);
 	$_SESSION['data'] = $data;
-	//echo "Hello update";
-	//var_dump($_SESSION['data']);
 	header('Location: AddMedicalHistory.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")

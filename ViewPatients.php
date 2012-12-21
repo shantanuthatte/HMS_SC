@@ -4,6 +4,7 @@ include 'header.php';
 ?>
 <script type="text/javascript">
 
+		var intervalSpan = 800;
 		$(document).ready(function(e) {
             implementSearch();
         });
@@ -16,10 +17,11 @@ include 'header.php';
         function populate(event) 
 		{
 			var name = $("#key").val();
+			
 			if(name == "Search")
 				name="";
 			var rows = this.options[this.selectedIndex].text;
-			$("#fill").animate({width:'toggle'},1500).empty();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPatients.php",
 				data:"name="+name+"&rows="+rows+"&page=1",
@@ -27,7 +29,7 @@ include 'header.php';
 					$("#fill").append(data);
 				}
 			});
-			$("#fill").animate({width:'toggle'},1500);
+			$("#fill").animate({height:'toggle'},intervalSpan);
     	}
 		
 		function setPage(page)
@@ -36,7 +38,7 @@ include 'header.php';
 			if(name == "Search")
 				name="";
 			var rows = $("#rows").val();
-			$("#fill").animate({width:'toggle'},1500).empty();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPatients.php",
 				data:"name="+name+"&rows="+rows+"&page="+page,
@@ -44,7 +46,7 @@ include 'header.php';
 					$("#fill").append(data);
 				}
 			});
-			$("#fill").animate({width:'toggle'},1500);
+			$("#fill").animate({height:'toggle'},intervalSpan);
 		}
 		
 		function implementSearch()
@@ -53,7 +55,7 @@ include 'header.php';
 			if(name == "Search")
 				name="";
 			var rows = $("#rows").val();
-			$("#fill").animate({width:'toggle'},1500).empty();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPatients.php",
 				data:"name="+name+"&rows=10&page=1",
@@ -61,7 +63,7 @@ include 'header.php';
 					$("#fill").append(data);
 				}
 			});
-			$("#fill").animate({width:'toggle'},1500);
+			$("#fill").animate({height:'toggle'},intervalSpan);
 		}
    </script>
 <div class="clear"></div>
@@ -72,8 +74,6 @@ include 'header.php';
 <div id="content">
 
 <div id="page-heading"><h1>Patients</h1></div>
-<div style="float:right; margin-right:50px;"><a href="AddPerson.php"><img src="images/add.png" /></a></div>
-<div style="float:right;"><a href="AddPerson.php"><h3>  Add New</h3></a></div>
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>

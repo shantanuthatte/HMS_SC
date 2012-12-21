@@ -272,7 +272,9 @@ echo <<<'EOT'
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
 		<div class="select_sub">
 			<ul class="sub">
-				<li><a href="ViewPerson.php">Persons</a></li>                <li><a href="ViewDoctor.php">Doctor</a></li>
+            	<li><a href="ViewPatients.php">Patient</a></li>                
+				<li><a href="ViewPerson.php">Persons</a></li>                
+                <li><a href="ViewDoctor.php">Doctor</a></li>
 			</ul>
 		</div>
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->

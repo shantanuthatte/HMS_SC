@@ -2,6 +2,7 @@
 <?php
 include 'header.php';
 $err="";
+
 if(empty($_GET))
 {
 	$formAction = "insert";
@@ -32,16 +33,16 @@ else
 unset($_SESSION['data']);
 ?>
 
-<script src="Calendar/popcalendar.js" type="text/javascript"></script>
+
 <script type="text/javascript" src="js/jquery.validate.js"></script>
-<script type="text/javascript">
- 
+<script src="Calendar/popcalendar.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
     function fnOpenCalendar(id1)
     {        
-		//alert("Opens the calendar");
+		alert("Opens the calendar");
         var ctl1=document.getElementById(id1);
         var ctl2=document.getElementById(id1);
-        popUpCalendar(ctl1,ctl2,'dd/mm/yyyy');
+        popUpCalendar(ctl1,ctl2,'yyyy/mm/dd');
         return true;
     }
 	
@@ -52,12 +53,14 @@ unset($_SESSION['data']);
 			
 			fName:{
 				required: true,
-				minlength: 3
-				},
+				minlength: 3,
+			
+				
+			},
 			lName:{
 				required: true,
 				minlength: 3
-				},
+			},
 			email:{
 				required: true,
 				email: true
@@ -112,6 +115,7 @@ unset($_SESSION['data']);
     });
 	
 </script>
+<body onLoad="document.AddPerson.fName.focus();"> 
 
 <div class="clear"></div>
  
@@ -148,7 +152,7 @@ unset($_SESSION['data']);
     <tr>
       <th>First Name*:</th>
       <td>
-      <input type="text" id="fName" name="fName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['fName']; ?>"/>
+      <input type="text" id="fName" name="fName" size="32" class="inp-form" value=" <?php if($formAction == "update") echo $data['fName']; ?>"/>
       </td>
       <td></td>
       <td id="invalid-fName" class="error-left" hidden="true">
@@ -342,7 +346,7 @@ unset($_SESSION['data']);
     <tr>
 		<th>&nbsp;</th>
 		<td valign="top">
-			<input type="submit" id="submit" value="Submit" class="form-submit" />
+			<input type="submit" id="submit" value="Submit" class="form-submit"/>
 			<input type="reset" value="Reset" class="form-reset"  />
            
 		</td>

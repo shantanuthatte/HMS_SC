@@ -16,12 +16,7 @@ echo '<script type="text/javascript">
 		  	document.getElementById("userId_update").value=userId;
 			document.forms["update_form"].submit();  
 	   }	
-	   function addUser()
-		{
- 			<?php 
-				addUser(); 
-			?>
- 		}  
+	    
    </script>';  
    
 if(!isset($_POST['personId'])) 
@@ -46,12 +41,6 @@ if($totalRows_usersRS == 0)
 	header('Location:AddUser.php?Mode=create');
 }
 
-function addUser()
-{	
-	$_SESSION['newUserPersonId'] = $personId;
-	header('Location:AddUser.php?Mode=create');	
-}
-
 ?>
 <div class="clear"></div>
  
@@ -62,8 +51,8 @@ function addUser()
 
 
 <div id="page-heading"><h1>Users</h1></div>
-<div style="float:right; margin-right:50px;"><a onClick="addUser()"><img src="images/add.png" /></a></div>
-<div style="float:right;"><a onClick="addUser()"><h3>Add New</h3></a></div>
+<div style="float:right; margin-right:50px;"><a onClick=""><img src="images/add.png" /></a></div>
+<div style="float:right;"><a onClick=""><h3>Add New</h3></a></div>
 
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">

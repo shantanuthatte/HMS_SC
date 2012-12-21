@@ -89,8 +89,6 @@ elseif($_POST['formAction'] == "update")
 	session_start();
 	$data = $medicine->getDetails($_POST['medicineId']);
 	$_SESSION['data'] = $data;
-	//echo "Hello";
-	//var_dump($_SESSION['data']);
 	header('Location: AddMedicine.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
@@ -110,11 +108,12 @@ elseif($_POST['formAction'] == "commit")
 					   GetSQLValueString($_POST['over60'], "text"),
 					   GetSQLValueString($_POST['classId'], "text"),
 					   GetSQLValueString($_POST['comments'], "text"));
+	
 	if(!$medicine->updateMedicine($_POST['medicineId']))
-		die(mysql_error());
+	die(mysql_error());
 	else
-		header('Location: ViewMedicine.php');
-	}
+	header('Location: ViewMedicine.php');
+}
 }
 elseif($_POST['formAction'] == "delete")
 {

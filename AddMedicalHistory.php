@@ -4,11 +4,13 @@ include 'header.php';
 if(empty($_GET))
 {
 	$formAction = "insert";
+	$flag = 0;
 }
 elseif($_GET['Mode']=="update")
 {
 	$data = $_SESSION['data'];
 	$formAction = "update";
+	 $flag = 1;
 }
 else
 {
@@ -18,17 +20,136 @@ unset($_SESSION['data']);
 
 
 mysql_select_db($database_HMS, $HMS);
-$query_patient = "SELECT * FROM users";
-$patient = mysql_query($query_patient, $HMS) or die(mysql_error());
-$row_patient = mysql_fetch_assoc($patient);
-$totalRows_patient = mysql_num_rows($patient);
-mysql_select_db($database_HMS, $HMS);
-$query_ailment = "SELECT * FROM ailment";
+$query_ailment = "SELECT *  FROM ailment";
 $ailment = mysql_query($query_ailment, $HMS) or die(mysql_error());
-$row_ailment = mysql_fetch_assoc($ailment);
 $totalRows_ailment = mysql_num_rows($ailment);
+
+$ailmentArray = array();
+while( $row_ailment = mysql_fetch_assoc($ailment) )
+	{
+		$ailmentArray[]= $row_ailment;	
+		
+	}
+$query_patient = "SELECT u.userId, p.fName as fName, p.lName as lName, p.DOB as DOB  FROM users u, person p WHERE p.personId = u.userId ";
+$patient = mysql_query($query_patient, $HMS) or die(mysql_error());
+$totalRows_patient = mysql_num_rows($patient);
+$patientArray = array();
+while( $row_patient = mysql_fetch_assoc($patient) )
+	{
+		$patientArray[]= $row_patient;	
+		
+	}
 ?>
 
+   <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+   <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>  
+   <script>
+    $(function() {
+		var Vflag = <?php echo $flag; ?>;
+		
+			var availableAilment =new Array();
+			availableAilment.push(
+			<?php 
+			$i=0;
+			$names = array();
+			foreach($ailmentArray as $row )
+			{
+				$checkTemp= $row['ailmentName'];
+				$checkTemp = htmlspecialchars($checkTemp);
+				$checkTemp = preg_replace("/[^A-Za-z]/"," ",$checkTemp);  
+				$names[$i] = "'".$checkTemp."'";
+				
+				$i++;
+			}
+			echo(implode(",", $names));
+			echo ");";
+		
+		?>
+		var arrayAilmentStore =new Array();
+			arrayAilmentStore.push(
+			<?php 
+			$i=0;
+			$names = array();
+			foreach($ailmentArray as $row )
+			{
+				$names[$i] = "'".$row['ailmentId']."'";
+				$i++;
+			}
+			echo(implode(",", $names));
+			echo ");";
+		
+		?>
+		
+		var availablePatient =new Array();
+			availablePatient.push(
+			<?php 
+			$i=0;
+			$names = array();
+			foreach($patientArray as $row )
+			{
+				$names[$i] = "'".$row['fName']." ".$row['lName']." - ".$row['DOB']."'";
+				$i++;
+			}
+			echo(implode(",", $names));
+			echo ");";
+		
+		?>
+		var arrayPatientStore =new Array();
+			arrayPatientStore.push(
+			<?php 
+			$i=0;
+			$names = array();
+			foreach($patientArray as $row )
+			{
+				$names[$i] = "'".$row['userId']."'";
+				$i++;
+			}
+			echo(implode(",", $names));
+			echo ");";
+		
+		?>
+		
+		 
+		if(Vflag == 0)
+			{
+		$( "#patientName" ).focus().autocomplete(
+		{
+			source: availablePatient,
+			select:function(event, ui) {
+			var temp=ui.item.value;
+			var t = availablePatient.indexOf(temp);
+			var firstArrayItem = arrayPatientStore[t]
+			document.getElementById('patientId').value= firstArrayItem;
+			
+             }
+
+		}
+	
+        );
+			}
+				
+        $( "#ailmentName" ).autocomplete(
+		{
+			source: availableAilment,
+			select:function(event, ui) {
+			var temp=ui.item.value;
+			var t = availableAilment.indexOf(temp);
+			var firstArrayItem = arrayAilmentStore[t]
+			document.getElementById('ailmentId').value= firstArrayItem;
+			
+             }
+
+		}
+	
+        );
+		
+			
+		
+    });
+	
+	
+    </script> 
+    
 
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
@@ -79,9 +200,10 @@ $totalRows_ailment = mysql_num_rows($ailment);
 				$(element).parent().siblings(".error-left").hide();
 			}
 		})
+		
     });
 	
-</script>
+</script> 
 
 
 <script src="Calendar/popcalendar.js" type="text/javascript"></script>
@@ -132,26 +254,17 @@ $totalRows_ailment = mysql_num_rows($ailment);
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  
     <tr>
-      <th>PatientId*:</th>
-      <td><select name="patientId" id="patientId" class="styledselect_form_1">
-      <option value="" selected="selected">.....Select.....</option>
-        <?php do {  ?>
-        <option value="<?php echo $row_patient['userId']?>" <?php if($formAction == "update") {if (!(strcmp($data['patientId'], $row_patient['userId']))) {echo "SELECTED";}} ?>><?php echo $row_patient['userName'];?></option>
-        <?php } while ($row_patient = mysql_fetch_assoc($patient)); ?>
-      </select></td>
+      <th>Patient Name*:</th>
+     <td name="Iname" id="Iname">
+       <input id="patientName" name="patientName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['patientName']; ?>" /></td>  
+             
       <td>&nbsp;</td>
-      <td id="invalid-patientId" class="error-left" hidden="true">  </td>        
-    </tr>        
+      <td id="invalid-patientId" class="error-left" hidden="true">  </td>        </tr>
+          
       <tr>
       <th>Ailment*:</th>
-      
-       <td><select name="ailmentId" id="ailmentId"class="styledselect_form_1">
-        <option value="" selected="selected">.....Select.....</option>
-        <?php do {  ?>
-        <option value="<?php echo $row_ailment['ailmentId']?>" <?php if($formAction == "update") {if (!(strcmp($data['ailmentId'], $row_ailment['ailmentId']))) {echo "SELECTED";} } ?>><?php echo $row_ailment['ailmentName'];?></option>
-        <?php } while ($row_ailment = mysql_fetch_assoc($ailment)); ?>
-      </select>
-      </td>
+     <td><input id="ailmentName" name="ailmentName" size="32" class="inp-form"/ value="<?php if($formAction == "update")  echo $data['ailmentName']; ?>" >
+      </td>      
       <td>&nbsp;</td>
       <td id="invalid-ailmentId" class="error-left" hidden="true">  </td>    
       <tr>
@@ -197,7 +310,9 @@ $totalRows_ailment = mysql_num_rows($ailment);
 </table>
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
   <input type="hidden" name="medicalHisId" value="<?php if($formAction == "update") echo $data['medicalHisId']; ?>" />
+  <input type="hidden" id="patientId" name="patientId" value="<?php if($formAction == "update") echo $data['patientId']; ?>"/>
 </form>
+<input type="hidden" id="ailmentId" name="ailmentId" value="<?php if($formAction == "update") echo $data['ailmentId']; ?>"/>
 <p>&nbsp;</p>
 <div id="check" class="red-left-s">
 <?php
