@@ -2,13 +2,17 @@
 <?php
 include 'header.php';
   
-if(!isset($_POST['personId'])) 
+if(!isset($_POST['userId'])) 
 {
-	header('Location:ViewPerson.php');
+	if(!isset($_SESSION['patientId']))
+		header('Location:ViewPerson.php');
+	else
+		$userId = $_SESSION['patientId'];
 }
 else
 {
-	$personId = $_POST['personId'];
+	$userId = $_POST['userId'];
+	$_SESSION['patientId'] = $userId;
 }
 
 //get paging details
@@ -29,6 +33,14 @@ if(!isset($_GET['rows']))
 }	
 
 //end paging details
+//var_dump($userId);
+mysql_select_db($database_HMS, $HMS);
+$query_users = "SELECT personId FROM users WHERE userId = '$userId';";
+$users = mysql_query($query_users, $HMS) or die(mysql_error());
+$row_users = mysql_fetch_assoc($users);
+$totalRows_users = mysql_num_rows($users);
+
+$personId = $row_users['personId'];
 
 mysql_select_db($database_HMS, $HMS);
 $query_person = "SELECT * FROM person WHERE personId = '$personId';";
@@ -36,14 +48,6 @@ $person = mysql_query($query_person, $HMS) or die(mysql_error());
 $row_person = mysql_fetch_assoc($person);
 $totalRows_person = mysql_num_rows($person);
 
-mysql_select_db($database_HMS, $HMS);
-$query_users = "SELECT userId FROM users WHERE personId = '$personId';";
-$users = mysql_query($query_users, $HMS) or die(mysql_error());
-$row_users = mysql_fetch_assoc($users);
-$totalRows_users = mysql_num_rows($users);
-
-$userId = $row_users['userId'];
-//var_dump($userId);
 //fetch row count and start calculations
 mysql_select_db($database_HMS, $HMS);
 $total_rows = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM visit WHERE patientId ='".$userId."';"),0);
@@ -130,20 +134,18 @@ function show_graph(id)
                                  return false;	
 }
 
+function dummy()
+{
+	alert("You are in View Visits!");
+}
+
 </script>
-
-
-
-
-
-
 
 		<style>
  body { font-size: 62.5%; }
  label, input { display:block; }
  input.text { margin-bottom:12px; width:95%; padding: .4em; }
  fieldset { padding:0; border:0; margin-top:25px; }
- h1 { font-size: 1.2em; margin: .6em 0; }
         div#users-contain { width: 350px; margin: 20px 0; }
         div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
         div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
@@ -154,7 +156,7 @@ function show_graph(id)
 </style>
     
 	<script type="text/javascript">
-function add_visit(Id)
+		function add_visit(Id)
        	{
            	document.getElementById("visit_userId").value=Id;
 			document.forms["visit_form"].submit();
@@ -167,20 +169,22 @@ function add_visit(Id)
 		function populate(event,id) 
 		{
 			var number = this.options[this.selectedIndex].text;
-			document.getElementById("personId").value=id;
+			document.getElementById("userId").value=id;
 			$("#page_form").attr("action","ViewVisits.php?rows="+number+"&page=1");
 			document.forms["page_form"].submit();
 		}
 		
 		function page_direct(row,page,id)
 		{			
-			document.getElementById("personId").value= id;
+			document.getElementById("userId").value= id;
 			$("#page_form").attr("action","ViewVisits.php?rows="+row+"&page="+page);
 			document.forms["page_form"].submit(); 
 		}
-function MM_openBrWindow(theURL,winName,features) { //v2.0
-  window.open(theURL,winName,features);
-}
+		
+		function MM_openBrWindow(theURL,winName,features)
+		{ //v2.0
+  			window.open(theURL,winName,features);
+		}
     </script>
 <body  >
 <div class="clear"></div>
@@ -192,10 +196,10 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
 
 <div id="page-heading"><h1>Visits</h1></div>
-<div style="float:right; margin-right:50px;"><a onClick="add_visit(<?php echo $userId ?>);"><img src="images/add.png" /></a></div>
-<div style="float:right;"><a onClick="add_visit(<?php echo $userId ?>);"><h3>Add New</h3></a></div>
-<div style="float:right; margin-right:50px;"><a onClick="add_procedure(<?php echo $userId ?>);"><img src="images/add.png" /></a></div>
-<div style="float:right;"><a onClick="add_procedure(<?php echo $userId ?>);"><h4>Add New Procedure</h4></a></div>
+<div style="float:right; margin-right:50px; cursor:pointer"><a onClick="add_visit(<?php echo $userId ?>);"><img src="images/add.png" /></a></div>
+<div style="float:right; cursor:pointer"><a onClick="add_visit(<?php echo $userId ?>);"><h3>Add New</h3></a></div>
+<div style="float:right; margin-right:50px; cursor:pointer"><a onClick="add_procedure(<?php echo $userId ?>);"><img src="images/add.png" /></a></div>
+<div style="float:right; cursor:pointer"><a onClick="add_procedure(<?php echo $userId ?>);"><h3>Add New Procedure</h3></a></div>
 <!-- start content table -->
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
@@ -215,7 +219,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <div id="table-content">
 
 <form id="page_form" method="post">
-<input id="personId" name="personId" value="" type="hidden" />
+<input id="userId" name="userId" value="" type="hidden" />
 </form>
 <form id="procedure_form" action="AddProcedureTsn.php" method="post">
 <input id="proc_userId" name="userId" value="" type="hidden" />
@@ -271,7 +275,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 			<tr style="border:none">
             <td style="border:none">Rows  </td>
 			<td style="border:none">
-			<select name="rows" id="rows" onChange="populate.call(this, event, <?php echo $personId; ?>)">
+			<select name="rows" id="rows" onChange="populate.call(this, event, <?php echo $userId; ?>)">
 				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
 				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
 				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
@@ -279,11 +283,11 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             
 			</td>
 			<td style="border:none">
-				<a onClick="page_direct(<?php echo $rows; ?>,1, <?php echo $personId; ?>)" class="page-far-left"></a>
-				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($prev>0) echo $prev; else echo 1; ?>, <?php echo $personId; ?>)" class="page-left"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,1, <?php echo $userId; ?>)" class="page-far-left"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($prev>0) echo $prev; else echo 1; ?>, <?php echo $userId; ?>)" class="page-left"></a>
 				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
-				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($next<=$total_pages) echo $next; else echo 1; ?>, <?php echo $personId; ?>)" class="page-right"></a>
-				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($total_pages>1) echo $total_pages; else echo 1; ?>, <?php echo $personId; ?>)" class="page-far-right"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($next<=$total_pages) echo $next; else echo 1; ?>, <?php echo $userId; ?>)" class="page-right"></a>
+				<a onClick="page_direct(<?php echo $rows; ?>,<?php if($total_pages>1) echo $total_pages; else echo 1; ?>, <?php echo $userId; ?>)" class="page-far-right"></a>
 			</td>
 			</tr>
 		</table>

@@ -21,7 +21,7 @@ include 'header.php';
 			var rows = this.options[this.selectedIndex].text;
 			$("#fill").animate({width:'toggle'},1500).empty();
 			$.ajax({
-				url:"AjaxPersons.php",
+				url:"AjaxPatients.php",
 				data:"name="+name+"&rows="+rows+"&page=1",
 				success: function(data){
 					$("#fill").append(data);
@@ -38,7 +38,7 @@ include 'header.php';
 			var rows = $("#rows").val();
 			$("#fill").animate({width:'toggle'},1500).empty();
 			$.ajax({
-				url:"AjaxPersons.php",
+				url:"AjaxPatients.php",
 				data:"name="+name+"&rows="+rows+"&page="+page,
 				success: function(data){
 					$("#fill").append(data);
@@ -55,7 +55,7 @@ include 'header.php';
 			var rows = $("#rows").val();
 			$("#fill").animate({width:'toggle'},1500).empty();
 			$.ajax({
-				url:"AjaxPersons.php",
+				url:"AjaxPatients.php",
 				data:"name="+name+"&rows=10&page=1",
 				success: function(data){
 					$("#fill").append(data);
@@ -71,7 +71,7 @@ include 'header.php';
 <!-- start content -->
 <div id="content">
 
-<div id="page-heading"><h1>Persons</h1></div>
+<div id="page-heading"><h1>Patients</h1></div>
 <div style="float:right; margin-right:50px;"><a href="AddPerson.php"><img src="images/add.png" /></a></div>
 <div style="float:right;"><a href="AddPerson.php"><h3>  Add New</h3></a></div>
 <!-- start content table -->

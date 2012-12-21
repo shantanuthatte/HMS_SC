@@ -22,8 +22,8 @@ $error = '';
 				$_SESSION['userName']= $row_result['userName'];
 				$_SESSION['type']= $row_result['type'];
 				$_SESSION['permission']= $row_result['permission'];
-				mysql_free_result($row_result);
-				header("location: ViewPerson.php");
+				mysql_free_result($result);
+				header("location: ViewPatients.php");
 				exit;
 			}else { $error = "Incorrect login info"; 
 			}

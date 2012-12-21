@@ -1,22 +1,21 @@
 <?php
 class Prescription
 {	
-	private $visitId, $medicineName, $Dosage, $Instruction, $Duration, $lineId ;
+	private $visitId, $medicineName, $dosage, $instruction, $duration, $lineId ;
 	
 	function __construct()
 	{
 	}
 	
-	function setDetails($visitId, $medicineName, $Dosage, $Instruction, $Duration, $lineId )
+	function setDetails($visitId, $medicineName, $dosage, $instruction, $duration, $lineId )
 	{
 		$this->visitId = $visitId;
 		$this->medicineName = $medicineName;
-		$this->Dosage = $Dosage;
-		$this->Instruction = $Instruction;
-		$this->Duration = $Duration;
+		$this->dosage = $dosage;
+		$this->instruction = $instruction;
+		$this->duration = $duration;
 		$this->lineId = $lineId;
-		
-		}
+	}
 	
 	public function getDetails($id)
 	{
@@ -32,18 +31,18 @@ class Prescription
 		}
 		$this->visitId = $row_prescription['visitId'];
 		$this->medicineName = $row_prescription['medicineName'];
-		$this->Dosage = $row_prescription['Dosage'];
-		$this->Instruction = $row_prescription['Instruction'];
-		$this->Duration = $row_prescription['Duration'];
+		$this->dosage = $row_prescription['dosage'];
+		$this->instruction = $row_prescription['instruction'];
+		$this->duration = $row_prescription['duration'];
 		$this->lineId = $row_prescription['lineId'];
-		$data = array("prescriptionId"=>$id,"visitId"=>$this->visitId,"medicineName"=>$this->medicineName,"Dosage"=>$this->Dosage,"Instruction"=>$this->Instruction,"Duration"=>$this->Duration,"lineId"=>$this->lineId);
+		$data = array("prescriptionId"=>$id,"visitId"=>$this->visitId,"medicineName"=>$this->medicineName,"dosage"=>$this->dosage,"instruction"=>$this->instruction,"duration"=>$this->duration,"lineId"=>$this->lineId);
 		return $data;
 	}
 	
 	public function insertprescription()
 	{
 		include("Connections/HMS.php");
-		$insertSQL = "INSERT INTO prescription(visitId, medicineName, Dosage, Instruction, Duration,  lineId) VALUES ($this->visitId,$this->medicineName,$this->Dosage,$this->Instruction,$this->Duration,$this->lineId);";
+		$insertSQL = "INSERT INTO prescription(visitId, medicineName, dosage, instruction, duration) VALUES ($this->visitId,$this->medicineName,$this->dosage,$this->instruction,$this->duration);";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;
@@ -52,7 +51,7 @@ class Prescription
 	public function updateprescription($id)
 	{
 		include("Connections/HMS.php");
-		$updateSQL = "UPDATE prescription SET visitId=$this->visitId, medicineName=$this->medicineName, Dosage=$this->Dosage, Instruction=$this->Instruction, Duration=$this->Duration, lineId=$this->lineId WHERE prescriptionId = $id";
+		$updateSQL = "UPDATE prescription SET visitId=$this->visitId, medicineName=$this->medicineName, dosage=$this->dosage, instruction=$this->instruction, duration=$this->duration WHERE prescriptionId = $id";
 		echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
