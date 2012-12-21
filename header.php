@@ -213,18 +213,10 @@ $(document).pngFix( );
 	<div id="top-search">
 		<table border="0" cellpadding="0" cellspacing="0">
 		<tr>
-		<td><input type="text" value="Search" onblur="if (this.value=='') { this.value='Search'; }" onfocus="if (this.value=='Search') { this.value=''; }" class="top-search-inp" /></td>
+		<td><input id="key" type="text" value="Search" onblur="if (this.value=='') { this.value='Search'; }" onfocus="if (this.value=='Search') { this.value=''; }" class="top-search-inp" /></td>
 		<td>
-		 
-		<select  class="styledselect">
-			<option value="">All</option>
-			<option value="">Patients</option>
-			<option value="">Doctors</option>
-		</select> 
-		 
-		</td>
-		<td>
-		<input type="image" src="images/shared/top_search_btn.gif"  />
+        <a style="cursor:pointer" onclick="implementSearch()">
+        <img src="images/shared/top_search_btn.gif" /></a>
 		</td>
 		</tr>
 		</table>
