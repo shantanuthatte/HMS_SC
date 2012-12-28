@@ -281,6 +281,7 @@ $.extend($.validator, {
 		dateISO: "Please enter a valid date (ISO).",
 		number: "Please enter a valid number.",
 		digits: "Please enter only digits.",
+		alphabets: "Please enter only alphabets.",
 		creditcard: "Please enter a valid credit card number.",
 		equalTo: "Please enter the same value again.",
 		maxlength: $.validator.format("Please enter no more than {0} characters."),
@@ -818,6 +819,7 @@ $.extend($.validator, {
 		dateISO: {dateISO: true},
 		number: {number: true},
 		digits: {digits: true},
+		alphabets: {alphabets: true},
 		creditcard: {creditcard: true}
 	},
 
@@ -1124,7 +1126,12 @@ $.extend($.validator, {
 		digits: function(value, element) {
 			return this.optional(element) || /^\d+$/.test(value);
 		},
-
+		
+		//newly written only alphabets method
+		alphabets: function(value, element) {
+			return this.optional(element) || /^\D+$/.test(value);
+		},
+		
 		// http://docs.jquery.com/Plugins/Validation/Methods/creditcard
 		// based on http://en.wikipedia.org/wiki/Luhn
 		creditcard: function(value, element) {

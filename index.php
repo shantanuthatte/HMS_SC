@@ -54,15 +54,26 @@ $error = '';
 <!-- Image panel jquery script -->
 <script src="js/jquery/jquery.panelgallery.js" type="text/javascript"></script>
 <script type="text/javascript">
-$(function(){
-	$('#gallery').panelGallery({
-	sections:21,
-	imageTransitionDelay :3000,
-	startDelay:3000,
-	sectionTransitionDelay : 33
+	$(function(){
+		$('#gallery').panelGallery({
+		sections:21,
+		imageTransitionDelay :3000,
+		startDelay:3000,
+		sectionTransitionDelay : 33
+		});
 	});
-	
-});
+
+	function forgot()
+	{
+		var temp = $("#email").val();
+		$.ajax({
+			url:"ajax.php",
+			data:"function=ForgotEmail&email="+temp,
+			success: function(data){
+				$("#message").html(data);
+			}
+		});
+	}
 </script>
 
 <!-- MUST BE THE LAST SCRIPT IN <HEAD></HEAD></HEAD> png fix -->
@@ -77,7 +88,7 @@ $(document).pngFix( );
  
 <!-- Start: login-holder -->
 <div id="login-holder">
-<!--<img src="images/login/Untitled-24.png" /> -->
+<img src="images/login/Untitled-24.png" /> 
 	<!-- start logo -->
     
 	<div class="clear"></div>
@@ -151,16 +162,18 @@ constant throughout his / her life and across all healthcare organizations.
 		<!--  start forgot-inner -->
         <form method="post" action="<?=$_SERVER['PHP_SELF']?>" id="forgot-form">
 		<div id="forgot-inner">
-                        
 		<table border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<th>Email address:</th>
-			<td><input type="text" value="" name="emailId" class="login-inp" id="forgot-email" /></td>
+			<td><input type="text" value="" name="email" class="login-inp" id="email" /></td>
 		</tr>
 		<tr>
 			<th> </th>
-			<td><input type="submit" class="submit-login" /></td>
+			<td><input type="button" class="submit-login" onclick="forgot()" /></td>
 		</tr>
+        <tr>
+        	<th colspan="2" id="message"></th>
+        </tr>
 		</table>
 		</div>
         </form>
