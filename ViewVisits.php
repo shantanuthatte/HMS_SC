@@ -134,6 +134,13 @@ function show_graph(id)
                                  return false;	
 }
 
+function print_prescription(id) 
+{
+	window.open('PrintPrescription.php?visitId=' + id,'Priscription','toolbar=no,width=1000,height=1000,resizable=false  ');
+                                 return false;	
+}
+
+
 function dummy()
 {
 	alert("You are in View Visits!");
@@ -264,7 +271,7 @@ function dummy()
 			<a title="Examination" id="pop_examination" onClick="show_examination(<?php echo $row_visits['visitId'];?>)" class="icon-3 info-tooltip"></a>
 			<a title="Prescription" id="pop_prescription" onClick="show_prescription(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
             <a title="Investigation" id="pop_Investigation" onClick="show_Investigation(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
-
+<a title="Print Prescription" id="print_prescription" onClick="print_prescription(<?php echo $row_visits['visitId'];?>);" class="icon-3 info-tooltip"></a>
       </td>
     </tr>
     <?php } while ($row_visits = mysql_fetch_assoc($visits)); ?>

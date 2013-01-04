@@ -19,7 +19,7 @@ else
 unset($_SESSION['data']);
 
 mysql_select_db($database_HMS, $HMS);
-$query_invstgr = "SELECT * FROM investigationgr";
+$query_invstgr = "SELECT * FROM investigationcl";
 $invstgr = mysql_query($query_invstgr, $HMS) or die(mysql_error());
 $row_invstgr = mysql_fetch_assoc($invstgr);
 $totalRows_invstgr = mysql_num_rows($invstgr);
@@ -110,13 +110,13 @@ $totalRows_invstgr = mysql_num_rows($invstgr);
     <!-- starting table contents -->
     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
  	<tr>
-      <th>GroupId*:</th>
+      <th>Group*:</th>
       <td>
        <select id="grId" name="grId" class="styledselect_form_1" >      
         <option value="" selected="selected">.....Select.....</option>
 		<?php do {  ?>      
         <option value="<?php echo $row_invstgr['groupId']; ?>" 
-         <?php if($formAction == "update") { if (!(strcmp($data['grId'], $row_invstgr['groupId']))) {echo "SELECTED";} }?>><?php echo $row_invstgr['groupName']; ?></option>
+         <?php if($formAction == "update") { if (!(strcmp($data['grId'], $row_invstgr['groupId']))) {echo "SELECTED";} }?>><?php echo $row_invstgr['groupName']; ?> </option>
         <?php } while ($row_invstgr = mysql_fetch_assoc($invstgr)); ?>
       </select> 
       </td>

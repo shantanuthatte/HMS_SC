@@ -48,14 +48,71 @@ echo '<script type="text/javascript">
 		  	document.getElementById("invstId_update").value=invstId;
 			document.forms["update_form"].submit();  
 	   }
-	   function populate(event) 
-		{
-			var number = this.options[this.selectedIndex].text;
-			var url = "ViewInvestigationMst.php?rows="+number+"&page=1";
-			window.location.href = url;
-		}
+	  
    </script>'; 
 ?>
+<script type="text/javascript">
+
+		var intervalSpan = 800;
+		$(document).ready(function(e) {
+            
+			implementSearch();
+			
+        });
+		 function populate(event) 
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = this.options[this.selectedIndex].text;
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxInvastigationMst.php",
+				data:"name="+name+"&rows="+rows+"&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+    	}
+		
+		function setPage(page)
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxInvastigationMst.php",
+				data:"name="+name+"&rows="+rows+"&page="+page,
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		function implementSearch()
+		{
+			
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxInvastigationMst.php",
+				data:"name="+name+"&rows=10&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		
+</script>
+
+
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -95,42 +152,9 @@ echo '<script type="text/javascript">
 <input id="invstId_update" name="invstId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
+<div id="fill">
+</div>
 
-<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
-  <tr>
-    <th class="table-header-repeat line-left"><a href="">Invst Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Information</a></th>
-    <th class="table-header-repeat line-left"><a href="">Sex</a></th>       
-    <th class="table-header-repeat line-left"><a href="">Options</a></th>
-  </tr>
-  <?php
-  $even=1;
-   do {
-    if($even == 1)
-	{
-		echo '<tr>';
-		$even=0;
-	}
-	else
-	{
-		echo '<tr class="alternate-row">';
-		$even=1;
-	}
-    ?>
-      <td><?php echo $row_invstmst['invstName']; ?></td>
-      <td><?php echo $row_invstmst['info'] ;?></td>
-      <td><?php if($row_invstmst['sexFlag'] == "M") echo "Male"; else if($row_invstmst['sexFlag'] == "F") echo "Female"; else if($row_invstmst['sexFlag'] == "B") echo "Both"; else echo "Common";?></td>     
-          
-    <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_invstmst['invstId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_invstmst['invstId'];?>);" class="icon-2 info-tooltip"></a>
-            </td>
-    </tr>
-    <?php } while ($row_invstmst = mysql_fetch_assoc($invstmst)); ?>
-</table>
-
-
-	</div>
 <!-- end table content -->  
 
 <!--  start paging..................................................... -->

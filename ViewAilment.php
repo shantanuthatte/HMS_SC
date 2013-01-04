@@ -50,15 +50,73 @@ echo '<script type="text/javascript">
 			document.forms["update_form"].submit();  
 	   }
 	  
-		function populate(event) 
-		{
-			var number = this.options[this.selectedIndex].text;
-			var url = "ViewAilment.php?rows="+number+"&page=1";
-			window.location.href = url;
-		}
+		
    </script>';  
 
 ?>
+
+
+<script type="text/javascript">
+
+		var intervalSpan = 800;
+		$(document).ready(function(e) {
+            
+			implementSearch();
+			
+        });
+		 function populate(event) 
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = this.options[this.selectedIndex].text;
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxAilment.php",
+				data:"name="+name+"&rows="+rows+"&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+    	}
+		
+		function setPage(page)
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxAilment.php",
+				data:"name="+name+"&rows="+rows+"&page="+page,
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		function implementSearch()
+		{
+			
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxAilment.php",
+				data:"name="+name+"&rows=10&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		
+</script>
+
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -98,78 +156,10 @@ echo '<script type="text/javascript">
 <input id="ailmentId_update" name="ailmentId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
-
-<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
-  <tr>
-    <th class="table-header-repeat line-left"><a href="">Ailment Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Symptoms</a></th>   
-    <th class="table-header-repeat line-left"><a href="">Options</a></th>
-  </tr>
-  <?php
-  $even=1;
-   do {
-    if($even == 1)
-	{
-		echo '<tr>';
-		$even=0;
-	}
-	else
-	{
-		echo '<tr class="alternate-row">';
-		$even=1;
-	}
-    ?>
-      <td><?php echo $row_ailment['ailmentName']; ?></td>
-      <td><?php echo $row_ailment['symptoms']; ?></td>      
-      <td class="options-width">
-			<a title="Edit" onclick="update_submit(<?php echo $row_ailment['ailmentId'];?>)" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm(<?php echo $row_ailment['ailmentId'];?>);" class="icon-2 info-tooltip"></a>
-            
-      </td>
-    </tr>
-    <?php } while ($row_ailment = mysql_fetch_assoc($ailment)); ?>
-</table>
-
-
-	</div>
-<!-- end table content -->   
-
-<!--  start paging..................................................... -->
-
-			<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
-			<tr>
-            <td>Rows  </td>
-			<td>
-			<select name="rows" id="rows" onchange="populate.call(this, event)">
-				<option <?php if($rows == 10) echo "SELECTED"; ?> value="10">10</option>
-				<option <?php if($rows == 20) echo "SELECTED"; ?> value="20">20</option>
-				<option <?php if($rows == 30) echo "SELECTED"; ?> value="30">30</option>
-			</select>
-            
-			</td>
-			<td>
-				<a href="ViewAilment.php?rows=<?php echo $rows; ?>&page=1" class="page-far-left"></a>
-				<a href="ViewAilment.php?rows=<?php echo $rows; ?>&page=<?php if($prev>0) echo $prev; else echo 1; ?>" class="page-left"></a>
-				<div id="page-info">Page <strong><?php echo $page; ?></strong> / <?php echo $total_pages; ?></div>
-				<a href="ViewAilment.php?rows=<?php echo $rows; ?>&page=<?php if($next>1) echo $next; else echo 1; ?>" class="page-right"></a>
-				<a href="ViewAilment.php?rows=<?php echo $rows; ?>&page=<?php if($total_pages>1) echo $total_pages; else echo 1; ?>" class="page-far-right"></a>
-			</td>
-			</tr>
-			</table>
-<!--  end paging................ -->
- 
-    </div>
-<!--  end content-table-inner  -->
-</td>
-<td id="tbl-border-right"></td>
-</tr>
-<tr>
-	<th class="sized bottomleft"></th>
-	<td id="tbl-border-bottom">&nbsp;</td>
-	<th class="sized bottomright"></th>
-</tr>
-</table>
+<div id="fill">
 </div>
+
+
 <!--  end content -->
 <div class="clear">&nbsp;</div>
 </div>

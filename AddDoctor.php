@@ -40,9 +40,11 @@ unset($_SESSION['data']);
 		//alert("Opens the calendar");
         var ctl1=document.getElementById(id1);
         var ctl2=document.getElementById(id1);
-        popUpCalendar(ctl1,ctl2,'dd/mm/yyyy');
+        popUpCalendar(ctl1,ctl2,'dd/mm/yyyy');	
+
         return true;
     }
+		
 	
 	$(document).ready(function(e) {
 				
@@ -199,7 +201,7 @@ unset($_SESSION['data']);
       </td>
       <td><img alt="" src="Calendar/calender.gif"  style="float:left" onClick=" fnOpenCalendar('txtDate1');"/>
       </td>
-      <td id="invalid-txtDate1" class="error-left" hidden="true">
+            <td id="invalid-txtDate1" class="error-left" hidden="true">
       </td>
     </tr>
     <tr>

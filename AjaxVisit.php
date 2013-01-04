@@ -179,6 +179,98 @@ AND t.visitId='".$_GET['visitId']."';";
 			exit(0);
 		}
 	}
+	else if($_GET['action'] == "classNames")
+	{
+		$even = false;
+		
+				$rows = 10;
+		
+			
+			$totalCnt = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM investigationcl c , investigationgr g 
+WHERE c.grId = g.groupId"),0);
+			// Getting the total number of pages. Always round up using ceil() 
+		$total_pages = ceil($totalCnt / $rows);
+			
+			
+			if(($_GET['page'] > 0) && ($_GET['page'] < $total_pages))
+				$from = (($_GET['page']*10)-10);
+			else
+				$from = 0;
+			$query = "SELECT *
+ FROM investigationcl c , investigationgr g 
+WHERE c.grId = g.groupId  LIMIT $from,$rows;";
+			$rows = mysql_query($query, $HMS) or die(mysql_error());
+			$row = mysql_fetch_assoc($rows);
+			$totalRows = mysql_num_rows($rows);
+			
+			echo '<table border="1" cellspacing="50" cellpadding="10" bordercolor="#D6D6D6" class="ui-widget" id="users-contain">
+					<tr>
+					<th class="head" width="3%">Id</th>
+					<th class="head">Group Name</th>					
+					<th class="head">Class Name</th>				
+					</tr>';
+			do{
+				if($even == true)
+				{
+					echo '<tr class="alt">';
+					$even = false;
+				}
+				else
+				{
+					echo '<tr>';
+					$even = true;
+				}
+				echo'<td><input type="radio" name="class" value="'.$row['classId'].'"></td>';	
+				echo "<td>".$row['groupName']."</td>";
+	echo "<td>".$row['className']."</td></tr>";
+
+			}while($row = mysql_fetch_assoc($rows));
+			echo '</table>';
+			echo '<input type="text" id="pageNumber" name="pageNumber" hidden="true" value="'.$_GET['page'].'" /></table>';
+			echo '<div style="float:right"><a onclick="prevPage()" class="page-left"></a>
+				<div id="page-info">Page <strong>'.$_GET['page'].'</strong> /'  .$total_pages. '</div>
+				<a onclick="nextPage()" class="page-right"></a></div>';
+			echo '<input type="button" id="confirm" onclick="confirm()" value="Submit" style="margin-left:45%" class="form-submit" />';
+			echo '<script type="text/javascript">
+			
+			function nextPage()
+						{
+							$.ajax({
+								url: "AjaxVisit.php",
+								data: "action=classNames&page='.($_GET['page']+1).'&num='.$_GET['num'].'",
+								success: function(data) {
+									$("#dialog-form").html(data);
+									$("#dialog-form").dialog( "option", "title", "Class Names" );
+									$("#dialog-form").dialog("open");
+								}
+							});
+						}
+						function prevPage()
+						{
+							$.ajax({
+								url: "AjaxVisit.php",
+								data: "action=classNames&page='.($_GET['page']-1).'&num='.$_GET['num'].'",
+								success: function(data) {
+									$("#dialog-form").html(data);
+									$("#dialog-form").dialog( "option", "title", "Class Names" );
+									$("#dialog-form").dialog("open");
+								}
+							});
+						}
+			
+			function confirm()
+						{
+							var id = $("input[type=\'radio\']:checked").val();
+							var name = $("input[type=\'radio\']:checked").parent().next().html();
+							
+							document.getElementById("classId'.$_GET['num'].'").value=id;
+							document.getElementById("investigationClass'.$_GET['num'].'").value=name;
+							$("#dialog-form").dialog("close");
+						}
+					</script>';
+			exit(0);
+		
+	}
 	else if($_GET['action'] == "prescriptionDetails")
 	{
 		if(isset($_GET['visitId']))
@@ -295,8 +387,8 @@ AND t.visitId='".$_GET['visitId']."';";
 							var id = $("input[type=\'radio\']:checked").val();
 							var name = $("input[type=\'radio\']:checked").parent().next().html();
 							//alert( id + name);
-							document.getElementById("investigationId-'.$_GET['num'].'").value=id;
-							document.getElementById("investigationName-'.$_GET['num'].'").value=name;
+							document.getElementById("investigationId'.$_GET['num'].'").value=id;
+							document.getElementById("investigationName'.$_GET['num'].'").value=name;
 							$("#dialog-form").dialog("close");
 						}
 					</script>';
@@ -392,8 +484,8 @@ AND t.visitId='".$_GET['visitId']."';";
 							var id = $("input[type=\'radio\']:checked").val();
 							var name = $("input[type=\'radio\']:checked").parent().next().html();
 							//alert( id + name);
-							document.getElementById("medicineId-'.$_GET['num'].'").value=id;
-							document.getElementById("medicine-'.$_GET['num'].'").value=name;
+							document.getElementById("medicineId'.$_GET['num'].'").value=id;
+							document.getElementById("medicine'.$_GET['num'].'").value=name;
 							$("#dialog-form").dialog("close");
 						}
 					</script>';
@@ -483,8 +575,8 @@ AND t.visitId='".$_GET['visitId']."';";
 							var id = $("input[type=\'radio\']:checked").val();
 							var name = $("input[type=\'radio\']:checked").parent().next().html();
 							//alert( id + name);
-							document.getElementById("durationId-'.$_GET['num'].'").value=id;
-							document.getElementById("duration-'.$_GET['num'].'").value=name;
+							document.getElementById("durationId'.$_GET['num'].'").value=id;
+							document.getElementById("duration'.$_GET['num'].'").value=name;
 							$("#dialog-form").dialog("close");
 						}
 					</script>';

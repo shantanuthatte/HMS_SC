@@ -37,6 +37,7 @@ $totalRows_personRS = mysql_num_rows($personRS);
 ?>
 <script type="text/javascript">
 
+		var intervalSpan = 800;
 		$(document).ready(function(e) {
             implementSearch();
         });
@@ -73,15 +74,15 @@ $totalRows_personRS = mysql_num_rows($personRS);
 			if(name == "Search")
 				name="";
 			var rows = this.options[this.selectedIndex].text;
-			$("#fill").animate({width:'toggle'},1500).empty();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPersons.php",
-				data:"name="+name+"&rows="+rows+"&page=1",
+				data:"action=view&name="+name+"&rows="+rows+"&page=1",
 				success: function(data){
 					$("#fill").append(data);
 				}
 			});
-			$("#fill").animate({width:'toggle'},1500);
+			$("#fill").animate({height:'toggle'},intervalSpan);
     	}
 		
 		function setPage(page)
@@ -90,15 +91,15 @@ $totalRows_personRS = mysql_num_rows($personRS);
 			if(name == "Search")
 				name="";
 			var rows = $("#rows").val();
-			$("#fill").animate({width:'toggle'},1500).empty();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPersons.php",
-				data:"name="+name+"&rows="+rows+"&page="+page,
+				data:"action=view&name="+name+"&rows="+rows+"&page="+page,
 				success: function(data){
 					$("#fill").append(data);
 				}
 			});
-			$("#fill").animate({width:'toggle'},1500);
+			$("#fill").animate({height:'toggle'},intervalSpan);
 		}
 		
 		function implementSearch()
@@ -107,15 +108,15 @@ $totalRows_personRS = mysql_num_rows($personRS);
 			if(name == "Search")
 				name="";
 			var rows = $("#rows").val();
-			$("#fill").animate({width:'toggle'},1500).empty();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPersons.php",
-				data:"name="+name+"&rows=10&page=1",
+				data:"action=view&name="+name+"&rows=10&page=1",
 				success: function(data){
 					$("#fill").append(data);
 				}
 			});
-			$("#fill").animate({width:'toggle'},1500);
+			$("#fill").animate({height:'toggle'},intervalSpan);
 		}
    </script>
 <div class="clear"></div>

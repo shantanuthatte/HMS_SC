@@ -169,6 +169,8 @@ if($_POST['formAction'] == "insert")
 	$flag= serverValidation();
 	if($flag==0)
 	{
+		$insertdate= date_create($_POST['diagnosisDate']);
+		$DOB = date_format ( $insertdate, "Y-m-d");
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
@@ -181,7 +183,7 @@ if($_POST['formAction'] == "insert")
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['registrationNo'], "text"),
                        GetSQLValueString($_POST['gender'], "text"),
-                       GetSQLValueString($_POST['DOB'], "text"),
+                       GetSQLValueString($DOB, "date"),
 					   GetSQLValueString($_POST['maritalStatus'], "text"),
 					   GetSQLValueString($_POST['bloodGroup'], "text"),
 					   GetSQLValueString($_POST['occupation'], "text"),
@@ -217,6 +219,8 @@ elseif($_POST['formAction'] == "commit")
 	$flag= serverValidation();
 	if($flag==0)
 	{
+		$insertdate= date_create($_POST['diagnosisDate']);
+		$DOB = date_format ( $insertdate, "Y-m-d");
 	$person->setDetails(GetSQLValueString($_POST['fName'], "text"),
                        GetSQLValueString($_POST['mName'], "text"),
                        GetSQLValueString($_POST['lName'], "text"),
@@ -229,7 +233,7 @@ elseif($_POST['formAction'] == "commit")
                        GetSQLValueString($_POST['mobile'], "text"),
                        GetSQLValueString($_POST['registrationNo'], "text"),
                        GetSQLValueString($_POST['gender'], "text"),
-                       GetSQLValueString($_POST['DOB'], "text"),
+                       GetSQLValueString($DOB, "date"),
 					   GetSQLValueString($_POST['maritalStatus'], "text"),
 					   GetSQLValueString($_POST['bloodGroup'], "text"),
 					   GetSQLValueString($_POST['occupation'], "text"),

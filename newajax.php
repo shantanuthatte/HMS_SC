@@ -1,10 +1,10 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
 mysql_select_db($database_HMS, $HMS);
-/*if(isset($_GET['function']))
+if(isset($_GET['function']))
 {
 	if($_GET['function'] == "ForgotEmail")
-	{*/
+	{
 		if(isset($_GET['email']))
 		{
 			$query = "SELECT * FROM users WHERE recoveryEmail LIKE '".mysql_real_escape_string($_GET['email'])."'";
@@ -39,12 +39,11 @@ HMS Webmaster";
 		else
 		{
 			echo("Insufficient parameters!");
-		}/*
+		}
 	}	
 }
 else
 {
 	echo("Invalid paramenters!");
-}
-	*/		
+}	
 ?>

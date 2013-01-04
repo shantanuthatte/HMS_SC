@@ -19,12 +19,7 @@ function serverValidation()
 		$check1=$check1. $count.". Select Family Relation.,";
 		$retVal=1;
 		}
-		if(empty($_POST['ailmentId']))
-		{
-			$count = $count+1;
-		$check1= $check1.$count.". Select Ailment.,";
-		$retVal=1;
-		}
+		
 	if(empty($_POST['diagnosisDate']))
 	{
 		$count=$count+1;
@@ -88,10 +83,12 @@ if($_POST['formAction'] == "insert")
 	$flag= serverValidation();
 	if($flag==0)
 	{
+		$insertdate= date_create($_POST['diagnosisDate']);
+		 $diagnosisDate = date_format ( $insertdate, "Y-m-d");
 	$famhis->setDetails(GetSQLValueString($_POST['patientId'], "text"),
 					   GetSQLValueString($_POST['familyRelation'], "text"),
 					   GetSQLValueString($_POST['ailmentId'], "text"),
-					   GetSQLValueString($_POST['diagnosisDate'], "text"),
+					    GetSQLValueString($diagnosisDate, "date"),
 					   GetSQLValueString($_POST['symptoms'], "text"),
 					   GetSQLValueString($_POST['comments'], "text"));
 	if(!$famhis->insertfamilyhistory())
@@ -105,17 +102,17 @@ elseif($_POST['formAction'] == "update")
 	session_start();
 	$data = $famhis->getDetails($_POST['familyHisId']);
 	$_SESSION['data'] = $data;
-	//echo "Hello update";
-	//var_dump($_SESSION['data']);
 	header('Location: AddFamilyHistory.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")
 {
 	{
+		$insertdate= date_create($_POST['diagnosisDate']);
+		 $diagnosisDate = date_format ( $insertdate, "Y-m-d");
 	$famhis->setDetails(GetSQLValueString($_POST['patientId'], "text"),
 					   GetSQLValueString($_POST['familyRelation'], "text"),
 					   GetSQLValueString($_POST['ailmentId'], "text"),
-					   GetSQLValueString($_POST['diagnosisDate'], "text"),
+					     GetSQLValueString($diagnosisDate, "date"),
 					   GetSQLValueString($_POST['symptoms'], "text"),
 					   GetSQLValueString($_POST['comments'], "text"));
 	if(!$famhis->updatefamilyhistory($_POST['familyHisId']))

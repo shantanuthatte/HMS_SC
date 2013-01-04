@@ -92,7 +92,7 @@ if($_POST['formAction'] == "insert")
 elseif($_POST['formAction'] == "update")
 {	
 	session_start();
-	$data = $invstcl->getDetails($_POST['grId'], $_POST['classId']);
+	$data = $invstcl->getDetails($_POST['classId']);
 	$_SESSION['data'] = $data;
 	//echo "Hello update";
 	//var_dump($_SESSION['data']);
@@ -107,7 +107,7 @@ elseif($_POST['formAction'] == "commit")
 	$invstcl->setDetails(GetSQLValueString($_POST['grId'], "text"),
 					GetSQLValueString($_POST['classId'], "text"),
                        GetSQLValueString($_POST['className'], "text"));
-	if(!$invstcl->updateinvestigationcl($_POST['grId'], $_POST['classId']))
+	if(!$invstcl->updateinvestigationcl($_POST['classId']))
 		die(mysql_error());
 	else
 		header('Location: ViewInvestigationCl.php');
@@ -115,7 +115,7 @@ elseif($_POST['formAction'] == "commit")
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$invstcl->deleteinvestigationcl($_POST['grId'], $_POST['classId']))
+	if(!$invstcl->deleteinvestigationcl($_POST['classId']))
 		die(mysql_error());
 	else
 		header('Location: ViewInvestigationCl.php');

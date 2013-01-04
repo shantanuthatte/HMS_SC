@@ -149,12 +149,29 @@ while( $row_patient = mysql_fetch_assoc($patient) )
 	
 	
     </script> 
-    
+    <script type="text/javascript">
+ 	function popSearch()
+	{
+		var Pname = "search";
+		var name= document.getElementById('patientName').value;
+		$.ajax({
+			url: "AjaxPersons.php",
+			data: "action="+Pname+"&name="+name+"&rows=10&page=1",
+			success: function(data) {
+				$('#dialog-form').html(data);
+				$( "#dialog-form" ).dialog( "option", "title", "Patients" );
+				$("#dialog-form").dialog("open");
+			}
+		});
+	}
+	
+	</script>
 
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript">
  	
 	$(document).ready(function(e) {
+		
 				
         $("#form1").validate({
 			rules:{
@@ -201,11 +218,25 @@ while( $row_patient = mysql_fetch_assoc($patient) )
 			}
 		})
 		
+		
     });
 	
 </script> 
 
-
+<script type="text/javascript" language="javascript">
+//$(document).ready(function(e) {
+$('#dialog-form').dialog({
+            autoOpen: false,
+            height: "auto",
+            width: "auto",
+			maxWidth:700,
+            modal: true,
+			resizable: false,
+			show: "slow"
+        });
+		
+    });
+</script>
 <script src="Calendar/popcalendar.js" type="text/javascript"></script>
 <script type="text/javascript" language="javascript">
  
@@ -258,7 +289,7 @@ while( $row_patient = mysql_fetch_assoc($patient) )
      <td name="Iname" id="Iname">
        <input id="patientName" name="patientName" size="32" class="inp-form" value="<?php if($formAction == "update") echo $data['patientName']; ?>" /></td>  
              
-      <td>&nbsp;</td>
+      <td><a title="Search" id="searchPatient" onClick="popSearch()" class="icon-3 info-tooltip"></a></td>
       <td id="invalid-patientId" class="error-left" hidden="true">  </td>        </tr>
           
       <tr>
@@ -269,7 +300,10 @@ while( $row_patient = mysql_fetch_assoc($patient) )
       <td id="invalid-ailmentId" class="error-left" hidden="true">  </td>    
       <tr>
       <th>Diagnosis Date*:</th>
-      <td><input id="txtDate1" type="text" name="diagnosisDate" value="<?php if($formAction == "update") echo $data['diagnosisDate']; ?>" size="32" class="inp-form" /></td>     
+      <td><input id="txtDate1" type="text" name="diagnosisDate" value="<?php if($formAction == "update"){
+		  $insertdate= date_create($data['diagnosisDate']);
+		 $diagnosisDate = date_format ( $insertdate, "d-m-Y");
+		   echo $diagnosisDate; }?>" size="32" class="inp-form" /></td>     
    
       <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/> </td>
       <td id="invalid-txtDate1" class="error-left" hidden="true">     
@@ -311,8 +345,11 @@ while( $row_patient = mysql_fetch_assoc($patient) )
   <input type="hidden" name="formAction" value="<?php if ($formAction == "update") echo "commit"; else echo "insert"; ?>" />
   <input type="hidden" name="medicalHisId" value="<?php if($formAction == "update") echo $data['medicalHisId']; ?>" />
   <input type="hidden" id="patientId" name="patientId" value="<?php if($formAction == "update") echo $data['patientId']; ?>"/>
+  <input type="hidden" id="ailmentId" name="ailmentId" value="<?php if($formAction == "update") echo $data['ailmentId']; ?>"/>
 </form>
-<input type="hidden" id="ailmentId" name="ailmentId" value="<?php if($formAction == "update") echo $data['ailmentId']; ?>"/>
+<div id="dialog-form">
+		
+    </div>
 <p>&nbsp;</p>
 <div id="check" class="red-left-s">
 <?php

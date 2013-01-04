@@ -50,14 +50,71 @@ echo '<script type="text/javascript">
 		  	document.getElementById("medicineId_update").value=medicineId;
 			document.forms["update_form"].submit();  
 	   }
-	   function populate(event) 
-		{
-			var number = this.options[this.selectedIndex].text;
-			var url = "ViewMedicine.php?rows="+number+"&page=1";
-			window.location.href = url;
-		}
+	  
    </script>';  
 ?>
+
+<script type="text/javascript">
+
+		var intervalSpan = 800;
+		$(document).ready(function(e) {
+            
+			implementSearch();
+			
+        });
+		 function populate(event) 
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = this.options[this.selectedIndex].text;
+			$("#fill").animate({width:'toggle'},1500).empty();
+			$.ajax({
+				url:"AjaxMedicine.php",
+				data:"name="+name+"&rows="+rows+"&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+    	}
+		
+		function setPage(page)
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxMedicine.php",
+				data:"name="+name+"&rows="+rows+"&page="+page,
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		function implementSearch()
+		{
+			
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxMedicine.php",
+				data:"name="+name+"&rows=10&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		
+</script>
+
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -97,8 +154,9 @@ echo '<script type="text/javascript">
 <input id="medicineId_update" name="medicineId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
-
-<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
+<div id="fill">
+</div>
+<!--<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
   <tr>
     <th class="table-header-repeat line-left"><a href="">Medicine Name</a></th>
     <th class="table-header-repeat line-left"><a href="">Indications</a></th>
@@ -175,7 +233,7 @@ echo '<script type="text/javascript">
 	<th class="sized bottomright"></th>
 </tr>
 </table>
-</div>
+</div> -->
 <!--  end content -->
 <div class="clear">&nbsp;</div>
 </div>

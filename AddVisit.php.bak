@@ -50,9 +50,9 @@ else if($_POST['formAction'] == "insert")
 	{
 		var count = document.getElementById("medicineCount").value;
 		
-		var row1 = new String('<tr bgcolor="#EEFFDD"><th align="right">Medicine Name:</th><td><input  name="medicine0" id="medicine0" type="text" class="inp-form" value="" /> <input id="medSearch0" name="medSearch0" type="button" value="search"  onclick="popMedicine(0)"/> <input type="text" id="medicineId0" name="medicineId0" hidden="true" value="" /></td>  <th align="right">Dosage:</th><td><input name="dosage0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Duration:</th><td> <input id="duration0" name="duration0" type="text" class="inp-form" value=""  /> <input id="freqSearch0" name="freqSearch0" type="button" value="search"  onclick="popDuration(0)" /> <input type="text" id="durationId0" name="durationId0" hidden="true" value="" /> </td> <th align="right">Instruction:</th><td><input name="instruction0" type="text" class="inp-form" value="" /></td></tr>');
+		var row1 = new String('<tr bgcolor="#EEFFDD"><th align="right">Medicine Name:</th><td><input  name="medicine-0" id="medicine-0" type="text" class="inp-form" value="" /> <input id="medSearch-0" name="medSearch-0" type="button" value="search"  onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>  <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Duration:</th><td> <input id="duration-0" name="duration-0" type="text" class="inp-form" value=""  /> <input id="freqSearch-0" name="freqSearch-0" type="button" value="search"  onclick="popDuration(0)" /> <input type="text" id="durationId-0" name="durationId-0" hidden="true" value="" /> </td> <th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
 		
-		var row2 = new String('<tr><th align="right">Medicine Name:</th><td><input id="medicine0" name="medicine0" type="text" class="inp-form" value="" /> <input id="medSearch0" name="medSearch0" type="button" value="search"  onclick="popMedicine(0)"/> <input type="text" id="medicineId0" name="medicineId0" hidden="true" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Duration:</th><td> <input id="duration0" name="duration0" type="text" class="inp-form" value=""  /> <input id="freqSearch0" name="freqSearch0" type="button" value="search"  onclick="popDuration(0)" /> <input type="text" id="durationId0" name="durationId0" hidden="true" value="" /> </td><th align="right">Instruction:</th><td><input name="instruction0" type="text" class="inp-form" value="" /></td></tr>');
+		var row2 = new String('<tr><th align="right">Medicine Name:</th><td><input id="medicine-0" name="medicine-0" type="text" class="inp-form" value="" /> <input id="medSearch-0" name="medSearch-0" type="button" value="search"  onclick="popMedicine(0)"/> <input type="text" id="medicineId-0" name="medicineId-0" hidden="true" value="" /></td>      <th align="right">Dosage:</th><td><input name="dosage-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Duration:</th><td> <input id="duration-0" name="duration-0" type="text" class="inp-form" value=""  /> <input id="freqSearch-0" name="freqSearch-0" type="button" value="search"  onclick="popDuration(0)" /> <input type="text" id="durationId-0" name="durationId-0" hidden="true" value="" /> </td><th align="right">Instruction:</th><td><input name="instruction-0" type="text" class="inp-form" value="" /></td></tr>');
 		
 		count++;
 		var content1 = row1.replace(/0/g,count);
@@ -61,14 +61,6 @@ else if($_POST['formAction'] == "insert")
 		var content = content1+content2;
 		
 		$('#add-medicine').before(content);
-		//add validation rules
-		/*count--;
-		$("#dosage"+count).rules("add",{required:true});
-		$("#duration"+count).text("Hello");
-		count++;
-		$("#dosage"+count).rules("add",{required:"#medicine"+count+":filled"});
-		$("#duration"+count).rules("add",{required:"#medicine"+count+":filled"});
-		*/
 		document.getElementById("medicineCount").value=count;
 	}
 	
@@ -76,9 +68,9 @@ else if($_POST['formAction'] == "insert")
 	{
 		var count = document.getElementById("investigationCount").value;
 		
-		var row1 = new String('<tr><th align="right">Investigation Name:</th><td><input name="investigationName0" id="investigationName0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId0" name="investigationId0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass0" name="investigationClass0" type="text" class="inp-form" value="" onclick="" /><input type="text" id="classId0" name="classId0" hidden="true" value="" /></td></tr>        <tr><th align="right">Report Date:</th><td><input name="reportDate0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Value:</th><td><input name="value0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results0" type="text" class="inp-form" value="" /></td></tr>');
+		var row1 = new String('<tr><th align="right">Investigation Name:</th><td><input name="investigationName-0" id="investigationName-0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId-0" name="investigationId-0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass-0" name="investigationClass-0" type="text" class="inp-form" value="" onclick="popClass(0)" /><input type="text" id="classId-0" name="classId-0" hidden="true" value="" /></td></tr>        <tr><th align="right">Report Date:</th><td><input name="reportDate-0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution-0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Value:</th><td><input name="value-0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results-0" type="text" class="inp-form" value="" /></td></tr>');
 		
-		var row2 = new String('<tr bgcolor="#EEFFDD"><th align="right">Investigation Name:</th><td><input name="investigationName0" id="investigationName0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId0" name="investigationId0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass0" name="investigationClass0" type="text" class="inp-form" value="" onclick="" /><input type="text" id="classId0" name="classId0" hidden="true" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Report Date:</th><td><input name="reportDate0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Value:</th><td><input name="value0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results0" type="text" class="inp-form" value="" /></td></tr>');
+		var row2 = new String('<tr bgcolor="#EEFFDD"><th align="right">Investigation Name:</th><td><input name="investigationName-0" id="investigationName-0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId-0" name="investigationId-0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass-0" name="investigationClass-0" type="text" class="inp-form" value="" onclick="popClass(0)" /><input type="text" id="classId-0" name="classId-0" hidden="true" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Report Date:</th><td><input name="reportDate-0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution-0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Value:</th><td><input name="value-0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results-0" type="text" class="inp-form" value="" /></td></tr>');
 		
 		count++;
 		var content1 = row1.replace(/0/g,count);
@@ -189,42 +181,6 @@ else if($_POST['formAction'] == "insert")
 				},
 				finalDiagnosis:{
 					required:true	
-				},
-				dosage1:{
-					required:"#medicine1:filled"
-				},
-				duration1:{
-					required:"#medicine1:filled"
-				},
-				dosage2:{
-					required:"#medicine2:filled"
-				},
-				duration2:{
-					required:"#medicine2:filled"
-				},
-				dosage3:{
-					required:"#medicine3:filled"
-				},
-				duration3:{
-					required:"#medicine3:filled"
-				},
-				investigationClass1:{
-					required:"#investigationName1:filled"
-				},
-				reportDate1:{
-					required:"#investigationName1:filled"
-				},
-				results1:{
-					required:"#investigationName1:filled"
-				},
-				investigationClass2:{
-					required:"#investigationName2:filled"
-				},
-				reportDate2:{
-					required:"#investigationName2:filled"
-				},
-				results2:{
-					required:"#investigationName2:filled"
 				}
 			},
 			invalidHandler:function(form,validator){
@@ -492,84 +448,84 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input id="medicine1" name="medicine1" type="text" class="inp-form" value=""  />
-        <input id="medSearch1" name="medSearch1" type="button" value="search"  onclick="popMedicine(1)"/>
-        <input type="text" id="medicineId1" name="medicineId1" hidden="true" value="" />        
+        <input id="medicine-1" name="medicine-1" type="text" class="inp-form" value=""  />
+        <input id="medSearch-1" name="medSearch-1" type="button" value="search"  onclick="popMedicine(1)"/>
+        <input type="text" id="medicineId-1" name="medicineId-1" hidden="true" value="" />        
         </td>
         <th align="right">Dosage:
         </th>
         <td>
-        <input name="dosage1" type="text" class="inp-form" value="" />
+        <input name="dosage-1" type="text" class="inp-form" value="" />
         </td>
         </tr>
         <tr>
         <th align="right">Duration:
         </th>
         <td>      
-        <input id="duration1" name="duration1" type="text" class="inp-form" value=""  />  
-        <input id="freqSearch1" name="freqSearch1" type="button" value="search"  onclick="popDuration(1)" />
-        <input type="text" id="durationId1" name="durationId1" hidden="true" value="" /> 
+        <input id="duration-1" name="duration-1" type="text" class="inp-form" value=""  />  
+        <input id="freqSearch-1" name="freqSearch-1" type="button" value="search"  onclick="popDuration(1)" />
+        <input type="text" id="durationId-1" name="durationId-1" hidden="true" value="" /> 
          </td>   
         <th align="right">Instruction:
         </th>
         <td>
-        <input name="instruction1" type="text" class="inp-form" value="" />
+        <input name="instruction-1" type="text" class="inp-form" value="" />
         </td>
         </tr> 
         <tr bgcolor="#EEFFDD">
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input id="medicine2" name="medicine2" type="text" class="inp-form" value="" />
-        <input id="medSearch2" name="medSearch2" type="button" value="search"  onclick="popMedicine(2)"/>
-        <input type="text" id="medicineId2" name="medicineId2" hidden="true" value="" />
+        <input id="medicine-2" name="medicine-2" type="text" class="inp-form" value="" />
+        <input id="medSearch-2" name="medSearch-2" type="button" value="search"  onclick="popMedicine(2)"/>
+        <input type="text" id="medicineId-2" name="medicineId-2" hidden="true" value="" />
         </td>
         <th align="right">Dosage:
         </th>
         <td>
-        <input name="dosage2" type="text" class="inp-form" value="" />
+        <input name="dosage-2" type="text" class="inp-form" value="" />
         </td>
         </tr>   
         <tr bgcolor="#EEFFDD">
         <th align="right">Duration:
         </th>
         <td>      
-        <input id="duration2" name="duration2" type="text" class="inp-form" value=""  />  
-        <input id="freqSearch2" name="freqSearch2" type="button" value="search"  onclick="popDuration(2)" />
-        <input type="text" id="durationId2" name="durationId2" hidden="true" value="" /> 
+        <input id="duration-2" name="duration-2" type="text" class="inp-form" value=""  />  
+        <input id="freqSearch-2" name="freqSearch-2" type="button" value="search"  onclick="popDuration(2)" />
+        <input type="text" id="durationId-2" name="durationId-2" hidden="true" value="" /> 
          </td> 
         <th align="right">Instruction:
         </th>
         <td>
-        <input name="instruction2" type="text" class="inp-form" value="" />
+        <input name="instruction-2" type="text" class="inp-form" value="" />
         </td>
         </tr>
         <tr>
         <th align="right">Medicine Name:
         </th>
         <td>
-        <input id="medicine3" name="medicine3" type="text" class="inp-form" value="" />
-        <input id="medSearch3" name="medSearch3" type="button" value="search"  onclick="popMedicine(3)"/>
-        <input type="text" id="medicineId3" name="medicineId3" hidden="true" value="" />
+        <input id="medicine-3" name="medicine-3" type="text" class="inp-form" value="" />
+        <input id="medSearch-3" name="medSearch-3" type="button" value="search"  onclick="popMedicine(3)"/>
+        <input type="text" id="medicineId-3" name="medicineId-3" hidden="true" value="" />
         </td>
         <th align="right">Dosage:
         </th>
         <td>
-        <input name="dosage3" type="text" class="inp-form" value="" />
+        <input name="dosage-3" type="text" class="inp-form" value="" />
         </td>
         </tr>
         <tr>
         <th align="right">Duration:
         </th>
         <td>      
-        <input id="duration3" name="duration3" type="text" class="inp-form" value=""  />  
-        <input id="freqSearch3" name="freqSearch3" type="button" value="search"  onclick="popDuration(3)" />
-        <input type="text" id="durationId3" name="durationId3" hidden="true" value="" /> 
+        <input id="duration-3" name="duration-3" type="text" class="inp-form" value=""  />  
+        <input id="freqSearch-3" name="freqSearch-3" type="button" value="search"  onclick="popDuration(3)" />
+        <input type="text" id="durationId-3" name="durationId-3" hidden="true" value="" /> 
          </td>        
         <th align="right">Instruction:
         </th>
         <td>
-        <input name="instruction3" type="text" class="inp-form" value="" />
+        <input name="instruction-3" type="text" class="inp-form" value="" />
         </td>
         </tr> 
         <tr id="add-medicine">
@@ -586,74 +542,75 @@ else if($_POST['formAction'] == "insert")
         <th align="right">Investigation Name:
         </th>
         <td>
-        <input id="investigationName1" name="investigationName1" type="text" class="inp-form" value="" onclick="popInvestigation(1)" />
-        <input type="text" id="investigationId1" name="investigationId1" hidden="true" value="" />
+        <input id="investigationName-1" name="investigationName-1" type="text" class="inp-form" value="" onclick="popInvestigation(1)" />
+        <input type="text" id="investigationId-1" name="investigationId-1" hidden="true" value="" />
         </td>
         <th align="right">Class Id:</th>
         <td>
-        <input id="investigationClass1" name="investigationClass1" type="text" class="inp-form" value="" onclick="" />
-        <input type="text" id="classId1" name="classId1" hidden="true" value="" />
+        <input id="investigationClass-1" name="investigationClass-1" type="text" class="inp-form" value="" onclick="popClass(1)" />
+        
+        <input type="text" id="classId-1" name="classId-1" hidden="true" value="" />
         </td>
         </tr>
         <tr>
         <th align="right">Report Date:
         </th>
         <td>
-        <input name="reportDate1" type="text" class="inp-form" value="" />
+        <input name="reportDate-1" type="text" class="inp-form" value="" />
         </td>
         <th align="right">Institution:
         </th>
         <td>
-        <input name="institution1" type="text" class="inp-form" value="" />
+        <input name="institution-1" type="text" class="inp-form" value="" />
         </td>
         </tr>
         <tr>
         <th align="right">Value:
         </th>
         <td>
-        <input name="value1" type="text" class="inp-form" value="" />
+        <input name="value-1" type="text" class="inp-form" value="" />
         </td>
         <th align="right">Results:
         </th>
         <td>
-        <input name="results1" type="text" class="inp-form" value="" />
+        <input name="results-1" type="text" class="inp-form" value="" />
         </td>
         </tr>
         <tr bgcolor="#EEFFDD">
         <th align="right">Investigation Name:
         </th>
         <td>
-        <input id="investigationName2" name="investigationName2" type="text" class="inp-form" value="" onclick="popInvestigation(2)" />
-        <input type="text" id="investigationId2" name="investigationId2" hidden="true" value="" />
+        <input id="investigationName-2" name="investigationName-2" type="text" class="inp-form" value="" onclick="popInvestigation(2)" />
+        <input type="text" id="investigationId-2" name="investigationId-2" hidden="true" value="" />
         </td>
         <th align="right">Class Id:</th>
         <td>
-        <input id="investigationClass2" name="investigationClass2" type="text" class="inp-form" value="" onclick="" />
-        <input type="text" id="classId2" name="classId2" hidden="true" value="" />
+        <input id="investigationClass-2" name="investigationClass-2" type="text" class="inp-form" value="" onclick="popClass(2)" />
+        <input type="text" id="classId-2" name="classId-2" hidden="true" value="" />
         </td>
         </tr>
         <tr bgcolor="#EEFFDD">
         <th align="right">Report Date:
         </th>
         <td>
-        <input name="reportDate2" type="text" class="inp-form" value="" />
+        <input name="reportDate-2" type="text" class="inp-form" value="" />
         </td>
         <th align="right">Institution:
         </th>
         <td>
-        <input name="institution2" type="text" class="inp-form" value="" />
+        <input name="institution-2" type="text" class="inp-form" value="" />
         </td>
         </tr>
         <tr bgcolor="#EEFFDD">
         <th align="right">Value:
         </th>
         <td>
-        <input name="value2" type="text" class="inp-form" value="" />
+        <input name="value-2" type="text" class="inp-form" value="" />
         </td>
         <th align="right">Results:
         </th>
         <td>
-        <input name="results2" type="text" class="inp-form" value="" />
+        <input name="results-2" type="text" class="inp-form" value="" />
         </td>
         </tr> 
         <tr id="add-investigation">

@@ -22,6 +22,66 @@ $authority = mysql_query($query_authority, $HMS) or die(mysql_error());
 $row_authority = mysql_fetch_assoc($authority);
 $totalRows_authority = mysql_num_rows($authority);
 ?>
+
+
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript">
+ 	
+	$(document).ready(function(e) {
+				
+        $("#form1").validate({
+			rules:{
+			registrationType:{
+				required: true,
+					},
+			authorityId:{
+				required: true,
+					},
+			registrationDate:{
+				required: true,
+					},
+			name:{
+				required: true,
+				minlength: 3
+				},
+			
+			comments:{
+				minlength: 3
+				}
+			},	
+			invalidHandler: function(form, validator){
+				var errors = validator.numberOfInvalids();
+				if(errors)
+				{
+					var message = "There are "+errors+" errors in the data entered. Correct them before submitting.";
+					$("#red-left").html(message);
+					$("#message-red").show();
+					$(".error-left").show();
+				}
+			},
+			ignore:"ui-tabs-hide",
+			errorElement: "div",
+			wrapper: "div",
+			errorPlacement: function(error,element){
+				error.insertAfter('#invalid-' + element.attr('id'));
+				error.addClass('error-inner');
+			},
+			highlight: function(element,errorClass){
+				$(element).fadeOut(function() {
+     			  $(element).fadeIn();
+     			});
+				$(element).parent().siblings(".error-left").show();
+			},
+			unhighlight: function(element,errorClass){
+				$(element).parent().siblings(".error-left").hide();
+			}
+		})
+    });
+	
+</script>
+
+
+
 <script src="Calendar/popcalendar.js" type="text/javascript"></script>
 <script type="text/javascript" language="javascript">
  
@@ -41,6 +101,15 @@ $totalRows_authority = mysql_num_rows($authority);
 <div id="content-outer">
 <!-- start content -->
 <div id="content">
+
+<div id="message-red" hidden="true">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td id="red-left" class="red-left"></td>
+					<td class="red-right"><a class="close-red"><img src="images/table/icon_close_red.gif"   alt="" /></a></td>
+				</tr>
+			</table>
+</div>
 
 <form action="cntrl_WebRegistration.php" method="post" name="form1" id="form1">
   <div id="page-heading"><h1>Registration Details</h1></div>
@@ -65,25 +134,32 @@ $totalRows_authority = mysql_num_rows($authority);
       
       <th>Registration Type:</th>
       <td>
-		<select name="registrationType" class="styledselect_form_1">
+		<select id="registrationType" name="registrationType" class="styledselect_form_1">
 			<option value="H"  <?php if($formAction == "update" && $data['registrationType'] == "H") echo "SELECTED"; ?>>Hospital</option>
 			<option value="C" <?php if($formAction == "update" && $data['registrationType'] == "C") echo "SELECTED"; ?>>Clinic</option>
 			<option value="I" <?php if($formAction == "update" && $data['registrationType'] == "I") echo "SELECTED"; ?>>Individual</option>
 			</select>
       </td>
+      <td></td>
+      <td id="invalid-registrationType" class="error-left" hidden="true">
    		</tr>
    <tr>
       <th>Registration Date:</th>
-      <td><input id="txtDate1" type="text" name="registrationDate" value="<?php if($formAction == "update") echo $data['registrationDate']; ?>" size="32" class="inp-form" />
+      <td><input id="registrationDate" type="text" name="registrationDate" value="<?php if($formAction == "update") echo $data['registrationDate']; ?>" size="32" class="inp-form" />
       </td>
-      <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"/>
+     
+     <td><img alt="" src="Calendar/calender.gif"  style="float:right" onClick=" fnOpenCalendar('txtDate1');"
+      -->
       </td>
+       <td id="invalid-registrationDate" class="error-left" hidden="true">
     </tr>
     <tr>
       <th>Name:</th>
       <td>
-      <input type="text" name="name" value="<?php if($formAction == "update") echo $data['name']; ?>" size="32" class="inp-form"/>
+      <input type="text" id="name" name="name" value="<?php if($formAction == "update") echo $data['name']; ?>" size="32" class="inp-form"/>
       </td>
+      <td></td>
+      <td id="invalid-name" class="error-left" hidden="true">
     </tr>
     <th>AuthorityId:</th>
      <td><select name="authorityId" class="styledselect_form_1">
@@ -96,13 +172,18 @@ $totalRows_authority = mysql_num_rows($authority);
 		?>
       </select>
        </td>
+       <td></td>
+       <td id="invalid-authorityId" class="error-left" hidden="true">
+        
     </tr>
      
     <tr>
       <th>Comments:</th>
       <td>
-      <input type="text" name="comments" value="<?php if($formAction == "update") echo $data['comments']; ?>" size="32" class="inp-form"/>
+      <input type="text" id="comments" name="comments" value="<?php if($formAction == "update") echo $data['comments']; ?>" size="32" class="inp-form"/>
       </td>
+      <td></td>
+      <td id="invalid-comments" class="error-left" hidden="true">
     </tr> 
     <tr>
 		<th>&nbsp;</th>

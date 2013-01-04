@@ -24,7 +24,7 @@ include 'header.php';
 			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPatients.php",
-				data:"name="+name+"&rows="+rows+"&page=1",
+				data:"action=view&name="+name+"&rows="+rows+"&page=1",
 				success: function(data){
 					$("#fill").append(data);
 				}
@@ -41,7 +41,7 @@ include 'header.php';
 			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPatients.php",
-				data:"name="+name+"&rows="+rows+"&page="+page,
+				data:"action=view&name="+name+"&rows="+rows+"&page="+page,
 				success: function(data){
 					$("#fill").append(data);
 				}
@@ -58,7 +58,7 @@ include 'header.php';
 			$("#fill").animate({height:'toggle'},intervalSpan).empty();
 			$.ajax({
 				url:"AjaxPatients.php",
-				data:"name="+name+"&rows=10&page=1",
+				data:"action=view&name="+name+"&rows=10&page=1",
 				success: function(data){
 					$("#fill").append(data);
 				}

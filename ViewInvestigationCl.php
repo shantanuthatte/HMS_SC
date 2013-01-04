@@ -61,6 +61,69 @@ echo '<script type="text/javascript">
 		}
    </script>';  
 ?>
+
+<script type="text/javascript">
+
+		var intervalSpan = 800;
+		$(document).ready(function(e) {
+            
+			implementSearch();
+			
+        });
+		 function populate(event) 
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = this.options[this.selectedIndex].text;
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxInvastigationCl.php",
+				data:"name="+name+"&rows="+rows+"&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+    	}
+		
+		function setPage(page)
+		{
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxInvastigationCl.php",
+				data:"name="+name+"&rows="+rows+"&page="+page,
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		function implementSearch()
+		{
+			
+			var name = $("#key").val();
+			if(name == "Search")
+				name="";
+			var rows = $("#rows").val();
+			$("#fill").animate({height:'toggle'},intervalSpan).empty();
+			$.ajax({
+				url:"AjaxInvastigationCl.php",
+				data:"name="+name+"&rows=10&page=1",
+				success: function(data){
+					$("#fill").append(data);
+				}
+			});
+			$("#fill").animate({height:'toggle'},intervalSpan);
+		}
+		
+</script>
+
+
 <div class="clear"></div>
  
 <!-- start content-outer -->
@@ -102,39 +165,10 @@ echo '<script type="text/javascript">
 <input id="classId_update" name="classId" value="" type="hidden" />
 <input id="formAction" name="formAction" value="update" type="hidden" />
 </form>
-
-<table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
-  <tr>
-    <th class="table-header-repeat line-left"><a href="">Group Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Class Name</a></th>
-    <th class="table-header-repeat line-left"><a href="">Options</a></th>
-    </tr>
-  <?php
-  $even=1;
-   do {
-    if($even == 1)
-	{
-		echo '<tr>';
-		$even=0;
-	}
-	else
-	{
-		echo '<tr class="alternate-row">';
-		$even=1;
-	}
-    ?>
-      <td><?php echo $row_invstcl['groupName']; ?></td>
-      <td><?php echo $row_invstcl['className']; ?></td>
-      <td class="options-width">
-			<a title="Edit" onclick="update_submit('<?php echo $row_invstcl['grId'];?> ',' <?php echo $row_invstcl['classId'];?>')" class="icon-1 info-tooltip"></a>
-			<a title="Delete" onclick="delete_confirm('<?php echo $row_invstcl['grId'];?> ',' <?php echo $row_invstcl['classId'];?>');" class="icon-2 info-tooltip"></a>            
-      </td>      
-    </tr>
-    <?php } while ($row_invstcl = mysql_fetch_assoc($invstcl)); ?>
-</table>
+<div id="fill">
+</div>
 
 
-	</div>
 <!-- end table content -->  
 
 <!--  start paging..................................................... -->

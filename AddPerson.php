@@ -39,7 +39,7 @@ unset($_SESSION['data']);
 <script type="text/javascript" language="javascript">
     function fnOpenCalendar(id1)
     {        
-		alert("Opens the calendar");
+		
         var ctl1=document.getElementById(id1);
         var ctl2=document.getElementById(id1);
         popUpCalendar(ctl1,ctl2,'yyyy/mm/dd');

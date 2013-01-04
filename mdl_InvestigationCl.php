@@ -14,10 +14,10 @@ class InvestigationCl
 		$this->className = $className;
 	}
 	
-	public function getDetails($grId, $classId)
+	public function getDetails($classId)
 	{
 		include("Connections/HMS.php");
-		$query = "SELECT * FROM investigationcl WHERE grId = $grId AND classId = $classId ;";
+		$query = "SELECT * FROM investigationcl WHERE classId = $classId ;";
 		mysql_select_db($database_HMS, $HMS);
 		$invstcl = mysql_query($query, $HMS) or die(mysql_error());
 		$row_invstcl = mysql_fetch_assoc($invstcl);
@@ -35,37 +35,27 @@ class InvestigationCl
 	
 	public function insertinvestigationcl()
 	{
-		include("Connections/HMS.php");
+		include("Connections/HMS.php");		
+		$insertSQL = "INSERT INTO investigationcl(grId,className) VALUES ($this->grId, $this->className);";
 		mysql_select_db($database_HMS, $HMS);
-		
-		$query_num = "SELECT MAX(classId) AS clsId
-						FROM investigationcl
-						WHERE grId = $this->grId;";
-		$num = mysql_query($query_num, $HMS) or die(mysql_error());
-		$row_num = mysql_fetch_assoc($num);
-		$clsId = $row_num['clsId'] + 1;		
-		
-		$this->classId = $clsId;
-		$insertSQL = "INSERT INTO investigationcl(grId,classId,className) VALUES ($this->grId,$this->classId,$this->className);";
-		
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;
 	}
 	
-	public function updateinvestigationcl($grId, $clId)
+	public function updateinvestigationcl($clId)
 	{
 		include("Connections/HMS.php");
-		$updateSQL = "UPDATE investigationcl SET className=$this->className  WHERE grId = $grId AND classId = $clId" ;
+		$updateSQL = "UPDATE investigationcl SET className=$this->className  WHERE classId = $clId" ;
 		echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
 		return true;
 	}
 	
-	public function deleteinvestigationcl($grId, $clId)
+	public function deleteinvestigationcl($clId)
 	{
 		include("Connections/HMS.php");
-		$deleteSQL = "DELETE FROM investigationcl WHERE grId=$grId AND classId = $clId";
+		$deleteSQL = "DELETE FROM investigationcl WHERE classId = $clId";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($deleteSQL, $HMS) or die(mysql_error());
 		return true;

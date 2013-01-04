@@ -63,7 +63,7 @@ elseif($_POST['formAction'] == "commit")
 }
 elseif($_POST['formAction'] == "delete")
 {
-	if(!$userreglink->deleteUserRegistrationlink($_POST['userId']))
+	if(!$userreglink->deleteUserRegistrationlink($_POST['userRegLinkId']))
 		die(mysql_error());
 	else
 		header('Location: ViewUserRegistrationlink.php');

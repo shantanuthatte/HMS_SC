@@ -67,7 +67,7 @@ $error = '';
 	{
 		var temp = $("#email").val();
 		$.ajax({
-			url:"ajax.php",
+			url:"newajax.php",
 			data:"function=ForgotEmail&email="+temp,
 			success: function(data){
 				$("#message").html(data);

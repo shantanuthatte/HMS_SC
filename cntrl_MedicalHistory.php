@@ -75,11 +75,17 @@ if($_POST['formAction'] == "insert")
 	$flag= serverValidation();
 	if($flag==0)
 	{
+		$insertdate= date_create($_POST['diagnosisDate']);
+		 $diagnosisDate = date_format ( $insertdate, "Y-m-d");
+  
+ 
 	$medical->setDetails(GetSQLValueString($_POST['patientId'], "text"),
                        GetSQLValueString($_POST['ailmentId'], "text"),
-					   GetSQLValueString($_POST['diagnosisDate'], "text"),
+					   GetSQLValueString($diagnosisDate, "date"),
 					   GetSQLValueString($_POST['symptoms'], "text"),
                        GetSQLValueString($_POST['comments'], "text"));
+					   
+	
 	if(!$medical->insertmedicalhistory())
 		die(mysql_error());
 	else
@@ -98,9 +104,11 @@ elseif($_POST['formAction'] == "commit")
 	$flag= serverValidation();
 	if($flag==0)
 	{
+		$insertdate= date_create($_POST['diagnosisDate']);
+		 $diagnosisDate = date_format ( $insertdate, "Y-m-d");
 	$medical->setDetails(GetSQLValueString($_POST['patientId'], "text"),
                        GetSQLValueString($_POST['ailmentId'], "text"),
-					   GetSQLValueString($_POST['diagnosisDate'], "text"),
+					    GetSQLValueString($diagnosisDate, "date"),
 					   GetSQLValueString($_POST['symptoms'], "text"),
                        GetSQLValueString($_POST['comments'], "text"));
 	if(!$medical->updatemedicalhistory($_POST['medicalHisId']))

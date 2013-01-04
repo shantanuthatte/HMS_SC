@@ -1,5 +1,6 @@
 <?php require_once('Connections/HMS.php'); ?>
 <?php
+$error = '';
 	//include 'scripts.php';	
 	//if(isset($_POST["username"]))
 	if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -12,19 +13,22 @@
 			mysql_select_db($database_HMS, $HMS);
 			$query = "SELECT * FROM users WHERE userName = '$username' and password='".md5($password)."'";
 			$result = mysql_query($query, $HMS) or die(mysql_error());
+			$row_result = mysql_fetch_assoc($result);
 			$totalRows = mysql_num_rows($result);			
 			if($totalRows == 1)
 			{										
 				session_start();
-				$_SESSION['userId']= $result['userId'];
-				$_SESSION['userName']= $result['userName'];
-				$_SESSION['type']= $result['type'];
-				$_SESSION['permission']= $result['permission'];
+				$_SESSION['userId']= $row_result['userId'];
+				$_SESSION['userName']= $row_result['userName'];
+				$_SESSION['type']= $row_result['type'];
+				$_SESSION['permission']= $row_result['permission'];
 				mysql_free_result($result);
-				//header("Refresh:1; URL=firstpage.php");
-				header("location: Welcome.php");				
+				header("location: ViewPatients.php");
+				exit;
+			}else { $error = "Incorrect login info"; 
 			}
-		}
+			
+			}
 	}
 ?>
 
@@ -32,7 +36,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Hospital Management</title>
+<title>Health Data Management</title>
 <link rel="stylesheet" href="css/login.css" type="text/css" title="default" />
 
 <!-- Including web fonts -->
@@ -42,6 +46,7 @@
 <link href="css/dot-luv/jquery-ui-1.9.0.custom.css" rel="stylesheet">
 <script src="js/jquery-1.8.2.js"></script>
 <script src="js/jquery-ui-1.9.0.custom.js"></script>
+<script src="js/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
 
 <!-- Custom jquery scripts -->
 <script src="js/jquery/custom_jquery.js" type="text/javascript"></script>
@@ -49,15 +54,26 @@
 <!-- Image panel jquery script -->
 <script src="js/jquery/jquery.panelgallery.js" type="text/javascript"></script>
 <script type="text/javascript">
-$(function(){
-	$('#gallery').panelGallery({
-	sections:21,
-	imageTransitionDelay :3000,
-	startDelay:3000,
-	sectionTransitionDelay : 33
+	$(function(){
+		$('#gallery').panelGallery({
+		sections:21,
+		imageTransitionDelay :3000,
+		startDelay:3000,
+		sectionTransitionDelay : 33
+		});
 	});
-	
-});
+
+	function forgot()
+	{
+		var temp = $("#email").val();
+		$.ajax({
+			url:"newajax.php",
+			data:"function=ForgotEmail&email="+temp,
+			success: function(data){
+				$("#message").html(data);
+			}
+		});
+	}
 </script>
 
 <!-- MUST BE THE LAST SCRIPT IN <HEAD></HEAD></HEAD> png fix -->
@@ -72,7 +88,7 @@ $(document).pngFix( );
  
 <!-- Start: login-holder -->
 <div id="login-holder">
-<img src="images/login/Untitled-24.png" />
+<img src="images/login/Untitled-24.png" /> 
 	<!-- start logo -->
     
 	<div class="clear"></div>
@@ -146,16 +162,18 @@ constant throughout his / her life and across all healthcare organizations.
 		<!--  start forgot-inner -->
         <form method="post" action="<?=$_SERVER['PHP_SELF']?>" id="forgot-form">
 		<div id="forgot-inner">
-                        
 		<table border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<th>Email address:</th>
-			<td><input type="text" value="" name="emailId" class="login-inp" id="forgot-email" /></td>
+			<td><input type="text" value="" name="email" class="login-inp" id="email" /></td>
 		</tr>
 		<tr>
 			<th> </th>
-			<td><input type="submit" class="submit-login" /></td>
+			<td><input type="button" class="submit-login" onclick="forgot()" /></td>
 		</tr>
+        <tr>
+        	<th colspan="2" id="message"></th>
+        </tr>
 		</table>
 		</div>
         </form>
