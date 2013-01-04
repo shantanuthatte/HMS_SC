@@ -52,8 +52,8 @@ elseif($_POST['formAction'] == "update")
 	session_start();
 	$data = $users->getDetails($_POST['userId']);
 	$_SESSION['data'] = $data;
-	echo "Hello";
-	var_dump($_SESSION['data']);
+	//echo "Hello";
+	//var_dump($_SESSION['data']);
 	header('Location: AddUser.php?Mode=update');
 }
 elseif($_POST['formAction'] == "commit")

@@ -145,11 +145,17 @@ constant throughout his / her life and across all healthcare organizations.
 			<td><input type="submit" class="submit-login"  /></td>
 		</tr>
         <div class="clear"><a href="" class="forgot-pwd">Forgot Password?</a></div>
+        <tr>
+        	<th></th>
+        	<td></td>
+        </tr>
 		</table>
     </form>
 	</div>
  	<!--  end login-inner -->
-	
+    <div class="register">
+		<a href="Register.html" class="register">Not registered with us? Get an account!</a>
+    </div>
     <!-- End loginbox right -->
   </div>
   

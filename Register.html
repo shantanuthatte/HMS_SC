@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Register with us</title>
+<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="css/navigationbar_styles.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="css/message_styles.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="css/selectbox_styles.css" type="text/css" media="screen" title="default" />
+<link rel="stylesheet" href="css/tabs.css" type="text/css" media="screen" title="default" />
+ 
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-ui-1.9.1.js"></script>
+<script>
+$(function(){
+	$('#tabs').tabs({ active:0, heightStyle:"auto" });
+});
+	
+function change()
+{
+	var temp = $('#registrationType').val();
+	if(temp == 'C' || temp == 'H')
+	{
+		$('#detail1').show();
+		$('#detail2').show();
+	}
+	else
+	{
+		$('#detail1').hide();
+		$('#detail2').hide();
+		$('#registrationName').val($('#userName').val());
+	}
+}
+</script> 
+ 
+<script src="Calendar/popcalendar.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript">
+
+function fnOpenCalendar(id1)
+    {        
+		//alert("Opens the calendar");
+        var ctl1=document.getElementById(id1);
+        var ctl2=document.getElementById(id1);
+        popUpCalendar(ctl1,ctl2,'dd/mm/yyyy');
+        return true;
+    }
+	
+ $(document).ready(function(e) {
+		
+        $("#form1").validate({
+			rules:{
+			
+			fName:{
+				required: true,
+				minlength: 3,
+				alphabets: true
+		        },
+			lName:{
+				required: true,
+				minlength: 3,
+				alphabets: true
+				},
+			email:{
+				required: true,
+				email: true
+				},
+			pin:{
+				required: true,
+				minlength: 6,
+				digits:true
+				},
+			mobile:{
+				required: true,
+				minlength: 10,
+				digits:true
+				},
+			DOB:{
+				required: true
+				},
+			userName:{
+				required: true,
+				minlength: 3
+				},
+			recoveryEmail:{
+				required: true,
+				email: true
+				},
+			registrationType:{
+				required: true,
+				minlength: 1,
+				alphabets:true
+				},
+			registrationName:{
+				required: true,
+				minlength: 3,
+				alphabets:true
+				}
+			},
+			
+			invalidHandler: function(form, validator){
+				var errors = validator.numberOfInvalids();
+				if(errors)
+				{
+					var message = "There are "+errors+" errors in the data entered. Correct them before submitting.";
+					
+					$("#red-left").html(message);
+					$("#message-red").show();
+					$(".error-left").show();
+					
+				}
+			},
+			ignore:"ui-tabs-hide",
+			errorElement: "div",
+			wrapper: "div",
+			errorPlacement: function(error,element){
+				
+				error.insertAfter('#invalid-' + element.attr('id'));
+				error.addClass('error-inner');
+			},
+			highlight: function(element,errorClass){
+				$(element).fadeOut(function() {
+     			  $(element).fadeIn();
+     			});
+				$(element).parent().siblings(".error-left").show();
+			},
+			unhighlight: function(element,errorClass){
+				$(element).parent().siblings(".error-left").hide();
+			}
+		});
+    });
+</script> 
+
+</head>
+
+<body>
+<!-- Start: page-top-outer -->
+<div id="page-top-outer">    
+
+<!-- Start: page-top -->
+<div id="page-top">
+
+	<!-- start logo -->
+	<div id="logo">
+	<a href=""><img src="images/shared/footer_logo_03.gif" width="156" height="40" alt="" /></a>
+	</div>
+	<!-- end logo -->
+	
+	<!--  start top-search -->
+	<div id="top-search">
+	</div>
+ 	<!--  end top-search -->
+ 	<div class="clear"></div>
+
+</div>
+<!-- End: page-top -->
+
+</div>
+<!-- End: page-top-outer -->
+  
+<!-- start content-outer -->
+<div id="content-outer">
+<!-- start content -->
+<div id="content">
+
+<form action="cntrl_WebRegistration.php" method="post" name="form1" id="form1">
+<div id="page-heading"><h1>Registration Details</h1></div>
+ 	<div class="clear"></div>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Personal Details</a></li>
+        <li><a href="#tabs-2">Contact Details</a></li>
+        <li><a href="#tabs-3">User Details</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div id="content-table-inner">
+    <table border="0" cellpadding="10" cellspacing="10" id="id-form">
+    <tr>
+      <th>First Name*:</th>
+      <td>
+      <input type="text" id="fName" name="fName" size="32" class="inp-form" value=""/>
+      </td>
+      <td></td>
+      <td id="invalid-fName" class="error-left" hidden="true">
+      </td>
+   		</tr>
+        <tr>
+      <th>Middle Name:</th>
+      <td><input type="text" name="mName" size="32" class="inp-form" value=""/></td>
+   		</tr>
+        <tr>
+      <th>Last Name*:</th>
+      <td><input id="lName" type="text" name="lName" size="32" class="inp-form" value="" /></td>
+      <td></td>
+      <td id="invalid-lName" class="error-left" hidden="true">
+      </td>
+    </tr>
+    <tr>
+      <th>Registration No:</th>
+      <td><input type="text" name="registrationNo" size="32" class="inp-form" value=""/></td>
+    </tr>
+    <tr>
+      <th>Gender*:</th>
+     <td><select id="gender" name="gender" class="styledselect_form_1">
+        <option value="Male" >Male</option>
+        <option value="Female" >Female</option>
+      </select></td>
+    </tr>
+    <tr>
+      <th>Date Of Birth*:</th>
+      <td><input id="txtDate1" type="text" name="DOB" value="" size="32" class="inp-form" />
+      </td>
+      <td><img alt="" src="Calendar/calender.gif"  style="float:left" onClick=" fnOpenCalendar('txtDate1');"/>
+      </td>
+      <td id="invalid-txtDate1" class="error-left" hidden="true">
+      </td>
+    </tr>
+    <tr>
+      <th>Marital Status:</th>
+      <td><select id="maritalStatus" name="maritalStatus" class="styledselect_form_1">
+        <option value="" >Select</option>
+        <option value="Single" >Single</option>
+        <option value="Married" >Married</option>
+      </select></td>
+    </tr>
+    <tr>
+      <th>Occupation:</th>
+      <td><input type="text" name="occupation" size="32" class="inp-form" value="" /></td>
+    </tr>
+    <tr>
+      <th>Blood Group*:</th>
+      <td><select id="bloodGroup" name="bloodGroup" class="styledselect_form_1">
+        <option value="" >Select</option>
+        <option value="A+" >A+</option>
+        <option value="B+" >B+</option>
+        <option value="A-" >A-</option>
+        <option value="B-" >B-</option>
+        <option value="O+" >O+</option>
+        <option value="O-" >O-</option>
+      </select></td>
+    </tr>
+    </table>
+    </div>
+    </div>
+    <div id="tabs-2">
+        <div id="content-table-inner">
+    
+    <table border="0" cellpadding="10" cellspacing="10"  id="id-form">
+    <tr>
+      <th>Address:</th>
+      <td><textarea rows="2" name="address" size="32" cols="1" class="form-textarea"></textarea></td>
+    </tr>
+    <tr>
+      <th>Area:</th>
+      <td><input type="text" name="area" size="32" class="inp-form" value="" /></td>
+    </tr>
+    <tr>
+      <th>City:</th>
+      <td><input type="text" name="city" size="32" class="inp-form" value="" /></td>
+    </tr>
+    <tr>
+      <th>State:</th>
+      <td><input type="text" name="state" size="32" class="inp-form" value="" /></td>
+    </tr>
+    <tr>
+      <th>PIN Code*:</th>
+      <td><input id="pin" type="text" name="pin" size="32" class="inp-form" value="" /></td>
+      <td></td>
+      <td id="invalid-pin" class="error-left" hidden="true">
+      </td>
+    </tr>
+    <tr>
+      <th>Residence Phone:</th>
+      <td><input type="text" name="rPhone" size="32" class="inp-form" value="" /></td>
+    </tr>
+    <tr>
+      <th>Mobile*:</th>
+      <td><input id="mobile" type="text" name="mobile" size="32" class="inp-form" value=""/></td>
+      <td></td>
+      <td id="invalid-mobile" class="error-left" hidden="true">
+      </td>
+    </tr>
+    
+    <tr>
+      <th>Email*:</th>
+      <td>
+      <input type="text" id="email" name="email" value="" size="32" class="inp-form"/>
+      </td>
+      <td></td>
+      <td id="invalid-email" class="error-left" hidden="true">
+      </td>
+    </tr>    
+  </table>
+    </div>
+    </div>
+    <div id="tabs-3">
+        <div id="content-table-inner">
+     <table border="0" cellpadding="5" cellspacing="5"  id="id-form">
+    <tr >
+      <th >UserName*:</th>
+      <td><input type="text" id="userName" name="userName" value="" size="32" class="inp-form"/></td>
+      <td id="invalid-userName" class="error-left" hidden="true">
+    </tr>
+    <tr>
+      <th>Contact Email*:</th>
+      <td><input type="text" id="recoveryEmail" name="recoveryEmail" value="" size="32" class="inp-form"/></td>
+      <td id="invalid-recoveryEmail" class="error-left" hidden="true">
+    </tr>
+    <tr>
+      <th>Registration Type*:</th>
+      <td>
+      <select id="registrationType" name="registrationType" class="styledselect_form_1" onchange="change()">
+        <option value="" >Select</option>
+        <option value="I" >Individual</option>
+        <option value="C" >Clinic</option>
+        <option value="H" >Hospital</option>
+      </select>
+      </td>
+    </tr>
+    <tr id="detail1" hidden="true">
+      <th>Institute Name*:</th>
+      <td><input type="text" id="registrationName" name="registrationName" value="" size="32" class="inp-form"/></td>
+      <td id="invalid-registrationName" class="error-left" hidden="true">
+    </tr>
+    <tr id="detail2" hidden="true">
+      <th>Comments:</th>
+      <td><input type="text" id="comments" name="comments" value="" size="32" class="inp-form"/></td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td valign="top">
+          <input type="submit" value="Submit" class="form-submit" />
+          <input type="reset" value="Reset" class="form-reset"  />
+      </td>
+      <td></td>
+    </tr>
+  </table>
+    </div>
+    </div>
+    
+</div> 
+</form>
+<p>&nbsp;</p>
+
+</body>
+</html>

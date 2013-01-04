@@ -74,6 +74,17 @@ class Person
 		$insertSQL = "INSERT INTO person(fName, mName, lName, address1, address2, city, state, pin, rPhone, mobile, registrationNo, gender, DOB, maritalStatus, bloodGroup, occupation, email,type) VALUES ($this->fName,$this->mName,$this->lName,$this->address,$this->area,$this->city,$this->state,$this->pin,$this->rPhone,$this->mobile,$this->registrationNo,$this->gender,$this->DOB,$this->maritalStatus,$this->bloodGroup,$this->occupation,$this->email,$this->type);";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
+		
+		$query = "SELECT personId FROM person where fName=".$this->fName." AND mName=".$this->mName." AND lName=".$this->lName." AND email=".$this->email." AND mobile=".$this->mobile.";";
+		echo $query;
+		mysql_select_db($database_HMS, $HMS);
+		$res = mysql_query($query, $HMS);
+  		if($res != NULL)
+  		{
+  			$row_res = mysql_fetch_assoc($res);
+  			$personId = $row_res['personId'];
+			return $personId;
+		}
 		return true;
 	}
 	

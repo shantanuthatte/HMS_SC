@@ -15,7 +15,6 @@ class WebRegistration
 		$this->name = $name;
 		$this->authorityId = $authorityId;
 		$this->comments = $comments;
-		
 	}
 	
 	public function getDetails($id)
@@ -44,7 +43,7 @@ class WebRegistration
 	{
 		include("Connections/HMS.php");
 		$insertSQL = "INSERT INTO webregistration(registrationType, registrationDate, name, authorityId, comments) VALUES ($this->registrationType,$this->registrationDate,$this->name,$this->authorityId,$this->comments);";
-		//echo $insertSQL ;
+		echo $insertSQL ;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		return true;

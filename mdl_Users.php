@@ -44,8 +44,20 @@ class Users
 	{
 		include("Connections/HMS.php");
 		$insertSQL = "INSERT INTO users(userName, password, personId, type, recoveryEmail, permission) VALUES ($this->userName,$this->password,$this->personId,$this->type,$this->recoveryEmail,$this->permission);";
+		echo $insertSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
+		
+		$query = "SELECT userId FROM users where userName=".$this->userName." AND recoveryEmail=".$this->recoveryEmail." AND personId=".$this->personId.";";
+		echo $query;
+		mysql_select_db($database_HMS, $HMS);
+		$res = mysql_query($query, $HMS);
+  		if($res != NULL)
+  		{
+  			$row_res = mysql_fetch_assoc($res);
+  			$userId = $row_res['userId'];
+			return $userId;
+		}
 		return true;
 	}
 	
