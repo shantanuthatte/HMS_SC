@@ -35,6 +35,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 $person = new Person();
+   
 	$email1 = GetSQLValueString($_POST['email'], "text");
 	$mobile = GetSQLValueString($_POST['mobile'], "text");
 	$rPhone = GetSQLValueString($_POST['rPhone'], "text");
@@ -56,15 +57,32 @@ $person = new Person();
 					   GetSQLValueString($_POST['occupation'], "text"),
                        GetSQLValueString($_POST['email'], "text"),
 					   2);
+	
+	$flag = $person->PersonExists();
+	if($flag == true)
+	{
+		echo("Person allready exists");
+		
+		exit;
+		}				  
+	else
+	{
 	$personId = $person->insertPerson();
+	}
+	echo $personId;
 	if($personId == NULL)
+	{
 		die(mysql_error());
+	}
 	else
 	{		
 		$users = new Users();
+		
 		$email2 = GetSQLValueString($_POST['recoveryEmail'], "text");
+		
 		$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10/*length*/);
 		//echo $randomString;
+		
 		$users->setDetails(GetSQLValueString($_POST['userName'], "text"),
                        GetSQLValueString($randomString, "text")/*password*/,
                        $personId,
@@ -79,8 +97,9 @@ $person = new Person();
 		{
 			$webregistration = new WebRegistration();
 			$date = date("Y-m-d");
+		
 			$webregistration->setDetails(GetSQLValueString($_POST['registrationType'], "text"),
-                       $date/*registration Date*/,
+                       GetSQLValueString($date, "text"),
                        GetSQLValueString($_POST['registrationName'], "text"),
                        $userId/*authority Id*/,
                        GetSQLValueString($_POST['comments'], "text"));
@@ -161,4 +180,5 @@ elseif($_POST['formAction'] == "delete")
 		header('Location: ViewWebRegistration.php');
 }
 */
+
 ?>

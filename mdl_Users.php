@@ -9,6 +9,7 @@ class Users
 	
 	function setDetails($userName, $password, $personId, $type, $recoveryEmail, $permission)
 	{
+		echo "Problem";
 		$this->userName = $userName;
 		$this->password = $password;
 		$this->personId = $personId;

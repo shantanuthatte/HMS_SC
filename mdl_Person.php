@@ -67,24 +67,46 @@ class Person
 		"email"=>$this->email,"type"=>$this->type);
 		return $data;
 	}
+	public function PersonExists()
+	{
+		include("Connections/HMS.php");
+		mysql_select_db($database_HMS, $HMS);
+	$query_personRS = "SELECT count(*) FROM person where fName=".$this->fName." AND lName=".$this->lName." AND email=".$this->email." AND mobile=".$this->mobile.";";
+	$personRS = mysql_query($query_personRS, $HMS) or die(mysql_error());
+
+$totalRows_personRS = mysql_num_rows($personRS);
+	if($totalRows_personRS == 0)
+	{
+		return  false;
+		}
+		else
+		{
+			return true;
+			}
+		}
 	
 	public function insertPerson()
 	{
 		include("Connections/HMS.php");
+		
 		$insertSQL = "INSERT INTO person(fName, mName, lName, address1, address2, city, state, pin, rPhone, mobile, registrationNo, gender, DOB, maritalStatus, bloodGroup, occupation, email,type) VALUES ($this->fName,$this->mName,$this->lName,$this->address,$this->area,$this->city,$this->state,$this->pin,$this->rPhone,$this->mobile,$this->registrationNo,$this->gender,$this->DOB,$this->maritalStatus,$this->bloodGroup,$this->occupation,$this->email,$this->type);";
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($insertSQL, $HMS) or die(mysql_error());
 		
-		$query = "SELECT personId FROM person where fName=".$this->fName." AND mName=".$this->mName." AND lName=".$this->lName." AND email=".$this->email." AND mobile=".$this->mobile.";";
+		$query = "SELECT personId FROM person where fName=".$this->fName." AND lName=".$this->lName." AND email=".$this->email." AND mobile=".$this->mobile.";";
+		
 		echo $query;
+	 
 		mysql_select_db($database_HMS, $HMS);
 		$res = mysql_query($query, $HMS);
+	
   		if($res != NULL)
   		{
   			$row_res = mysql_fetch_assoc($res);
   			$personId = $row_res['personId'];
 			return $personId;
 		}
+		
 		return true;
 	}
 	//$today = date("Y-m-d H:i:s"); 
@@ -96,6 +118,7 @@ class Person
 		//echo $updateSQL;
 		mysql_select_db($database_HMS, $HMS);
 		$Result1 = mysql_query($updateSQL, $HMS) or die(mysql_error());
+		
 		return true;
 	}
 	

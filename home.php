@@ -24,7 +24,7 @@
      </span></p>
    <p>&nbsp;</p>
  </div>
-<div id="tabs" style="margin-left:100; margin-right:100; " >
+<div id="tabs" style="margin-left:100; margin-right:100; font-family:Verdana, Geneva, sans-serif; font-size:12px" >
     <ul>
         <li><a href="#tabs-1">Home</a></li>
         <li><a href="#tabs-2">Services</a></li>
@@ -59,8 +59,8 @@ Our System will Provide following Services:
 	<li>Remote access of information to autherized users (doctors and patients)</li>
 	<li>Report genaration</li></ul> 
 </p>
-<img src="images/service1.jpg" width="550"/>
-<span  style=" position:fixed; right:220"><p>Benefits For:
+<span style=" position:fixed; left:250"><img src="images/service1.jpg" width="550"/></span>
+<span  style=" position:fixed; right:290"><p>Benefits For:
 <ul>
  <li>Insurance Organizations </li>
 <li> Hospital Chains</li>
@@ -72,13 +72,48 @@ Our System will Provide following Services:
       <div id="tabs-3" style="height:600;overflow:scroll">
        <p>
     <h2 style="color:#C00;"><img src="images/dataM1.jpg"/>  &nbsp;&nbsp;&nbsp;Data Storage </h2> </p>
+    <hr color="#339933">
         <p></p>
     </div>
     <div id="tabs-4" style="height:600;overflow:scroll">
         <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus er</p>
     </div>
     <div id="tabs-5" style="height:600;overflow:scroll">
-        <p>Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem e</p>
+        <p><center><img src="images/contact_us.jpg"/></center></p>
+       	<hr color="#339933">
+        
+       	<div>
+        <span>
+        <h4>Main Office:</h4>
+        Address: 
+        </span>
+        <span>             
+        </span>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+       	</div>
+        
+      <div style="font-family:Verdana, Geneva, sans-serif; font-size:12px">
+        	<table style="font-family:Verdana, Geneva, sans-serif; font-size:12px">
+            	<tr>
+                	<td>Name:</td>
+                    <td><input type="text"  size="31"/></td>
+                </tr>
+                <tr>
+                	<td>Email:</td>
+                    <td><input type="text" size="31"/></td>
+                </tr>
+                <tr>
+                	<td>Comment:</td>
+                    <td><textarea name="comment" cols="30" rows="10" wrap="virtual"></textarea></td>
+                </tr>
+                <tr>
+                	<td></td>
+                    <td> <input type="button" value="Login" class="submit-login"  /></td>
+                </tr>
+            </table>
+        </div>	
     </div>
 </div>
  

@@ -5,7 +5,9 @@ $rows = $_GET['rows'];
 $page = $_GET['page'];
 $name = $temp.'%';
 mysql_select_db($database_HMS, $HMS);
-$total_rows  = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM familyhistory where userName LIKE '".$name."'"),0);
+$total_rows  = mysql_result(mysql_query("SELECT COUNT(*) as Num FROM familyhistory fh
+INNER JOIN ailment al ON al.ailmentId=fh.ailmentId
+INNER JOIN users us ON us.userId=fh.patientId and ailmentName or userName LIKE '".$name."'"),0);
 
 // Getting the total number of pages. Always round up using ceil() 
 $total_pages = ceil($total_rows / $rows);
@@ -20,7 +22,7 @@ mysql_select_db($database_HMS, $HMS);
 $query_familyHisId = "SELECT us.userName , al.ailmentName, fh.familyRelation, fh.diagnosisDate, fh.symptoms , fh.familyHisId
 FROM familyhistory fh
 INNER JOIN ailment al ON al.ailmentId=fh.ailmentId
-INNER JOIN users us ON us.userId=fh.patientId LIMIT $from,$rows";
+INNER JOIN users us ON us.userId=fh.patientId and ailmentName LIKE '".$name."'LIMIT $from,$rows";
 $familyHisId  = mysql_query($query_familyHisId, $HMS) or die(mysql_error());
 $row_familyHisId  = mysql_fetch_assoc($familyHisId );
 $totalRows_familyHisId   = mysql_num_rows($familyHisId );

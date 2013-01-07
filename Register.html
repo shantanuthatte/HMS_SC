@@ -35,6 +35,7 @@ function change()
  
 <script src="Calendar/popcalendar.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
+
 <script type="text/javascript">
 
 function fnOpenCalendar(id1)
@@ -42,7 +43,7 @@ function fnOpenCalendar(id1)
 		//alert("Opens the calendar");
         var ctl1=document.getElementById(id1);
         var ctl2=document.getElementById(id1);
-        popUpCalendar(ctl1,ctl2,'dd/mm/yyyy');
+        popUpCalendar(ctl1,ctl2,'yyyy/mm/dd');
         return true;
     }
 	
@@ -340,6 +341,8 @@ function fnOpenCalendar(id1)
     
 </div> 
 </form>
+
+
 <p>&nbsp;</p>
 
 </body>

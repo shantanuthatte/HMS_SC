@@ -76,9 +76,9 @@ else if($_POST['formAction'] == "insert")
 	{
 		var count = document.getElementById("investigationCount").value;
 		
-		var row1 = new String('<tr><th align="right">Investigation Name:</th><td><input name="investigationName0" id="investigationName0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId0" name="investigationId0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass0" name="investigationClass0" type="text" class="inp-form" value="" onclick="" /><input type="text" id="classId0" name="classId0" hidden="true" value="" /></td></tr>        <tr><th align="right">Report Date:</th><td><input name="reportDate0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Value:</th><td><input name="value0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results0" type="text" class="inp-form" value="" /></td></tr>');
+		var row1 = new String('<tr><th align="right">Investigation Name:</th><td><input name="investigationName0" id="investigationName0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId0" name="investigationId0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass0" name="investigationClass0" type="text" class="inp-form" value="" onclick="popClass(0)" /><input type="text" id="classId0" name="classId0" hidden="true" value="" /></td></tr>        <tr><th align="right">Report Date:</th><td><input name="reportDate0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution0" type="text" class="inp-form" value="" /></td></tr>        <tr><th align="right">Value:</th><td><input name="value0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results0" type="text" class="inp-form" value="" /></td></tr>');
 		
-		var row2 = new String('<tr bgcolor="#EEFFDD"><th align="right">Investigation Name:</th><td><input name="investigationName0" id="investigationName0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId0" name="investigationId0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass0" name="investigationClass0" type="text" class="inp-form" value="" onclick="" /><input type="text" id="classId0" name="classId0" hidden="true" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Report Date:</th><td><input name="reportDate0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Value:</th><td><input name="value0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results0" type="text" class="inp-form" value="" /></td></tr>');
+		var row2 = new String('<tr bgcolor="#EEFFDD"><th align="right">Investigation Name:</th><td><input name="investigationName0" id="investigationName0" type="text" class="inp-form" value="" onclick="popInvestigation(0)" /><input type="text" id="investigationId0" name="investigationId0" hidden="true" value="" /></td>    <th align="right">Class Id:</th><td><input id="investigationClass0" name="investigationClass0" type="text" class="inp-form" value="" onclick="popClass(0)" /><input type="text" id="classId0" name="classId0" hidden="true" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Report Date:</th><td><input name="reportDate0" type="text" class="inp-form" value="" /></td><th align="right">Institution:</th><td><input name="institution0" type="text" class="inp-form" value="" /></td></tr>        <tr bgcolor="#EEFFDD"><th align="right">Value:</th><td><input name="value0" type="text" class="inp-form" value="" /></td><th align="right">Results:</th><td><input name="results0" type="text" class="inp-form" value="" /></td></tr>');
 		
 		count++;
 		var content1 = row1.replace(/0/g,count);
@@ -591,7 +591,7 @@ else if($_POST['formAction'] == "insert")
         </td>
         <th align="right">Class Id:</th>
         <td>
-        <input id="investigationClass1" name="investigationClass1" type="text" class="inp-form" value="" onclick="" />
+        <input id="investigationClass1" name="investigationClass1" type="text" class="inp-form" value="" onclick="popClass(1)" />
         <input type="text" id="classId1" name="classId1" hidden="true" value="" />
         </td>
         </tr>
@@ -628,7 +628,7 @@ else if($_POST['formAction'] == "insert")
         </td>
         <th align="right">Class Id:</th>
         <td>
-        <input id="investigationClass2" name="investigationClass2" type="text" class="inp-form" value="" onclick="" />
+        <input id="investigationClass2" name="investigationClass2" type="text" class="inp-form" value="" onclick="popClass(2)" />
         <input type="text" id="classId2" name="classId2" hidden="true" value="" />
         </td>
         </tr>
